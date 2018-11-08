@@ -206,7 +206,10 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern IntPtr OpenService(IntPtr hSCManager, String lpServiceName, Winsvc.dwDesiredAccess dwDesiredAccess);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern Boolean PrivilegeCheck(IntPtr ClientToken, Winnt._PRIVILEGE_SET RequiredPrivileges, out IntPtr pfResult);
+        public static extern Boolean PrivilegeCheck(IntPtr ClientToken, Winnt._PRIVILEGE_SET RequiredPrivileges, IntPtr pfResult);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern Boolean PrivilegeCheck(IntPtr ClientToken, ref Winnt._PRIVILEGE_SET RequiredPrivileges, out Int32 pfResult);
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern Boolean StartService(IntPtr hService, Int32 dwNumServiceArgs, String[] lpServiceArgVectors);
@@ -215,14 +218,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern int RegOpenKeyEx(UIntPtr hKey, String subKey, Int32 ulOptions, Int32 samDesired, out UIntPtr hkResult);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern uint RegQueryValueEx(
-            UIntPtr hKey,
-            String lpValueName,
-            Int32 lpReserved,
-            ref RegistryValueKind lpType,
-            IntPtr lpData,
-            ref Int32 lpcbData
-        );
+        public static extern uint RegQueryValueEx(UIntPtr hKey, String lpValueName, Int32 lpReserved, ref RegistryValueKind lpType, IntPtr lpData, ref Int32 lpcbData);
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern UInt32 RegQueryValueEx(
