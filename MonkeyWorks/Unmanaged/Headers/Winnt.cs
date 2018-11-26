@@ -311,6 +311,24 @@ namespace MonkeyWorks.Unmanaged.Headers
             public DWORD VirtualAdress;
             public DWORD SizeOfBlock;
         }
+        
+        [Flags]
+        public enum RelocationTypes : ushort
+        {
+            IMAGE_REL_BASED_ABSOLUTE = 0,
+            IMAGE_REL_BASED_HIGH = 1,
+            IMAGE_REL_BASED_LOW = 2,
+            IMAGE_REL_BASED_HIGHLOW = 3,
+            IMAGE_REL_BASED_HIGHADJ = 4,
+            IMAGE_REL_BASED_MIPS_JMPADDR = 5,
+            IMAGE_REL_BASED_ARM_MOV32 = 5,
+            IMAGE_REL_BASED_SECTION = 6,
+            IMAGE_REL_BASED_REL32 = 7,
+            IMAGE_REL_BASED_THUMB_MOV32 = 7,
+            IMAGE_REL_BASED_IA64_IMM64 = 9,
+            IMAGE_REL_BASED_MIPS_JMPADDR16 = 9,
+            IMAGE_REL_BASED_DIR64 = 10
+        }
 
         [Flags]
         public enum TypeOffset : ushort
