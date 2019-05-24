@@ -8,57 +8,57 @@ namespace MonkeyWorks.Unmanaged.Libraries
     sealed class ntdll
     {
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtCreateProcessEx(
+        public static extern uint NtCreateProcessEx(
             ref IntPtr ProcessHandle,
-            UInt32 DesiredAccess,
+            uint DesiredAccess,
             IntPtr ObjectAttributes,
             IntPtr hInheritFromProcess,
-            UInt32 Flags,
+            uint Flags,
             IntPtr SectionHandle,
             IntPtr DebugPort,
             IntPtr ExceptionPort,
-            Byte InJob
+            byte InJob
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-		public static extern UInt32 NtCreateThreadEx(
+		public static extern uint NtCreateThreadEx(
 			ref IntPtr hThread,
-			UInt32 DesiredAccess,
+            uint DesiredAccess,
 			IntPtr ObjectAttributes,
 			IntPtr ProcessHandle,
 			IntPtr lpStartAddress,
 			IntPtr lpParameter,
-			Boolean CreateSuspended,
-			UInt32 StackZeroBits,
-			UInt32 SizeOfStackCommit,
-			UInt32 SizeOfStackReserve,
+            bool CreateSuspended,
+            uint StackZeroBits,
+            uint SizeOfStackCommit,
+            uint SizeOfStackReserve,
 			IntPtr lpBytesBuffer
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtDuplicateToken(
+        public static extern uint NtDuplicateToken(
             IntPtr ExistingTokenHandle,
             Winnt.ACCESS_MASK DesiredAccess,
             wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
-            Boolean EffectiveOnly,
+            bool EffectiveOnly,
             Winnt._TOKEN_TYPE TokenType,
             ref IntPtr NewTokenHandle
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtDuplicateToken(
+        public static extern uint NtDuplicateToken(
             IntPtr ExistingTokenHandle,
-            UInt32 DesiredAccess,
+            uint DesiredAccess,
             IntPtr ObjectAttributes,
-            Boolean EffectiveOnly,
+            bool EffectiveOnly,
             Winnt._TOKEN_TYPE TokenType,
             ref IntPtr NewTokenHandle
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtFilterToken(
+        public static extern uint NtFilterToken(
             IntPtr TokenHandle,
-            UInt32 Flags,
+            uint Flags,
             IntPtr SidsToDisable,
             IntPtr PrivilegesToDelete,
             IntPtr RestrictedSids,
@@ -66,48 +66,117 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtGetContextThread(
+        public static extern uint NtGetContextThread(
             IntPtr ProcessHandle,
             IntPtr lpContext
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtQueryInformationProcess(
+        public static extern uint NtQueryInformationProcess(
             IntPtr ProcessHandle,
-            PROCESSINFOCLASS ProcessInformationClass,
+            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
             IntPtr ProcessInformation,
-            UInt32 ProcessInformationLength,
-            ref UInt32 ReturnLength
+            uint ProcessInformationLength,
+            ref uint ReturnLength
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtSetInformationToken(
+        public static extern uint NtSetInformationToken(
             IntPtr TokenHandle,
-            Int32 TokenInformationClass,
+            int TokenInformationClass,
             ref Winnt._TOKEN_MANDATORY_LABEL TokenInformation,
-            Int32 TokenInformationLength
+            int TokenInformationLength
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 NtUnmapViewOfSection(
+        public static extern uint NtSetInformationProcess(
+            IntPtr ProcessHandle,
+            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            ref uint ProcessInformation,
+            uint ProcessInformationLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtSetInformationProcess(
+            IntPtr ProcessHandle,
+            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            ref _PROCESS_ACCESS_TOKEN ProcessInformation,
+            uint ProcessInformationLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtUnmapViewOfSection(
             IntPtr hProcess,
             IntPtr baseAddress
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern UInt32 RtlNtStatusToDosError(
-            UInt32 Status
+        public static extern uint RtlNtStatusToDosError(
+            uint Status
         );
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct _PROCESS_ACCESS_TOKEN
+        {
+            public IntPtr hToken;
+            public IntPtr hThread;
+        }
+
         [Flags]
-        public enum PROCESSINFOCLASS
+        public enum _PROCESS_INFORMATION_CLASS
         {
             ProcessBasicInformation = 0,
-            ProcessDebugPort = 7,
-            ProcessWow64Information = 26,
-            ProcessImageFileName = 27,
-            ProcessBreakOnTermination = 29,
-            ProcessSubsystemInformation = 75
+            ProcessQuotaLimits,
+            ProcessIoCounters,
+            ProcessVmCounters,
+            ProcessTimes,
+            ProcessBasePriority,
+            ProcessRaisePriority,
+            ProcessDebugPort,
+            ProcessExceptionPort,
+            ProcessAccessToken,
+            ProcessLdtInformation,
+            ProcessLdtSize,
+            ProcessDefaultHardErrorMode,
+            ProcessIoPortHandlers,
+            ProcessPooledUsageAndLimits,
+            ProcessWorkingSetWatch,
+            ProcessUserModeIOPL,
+            ProcessEnableAlignmentFaultFixup,
+            ProcessPriorityClass,
+            ProcessWx86Information,
+            ProcessHandleCount,
+            ProcessAffinityMask,
+            ProcessPriorityBoost,
+            ProcessDeviceMap,
+            ProcessSessionInformation,
+            ProcessForegroundInformation,
+            ProcessWow64Information,
+            ProcessImageFileName,
+            ProcessLUIDDeviceMapsEnabled,
+            ProcessBreakOnTermination,
+            ProcessDebugObjectHandle,
+            ProcessDebugFlags,
+            ProcessHandleTracing,
+            ProcessIoPriority,
+            ProcessExecuteFlags,
+            ProcessTlsInformation,
+            ProcessCookie,
+            ProcessImageInformation,
+            ProcessCycleTime,
+            ProcessPagePriority,
+            ProcessInstrumentationCallback,
+            ProcessThreadStackAllocation,
+            ProcessWorkingSetWatchEx,
+            ProcessImageFileNameWin32,
+            ProcessImageFileMapping,
+            ProcessAffinityUpdateMode,
+            ProcessMemoryAllocationMode,
+            ProcessGroupInformation,
+            ProcessTokenVirtualizationEnabled,
+            ProcessConsoleHostProcess,
+            ProcessWindowInformation,
+            MaxProcessInfoClass,
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]

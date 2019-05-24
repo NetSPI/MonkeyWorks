@@ -15,7 +15,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         {
             public USHORT Length;
             public USHORT MaximumLength;
-            public Char[] Buffer;
+            public char[] Buffer;
         }
 
         public struct _OBJECT_ATTRIBUTES
