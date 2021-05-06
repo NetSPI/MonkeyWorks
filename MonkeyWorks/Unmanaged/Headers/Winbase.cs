@@ -73,6 +73,25 @@ namespace MonkeyWorks.Unmanaged.Headers
             LOGON_NETCREDENTIALS_ONLY = 0x00000002
         }
 
+        public enum LOGON_TYPE
+        {
+            LOGON32_LOGON_INTERACTIVE = 2,
+            LOGON32_LOGON_NETWORK = 3,
+            LOGON32_LOGON_BATCH = 4,
+            LOGON32_LOGON_SERVICE = 5,
+            LOGON32_LOGON_UNLOCK = 7,
+            LOGON32_LOGON_NETWORK_CLEARTEXT = 8,
+            LOGON32_LOGON_NEW_CREDENTIALS = 9
+        }
+
+        public enum LOGON_PROVIDER
+        {
+            LOGON32_PROVIDER_DEFAULT,
+            LOGON32_PROVIDER_WINNT35,
+            LOGON32_PROVIDER_WINNT40,
+            LOGON32_PROVIDER_WINNT50
+        }
+
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms684873(v=vs.85).aspx
         [StructLayout(LayoutKind.Sequential)]
         public struct _PROCESS_INFORMATION

@@ -50,5 +50,19 @@ namespace MonkeyWorks.Unmanaged.Headers
             WRITE_OWNER = 0x00080000L,
             SYNCHRONIZE = 0x00100000L
         }
+
+        public enum _PROCESS_INFORMATION_CLASS : int
+        {
+            ProcessMemoryPriority,
+            ProcessMemoryExhaustionInfo,
+            ProcessAppMemoryInfo,
+            ProcessInPrivateInfo,
+            ProcessPowerThrottling,
+            ProcessReservedValue1,
+            ProcessTelemetryCoverageInfo,
+            ProcessProtectionLevelInfo,
+            ProcessLeapSecondInfo,
+            ProcessInformationClassMax
+        }
     }
 }

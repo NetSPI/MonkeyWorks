@@ -93,8 +93,6 @@ namespace MonkeyWorks.Unmanaged.Libraries
             out Winbase._PROCESS_INFORMATION lpProcessInfo
         );
 
-        
-
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern IntPtr CreateService(
             IntPtr hSCManager,
@@ -171,6 +169,18 @@ namespace MonkeyWorks.Unmanaged.Libraries
             NetCredentialsOnly
         }
 
+        //http://pinvoke.net/default.aspx/advapi32.LogonUser
+        [DllImport("advapi32.dll", SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool LogonUser(
+            [MarshalAs(UnmanagedType.LPStr)] string pszUserName,
+            [MarshalAs(UnmanagedType.LPStr)] string pszDomain,
+            [MarshalAs(UnmanagedType.LPStr)] string pszPassword,
+            Winbase.LOGON_TYPE dwLogonType,
+            Winbase.LOGON_PROVIDER dwLogonProvider,
+            out IntPtr phToken
+        );
+
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool LookupAccountSid(
             String lpSystemName, 
@@ -210,6 +220,14 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern Boolean PrivilegeCheck(IntPtr ClientToken, ref Winnt._PRIVILEGE_SET RequiredPrivileges, out Int32 pfResult);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool SetTokenInformation(
+            IntPtr TokenHandle,
+            Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass,
+            IntPtr TokenInformation,
+            int TokenInformationLength
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern Boolean StartService(IntPtr hService, Int32 dwNumServiceArgs, String[] lpServiceArgVectors);

@@ -121,5 +121,59 @@ namespace MonkeyWorks.Unmanaged.Libraries
             public IntPtr Reserved3;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 1)]
+        public struct _PROCESS_ACCESS_TOKEN
+        {
+            public IntPtr hToken;
+            public IntPtr hThread;
+        }
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtSetInformationProcess(
+            IntPtr ProcessHandle,
+            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            ref _PROCESS_ACCESS_TOKEN ProcessInformation,
+            uint ProcessInformationLength 
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtSetInformationProcess(
+            IntPtr ProcessHandle,
+            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            ref uint ProcessInformation,
+            uint ProcessInformationLength
+        );
+
+        public enum _PROCESS_INFORMATION_CLASS : int
+        {
+            ProcessBasicInformation = 0,
+            ProcessQuotaLimits,
+            ProcessIoCounters,
+            ProcessVmCounters,
+            ProcessTimes,
+            ProcessBasePriority,
+            ProcessRaisePriority,
+            ProcessDebugPort = 7,
+            ProcessExceptionPort,
+            ProcessAccessToken,
+            ProcessLdtInformation,
+            ProcessLdtSize,
+            ProcessDefaultHardErrorMode,
+            ProcessIoPortHandlers,
+            ProcessPooledUsageAndLimits,
+            ProcessWorkingSetWatch,
+            ProcessUserModeIOPL,
+            ProcessEnableAlignmentFaultFixup,
+            ProcessPriorityClass,
+            ProcessWx86Information,
+            ProcessHandleCount,
+            ProcessAffinityMask,
+            ProcessPriorityBoost,
+            MaxProcessInfoClass,
+            ProcessWow64Information = 26,
+            ProcessImageFileName = 27,
+            ProcessBreakOnTermination = 29,
+            ProcessProtectionInformation = 61
+        }
     }
 }

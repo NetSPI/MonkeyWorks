@@ -121,6 +121,12 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern Boolean IsWow64Process(IntPtr hProcess, out Boolean Wow64Process);
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern bool IsProcessCritical(
+            IntPtr hProcess,
+            ref bool Critical
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern Boolean Module32First(IntPtr hSnapshot, ref TiHelp32.tagMODULEENTRY32 lpme);
 
         [DllImport("kernel32.dll", SetLastError = true)]
