@@ -9,13 +9,13 @@ using PVOID = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    class wudfwdm
+    public sealed class wudfwdm
     {
         public struct _UNICODE_STRING
         {
             public USHORT Length;
             public USHORT MaximumLength;
-            public Char[] Buffer;
+            public char[] Buffer;
         }
 
         public struct _OBJECT_ATTRIBUTES

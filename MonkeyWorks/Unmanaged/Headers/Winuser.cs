@@ -141,14 +141,14 @@ namespace MonkeyWorks.Unmanaged.Headers
             [MarshalAs(UnmanagedType.U4)]
             public UInt32 style;
             public Delegate lpfnWndProc; // not WndProc
-            public Int32 cbClsExtra;
-            public Int32 cbWndExtra;
+            public int cbClsExtra;
+            public int cbWndExtra;
             public IntPtr hInstance;
             public IntPtr hIcon;
             public IntPtr hCursor;
             public IntPtr hbrBackground;
-            public String lpszMenuName;
-            public String lpszClassName;
+            public string lpszMenuName;
+            public string lpszClassName;
             public IntPtr hIconSm;
 
             public static WNDCLASSEX Build()

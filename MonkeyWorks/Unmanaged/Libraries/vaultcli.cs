@@ -6,34 +6,34 @@ namespace MonkeyWorks.Unmanaged.Libraries
     sealed class vaultcli
     {
         [DllImport("vaultcli.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern Boolean VaultEnumerateItems(
+        public static extern bool VaultEnumerateItems(
             IntPtr hVault,
-            Int32 unknown,
-            out Int32 dwItems,
+            int unknown,
+            out int dwItems,
             out IntPtr ppVaultGuids
         );
 
         [DllImport("vaultcli.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern Boolean VaultEnumerateVaults(
-            Int32 unknown,
-            out Int32 dwVaults,
+        public static extern bool VaultEnumerateVaults(
+            int unknown,
+            out int dwVaults,
             out IntPtr ppVaultGuids
         );
 
         [DllImport("vaultcli.dll", SetLastError = true, CharSet = CharSet.Auto, EntryPoint = "VaultGetItem")]
-        public static extern Boolean VaultGetItem7(
+        public static extern bool VaultGetItem7(
             IntPtr hVault,
             ref Guid guid,
             IntPtr SchemaId,
             IntPtr Resource,
             IntPtr Identity,
             //IntPtr unknownPtr,
-            Int32 unknown,
+            int unknown,
             out IntPtr hitem
         );
 
         [DllImport("vaultcli.dll", SetLastError = true, CharSet = CharSet.Auto, EntryPoint = "VaultGetItem")]
-        public static extern Boolean VaultGetItem8(
+        public static extern bool VaultGetItem8(
             IntPtr hVault,
             ref Guid guid,
             IntPtr SchemaId,
@@ -41,14 +41,14 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr Identity,
             IntPtr PackageSid,
             //IntPtr unknownPtr,
-            Int32 unknown,
+            int unknown,
             out IntPtr hitem
         );
 
         [DllImport("vaultcli.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern Boolean VaultOpenVault(
+        public static extern bool VaultOpenVault(
             ref Guid guid,
-            Int32 dwVaults,
+            int dwVaults,
             out IntPtr hItems
         );
     }

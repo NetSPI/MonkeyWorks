@@ -73,6 +73,16 @@ namespace MonkeyWorks.Unmanaged.Headers
             LOGON_NETCREDENTIALS_ONLY = 0x00000002
         }
 
+        [Flags]
+        public enum LOGON_PROVIDER
+        {
+            LOGON32_PROVIDER_DEFAULT = 0,
+            LOGON32_PROVIDER_WINNT35 = 1,
+            LOGON32_PROVIDER_WINNT40 = 2,
+            LOGON32_PROVIDER_WINNT50 = 3
+        }
+
+        [Flags]
         public enum LOGON_TYPE
         {
             LOGON32_LOGON_INTERACTIVE = 2,
@@ -82,14 +92,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             LOGON32_LOGON_UNLOCK = 7,
             LOGON32_LOGON_NETWORK_CLEARTEXT = 8,
             LOGON32_LOGON_NEW_CREDENTIALS = 9
-        }
-
-        public enum LOGON_PROVIDER
-        {
-            LOGON32_PROVIDER_DEFAULT,
-            LOGON32_PROVIDER_WINNT35,
-            LOGON32_PROVIDER_WINNT40,
-            LOGON32_PROVIDER_WINNT50
         }
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms684873(v=vs.85).aspx
@@ -114,9 +116,9 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct _STARTUPINFO
         {
             public UInt32 cb;
-            public String lpReserved;
-            public String lpDesktop;
-            public String lpTitle;
+            public string lpReserved;
+            public string lpDesktop;
+            public string lpTitle;
             public UInt32 dwX;
             public UInt32 dwY;
             public UInt32 dwXSize;

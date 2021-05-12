@@ -8,90 +8,90 @@ namespace MonkeyWorks.Unmanaged.Libraries
     sealed class user32
     {
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean AddClipboardFormatListener(IntPtr hwnd);
+        public static extern bool AddClipboardFormatListener(IntPtr hwnd);
 
         [DllImport("user32.dll")]
-        public static extern Boolean ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
+        public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
 
         [DllImport("user32.dll")]
-        public static extern Boolean CloseClipboard();
+        public static extern bool CloseClipboard();
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr CreateWindowEx(
            Winuser.WindowStylesEx dwExStyle,
-           [MarshalAs(UnmanagedType.LPStr)] 
-           String lpClassName,
-           [MarshalAs(UnmanagedType.LPStr)] String lpWindowName, 
-           Winuser.WindowStyles dwStyle, Int32 x, Int32 y, Int32 nWidth, Int32 nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+           [MarshalAs(UnmanagedType.LPStr)]
+           string lpClassName,
+           [MarshalAs(UnmanagedType.LPStr)] string lpWindowName, 
+           Winuser.WindowStyles dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr CreateWindowEx(
            Winuser.WindowStylesEx dwExStyle,
            IntPtr lpClassName,
-           [MarshalAs(UnmanagedType.LPStr)] String lpWindowName,
-           Winuser.WindowStyles dwStyle, Int32 x, Int32 y, Int32 nWidth, Int32 nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+           [MarshalAs(UnmanagedType.LPStr)] string lpWindowName,
+           Winuser.WindowStyles dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr DefWindowProcW(IntPtr hWnd, UInt32 Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] String lParam);
+        public static extern IntPtr DefWindowProcW(IntPtr hWnd, uint Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean DestroyWindow(IntPtr hwnd);
+        public static extern bool DestroyWindow(IntPtr hwnd);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr DispatchMessage(ref Winuser.tagMSG lpMsg);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt32 EnumClipboardFormats(UInt32 format);
+        public static extern uint EnumClipboardFormats(uint format);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt16 GetAsyncKeyState(UInt32 vKey);
+        public static extern ushort GetAsyncKeyState(uint vKey);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt16 GetAsyncKeyState(System.Windows.Forms.Keys vKey);
+        public static extern ushort GetAsyncKeyState(System.Windows.Forms.Keys vKey);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr GetClipboardData(UInt32 uFormat);
+        public static extern IntPtr GetClipboardData(uint uFormat);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetForegroundWindow();
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean GetMessage(ref Winuser.tagMSG lpMsg, IntPtr hWnd, UInt32 wMsgFilterMin, UInt32 wMsgFilterMax);
+        public static extern bool GetMessage(ref Winuser.tagMSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt32 GetClipboardSequenceNumber();
+        public static extern uint GetClipboardSequenceNumber();
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt32 GetWindowText(IntPtr hWnd, System.Text.StringBuilder lpString, UInt32 nMaxCount);
+        public static extern uint GetWindowText(IntPtr hWnd, System.Text.StringBuilder lpString, uint nMaxCount);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt32 GetWindowTextLength(IntPtr hWnd);
+        public static extern uint GetWindowTextLength(IntPtr hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean IsWindow(IntPtr hWnd);
+        public static extern bool IsWindow(IntPtr hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean OpenClipboard(IntPtr hWndNewOwner);
+        public static extern bool OpenClipboard(IntPtr hWndNewOwner);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean PostMessage(IntPtr hWnd, UInt32 Msg, UInt32 wParam, UInt32 lParam);
+        public static extern bool PostMessage(IntPtr hWnd, uint Msg, uint wParam, uint lParam);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern UInt16 RegisterClassEx(ref Winuser.WNDCLASSEX lpwcx);
+        public static extern ushort RegisterClassEx(ref Winuser.WNDCLASSEX lpwcx);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean RemoveClipboardFormatListener(IntPtr hwnd);
+        public static extern bool RemoveClipboardFormatListener(IntPtr hwnd);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] String lParam);
+        public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, [MarshalAs(UnmanagedType.LPWStr)] string lParam);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean TranslateMessage(ref Winuser.tagMSG lpMsg);
+        public static extern bool TranslateMessage(ref Winuser.tagMSG lpMsg);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern Boolean UnregisterClass(String lpClassName, IntPtr hInstance);
+        public static extern bool UnregisterClass(string lpClassName, IntPtr hInstance);
     }
 }

@@ -5,7 +5,7 @@ namespace MonkeyWorks.Unmanaged.Headers
     class ProcessThreadsApi
     {
        [Flags]
-       public enum ThreadSecurityRights : long
+       public enum ThreadSecurityRights : uint
         {
             THREAD_TERMINATE = 0x0001,
             THREAD_SUSPEND_RESUME = 0x0002,
@@ -19,12 +19,13 @@ namespace MonkeyWorks.Unmanaged.Headers
             THREAD_SET_LIMITED_INFORMATION = 0x0400,
             THREAD_QUERY_LIMITED_INFORMATION = 0x0800,
             THREAD_ALL_ACCESS = 0x1FFFFF,
-
+/*
             DELETE = 0x00010000L,
             READ_CONTROL = 0x00020000L,           
             WRITE_DAC = 0x00040000L,
             WRITE_OWNER = 0x00080000L,
             SYNCHRONIZE = 0x00100000L
+*/
         }
 
         [Flags]
@@ -42,7 +43,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             PROCESS_QUERY_INFORMATION = 0x0400,
             PROCESS_SUSPEND_RESUME = 0x0800,
             PROCESS_QUERY_LIMITED_INFORMATION = 0x1000,
-            PROCESS_ALL_ACCESS = 0x1FFFFF,
+            PROCESS_ALL_ACCESS = 0x1f0fff,
 
             DELETE = 0x00010000L,
             READ_CONTROL = 0x00020000L,

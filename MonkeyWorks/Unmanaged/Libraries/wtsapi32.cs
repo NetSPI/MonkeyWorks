@@ -58,8 +58,8 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [StructLayout(LayoutKind.Sequential)]
         public struct _WTS_SESSION_INFO
         {
-            public Int32 SessionId;
-            public String pWinStationName;
+            public int SessionId;
+            public string pWinStationName;
             public _WTS_CONNECTSTATE_CLASS State;
         }
 
@@ -67,7 +67,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("wtsapi32.dll", SetLastError=true)]
         public static extern bool WTSQuerySessionInformationW(
             IntPtr hServer,
-            Int32 SessionId,
+            int SessionId,
             _WTS_INFO_CLASS WTSInfoClass,
             out IntPtr ppBuffer,
             out IntPtr pBytesReturned);
@@ -75,9 +75,9 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("wtsapi32.dll", SetLastError = true)]
         public static extern int WTSEnumerateSessions(
             IntPtr hServer,
-            Int32 Reserved,
-            Int32 Version,
+            int Reserved,
+            int Version,
             ref IntPtr ppSessionInfo,
-            ref Int32 pCount);
+            ref int pCount);
     }
 }

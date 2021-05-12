@@ -19,6 +19,28 @@ namespace MonkeyWorks.Unmanaged.Headers
 {
     sealed class Winnt
     {
+        //Process Security and Access Rights
+        //https://docs.microsoft.com/en-us/windows/desktop/procthread/process-security-and-access-rights
+        public const uint DELETE = 0x00010000;
+        public const uint READ_CONTROL = 0x00020000;
+        public const uint SYNCHRONIZE = 0x00100000;
+        public const uint WRITE_DAC = 0x00040000;
+        public const uint WRITE_OWNER = 0x00080000;
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
+        public const uint PROCESS_ALL_ACCESS = 0;
+        public const uint PROCESS_CREATE_PROCESS = 0x0080;
+        public const uint PROCESS_CREATE_THREAD = 0x0002;
+        public const uint PROCESS_DUP_HANDLE = 0x0040;
+        public const uint PROCESS_QUERY_INFORMATION = 0x0400;
+        public const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
+        public const uint PROCESS_SET_INFORMATION = 0x0200;
+        public const uint PROCESS_SET_QUOTA = 0x0100;
+        public const uint PROCESS_SUSPEND_RESUME = 0x0800;
+        public const uint PROCESS_TERMINATE = 0x0001;
+        public const uint PROCESS_VM_OPERATION = 0x0008;
+        public const uint PROCESS_VM_READ = 0x0010;
+        public const uint PROCESS_VM_WRITE = 0x0020;
+
         //Token 
         //http://www.pinvoke.net/default.aspx/advapi32.openprocesstoken
         public const DWORD STANDARD_RIGHTS_REQUIRED = 0x000F0000;
@@ -46,14 +68,14 @@ namespace MonkeyWorks.Unmanaged.Headers
         public const DWORD SE_PRIVILEGE_REMOVED = 0x4;
         public const DWORD SE_PRIVILEGE_USED_FOR_ACCESS = 0x3;
 
-        public const Int32 ANYSIZE_ARRAY = 1;
+        public const int ANYSIZE_ARRAY = 1;
 
         //https://msdn.microsoft.com/en-us/library/windows/desktop/aa446619(v=vs.85).aspx
-        public const String SE_ASSIGNPRIMARYTOKEN_NAME = "SeAssignPrimaryTokenPrivilege";
-        public const String SE_BACKUP_NAME = "SeBackupPrivilege";
-        public const String SE_DEBUG_NAME = "SeDebugPrivilege";
-        public const String SE_INCREASE_QUOTA_NAME = "SeIncreaseQuotaPrivilege";
-        public const String SE_TCB_NAME = "SeTcbPrivilege";
+        public const string SE_ASSIGNPRIMARYTOKEN_NAME = "SeAssignPrimaryTokenPrivilege";
+        public const string SE_BACKUP_NAME = "SeBackupPrivilege";
+        public const string SE_DEBUG_NAME = "SeDebugPrivilege";
+        public const string SE_INCREASE_QUOTA_NAME = "SeIncreaseQuotaPrivilege";
+        public const string SE_TCB_NAME = "SeTcbPrivilege";
 
         public const QWORD SE_GROUP_ENABLED = 0x00000004L;
         public const QWORD SE_GROUP_ENABLED_BY_DEFAULT = 0x00000002L;
@@ -76,7 +98,7 @@ namespace MonkeyWorks.Unmanaged.Headers
 
         [Flags]
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
-        public enum MEMORY_PROTECTION_CONSTANTS : uint
+        public enum MEMORY_PROTECTION_Winnt : uint
         {
             PAGE_NOACCESS = 0x01,
             PAGE_READONLY = 0x02,
@@ -311,24 +333,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             public DWORD VirtualAdress;
             public DWORD SizeOfBlock;
         }
-        
-        [Flags]
-        public enum RelocationTypes : ushort
-        {
-            IMAGE_REL_BASED_ABSOLUTE = 0,
-            IMAGE_REL_BASED_HIGH = 1,
-            IMAGE_REL_BASED_LOW = 2,
-            IMAGE_REL_BASED_HIGHLOW = 3,
-            IMAGE_REL_BASED_HIGHADJ = 4,
-            IMAGE_REL_BASED_MIPS_JMPADDR = 5,
-            IMAGE_REL_BASED_ARM_MOV32 = 5,
-            IMAGE_REL_BASED_SECTION = 6,
-            IMAGE_REL_BASED_REL32 = 7,
-            IMAGE_REL_BASED_THUMB_MOV32 = 7,
-            IMAGE_REL_BASED_IA64_IMM64 = 9,
-            IMAGE_REL_BASED_MIPS_JMPADDR16 = 9,
-            IMAGE_REL_BASED_DIR64 = 10
-        }
 
         [Flags]
         public enum TypeOffset : ushort
@@ -448,8 +452,8 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct _IMAGE_OPTIONAL_HEADER
         {
             public MAGIC Magic;
-            public Byte MajorLinkerVersion;
-            public Byte MinorLinkerVersion;
+            public byte MajorLinkerVersion;
+            public byte MinorLinkerVersion;
             public DWORD SizeOfCode;
             public DWORD SizeOfInitializedData;
             public DWORD SizeOfUninitializedData;
@@ -486,8 +490,8 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct _IMAGE_OPTIONAL_HEADER64
         {
             public MAGIC Magic;
-            public Byte MajorLinkerVersion;
-            public Byte MinorLinkerVersion;
+            public byte MajorLinkerVersion;
+            public byte MinorLinkerVersion;
             public DWORD SizeOfCode;
             public DWORD SizeOfInitializedData;
             public DWORD SizeOfUninitializedData;
@@ -568,7 +572,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct _IMAGE_SECTION_HEADER
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-            public Char[] Name;
+            public char[] Name;
             public DWORD VirtualSize;
             public DWORD VirtualAddress;
             public DWORD SizeOfRawData;
@@ -598,7 +602,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct _M128A
         {
             public UInt64 High;
-            public Int64 Low;
+            public long Low;
         }
 
         [StructLayout(LayoutKind.Sequential)]
@@ -622,7 +626,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             public DWORD __alignment1;
             public ULONGLONG RegionSize;
             public DWORD State;
-            public MEMORY_PROTECTION_CONSTANTS Protect;
+            public MEMORY_PROTECTION_Winnt Protect;
             public DWORD Type;
             public DWORD __alignment2;
         }
@@ -638,18 +642,17 @@ namespace MonkeyWorks.Unmanaged.Headers
             public DWORD FirstThunk;
         }
 
-        public const Int32 PRIVILEGE_SET_ALL_NECESSARY = 1;
+        public const int PRIVILEGE_SET_ALL_NECESSARY = 1;
 
         [StructLayout(LayoutKind.Sequential)]
         public struct _PRIVILEGE_SET
         {
             public DWORD PrivilegeCount;
             public DWORD Control;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = (Int32)ANYSIZE_ARRAY)]
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = (int)ANYSIZE_ARRAY)]
             public _LUID_AND_ATTRIBUTES[] Privilege;
         }
         //PRIVILEGE_SET, * PPRIVILEGE_SET
-
 
         [StructLayout(LayoutKind.Sequential)]
         public struct _SID_AND_ATTRIBUTES
@@ -657,8 +660,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             public PSID Sid;
             public DWORD Attributes;
         }
-        //SID_AND_ATTRIBUTES, *PSID_AND_ATTRIBUTES
-
 
         [StructLayout(LayoutKind.Sequential)]
         public struct _SID_AND_ATTRIBUTES_MIDL
@@ -666,7 +667,16 @@ namespace MonkeyWorks.Unmanaged.Headers
             public Ntifs._SID Sid;
             public DWORD Attributes;
         }
-        //SID_AND_ATTRIBUTES, *PSID_AND_ATTRIBUTES
+        /*
+         * typedef struct _SID_AND_ATTRIBUTES {
+         * #if ...
+         *   PISID Sid;
+         * #else
+         *   PSID  Sid;
+         * #endif
+         *   DWORD Attributes;
+         * } SID_AND_ATTRIBUTES, *PSID_AND_ATTRIBUTES;
+         */
 
         [Flags]
         public enum _SECURITY_IMPERSONATION_LEVEL : int
@@ -681,7 +691,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct _SID_IDENTIFIER_AUTHORITY
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 6, ArraySubType = UnmanagedType.I1)]
-            public Byte[] Value;
+            public byte[] Value;
         }
 
         [Flags]
@@ -698,6 +708,17 @@ namespace MonkeyWorks.Unmanaged.Headers
             SidTypeComputer,
             SidTypeLabel
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _TOKEN_DEFAULT_DACL
+        {
+            IntPtr DefaultDacl;
+        }
+        /*
+         * typedef struct _TOKEN_DEFAULT_DACL {
+         *   PACL DefaultDacl;
+         * } TOKEN_DEFAULT_DACL, *PTOKEN_DEFAULT_DACL;
+         */
 
         [Flags]
         public enum TOKEN_ELEVATION_TYPE
@@ -760,6 +781,17 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        public struct _TOKEN_PRIMARY_GROUP
+        {
+            public IntPtr PrimaryGroup;
+        }
+        /*
+         * typedef struct _TOKEN_PRIMARY_GROUP {
+         *  PSID PrimaryGroup;
+         * } TOKEN_PRIMARY_GROUP, *PTOKEN_PRIMARY_GROUP;
+         */
+
+        [StructLayout(LayoutKind.Sequential)]
         public struct _TOKEN_PRIVILEGES
         {
             public UInt32 PrivilegeCount;
@@ -770,9 +802,23 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct _TOKEN_PRIVILEGES_ARRAY
         {
             public UInt32 PrivilegeCount;
-            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 30)]
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 35)]
             public _LUID_AND_ATTRIBUTES[] Privileges;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _TOKEN_SOURCE
+        {
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
+            public char[] SourceName;       
+            public _LUID SourceIdentifier;
+        }
+        /*
+         * typedef struct _TOKEN_SOURCE {
+         *     CHAR SourceName[TOKEN_SOURCE_LENGTH];
+         *     LUID SourceIdentifier;
+         * } TOKEN_SOURCE, *PTOKEN_SOURCE;
+         */
 
         [StructLayout(LayoutKind.Sequential)]
         internal struct _TOKEN_STATISTICS
