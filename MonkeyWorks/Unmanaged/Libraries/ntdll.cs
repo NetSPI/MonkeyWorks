@@ -40,22 +40,75 @@ namespace MonkeyWorks.Unmanaged.Libraries
             uint SizeOfStackReserve,
 			IntPtr lpBytesBuffer
         );
-        
+
         [DllImport("ntdll.dll", SetLastError = true)]
         public static extern uint NtCreateToken(
-            IntPtr TokenHandle,
-            Winnt.ACCESS_MASK DesiredAccess,
-            ref Ntdef._OBJECT_ATTRIBUTES ObjectAttributes,
+            out IntPtr TokenHandle,
+            uint DesiredAccess,
+            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
             Winnt._TOKEN_TYPE TokenType,
             ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
-            System.UInt64 ExpirationTime,
+            ref long ExpirationTime,
             ref Ntifs._TOKEN_USER TokenUser,
-            ref Ntifs._TOKEN_GROUPS TokenGroups,
-            ref Winnt._TOKEN_PRIVILEGES TokenPrivileges,
+            Ntifs._TOKEN_GROUPS TokenGroups,
+            Winnt._TOKEN_PRIVILEGES_ARRAY TokenPrivileges,
             ref Ntifs._TOKEN_OWNER TokenOwner,
             ref Winnt._TOKEN_PRIMARY_GROUP TokenPrimaryGroup,
             ref Winnt._TOKEN_DEFAULT_DACL TokenDefaultDacl,
-            ref Winnt._TOKEN_SOURCE TokenSource 
+            ref Winnt._TOKEN_SOURCE TokenSource
+        );
+
+        //This is the way
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtCreateToken(
+            out IntPtr TokenHandle,
+            uint DesiredAccess,
+            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            Winnt._TOKEN_TYPE TokenType,
+            ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
+            ref long ExpirationTime,
+            ref Ntifs._TOKEN_USER TokenUser,
+            ref Ntifs._TOKEN_GROUPS TokenGroups,
+            ref Winnt._TOKEN_PRIVILEGES_ARRAY TokenPrivileges,
+            ref Ntifs._TOKEN_OWNER TokenOwner,
+            ref Winnt._TOKEN_PRIMARY_GROUP TokenPrimaryGroup,
+            ref Winnt._TOKEN_DEFAULT_DACL TokenDefaultDacl,
+            ref Winnt._TOKEN_SOURCE TokenSource
+        );
+
+        //This may also be the way
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtCreateToken(
+            out IntPtr TokenHandle,
+            uint DesiredAccess,
+            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            Winnt._TOKEN_TYPE TokenType,
+            ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
+            ref long ExpirationTime,
+            ref Ntifs._TOKEN_USER TokenUser,
+            ref Ntifs._TOKEN_GROUPS_DYNAMIC TokenGroups,
+            ref Winnt._TOKEN_PRIVILEGES_ARRAY TokenPrivileges,
+            ref Ntifs._TOKEN_OWNER TokenOwner,
+            ref Winnt._TOKEN_PRIMARY_GROUP TokenPrimaryGroup,
+            ref Winnt._TOKEN_DEFAULT_DACL TokenDefaultDacl,
+            ref Winnt._TOKEN_SOURCE TokenSource
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtCreateToken(
+            out IntPtr TokenHandle,
+            uint DesiredAccess,
+            IntPtr ObjectAttributes,
+            Winnt._TOKEN_TYPE TokenType,
+            IntPtr AuthenticationId, //From NtAllocateLocallyUniqueId
+            ref long ExpirationTime,
+            IntPtr TokenUser,
+            IntPtr TokenGroups,
+            IntPtr TokenPrivileges,
+            IntPtr TokenOwner,
+            IntPtr TokenPrimaryGroup,
+            IntPtr TokenDefaultDacl,
+            IntPtr TokenSource
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -92,6 +145,32 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern uint NtGetContextThread(
             IntPtr ProcessHandle,
             IntPtr lpContext
+        );
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct OBJECT_ATTRIBUTES
+        {
+            public ulong Length;
+            public IntPtr RootDirectory;
+            public IntPtr ObjectName;
+            public ulong Attributes;
+            public IntPtr SecurityDescriptor;
+            public IntPtr SecurityQualityOfService;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct CLIENT_ID
+        {
+            public IntPtr UniqueProcess;
+            public IntPtr UniqueThread;
+        }
+
+        [DllImport("ntdll.dll")]//, SetLastError = true, EntryPoint = "NtOpenProcess")]
+        public static extern uint NtOpenProcess(
+            ref IntPtr ProcessHandle, 
+            UInt32 AccessMask, 
+            ref OBJECT_ATTRIBUTES ObjectAttributes, 
+            ref CLIENT_ID ClientId
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]

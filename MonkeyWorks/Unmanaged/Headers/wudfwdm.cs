@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 using USHORT = System.UInt16;
 
@@ -11,13 +12,15 @@ namespace MonkeyWorks.Unmanaged.Headers
 {
     public sealed class wudfwdm
     {
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct _UNICODE_STRING
         {
             public USHORT Length;
             public USHORT MaximumLength;
-            public char[] Buffer;
+            public string Buffer;
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 0)]
         public struct _OBJECT_ATTRIBUTES
         {
             public ULONG Length;
@@ -27,5 +30,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             public PVOID SecurityDescriptor;
             public PVOID SecurityQualityOfService;
         }
+
     }
 }

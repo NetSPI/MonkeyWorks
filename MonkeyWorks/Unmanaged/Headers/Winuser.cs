@@ -10,7 +10,7 @@ using LPARAM = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Winuser
+    public sealed class Winuser
     {
         public static IntPtr HWND_MESSAGE = new IntPtr(-3);
 
@@ -69,6 +69,33 @@ namespace MonkeyWorks.Unmanaged.Headers
             public DWORD time;
             public Windef.tagPOINT pt;
         }
+
+        [Flags]
+        public enum WindowStationSecurity
+        {
+            DELETE = 0x00010000,
+            READ_CONTROL = 0x00020000,
+            SYNCHRONIZE = 0x00100000,
+            WRITE_DAC = 0x00040000,
+            WRITE_OWNER = 0x00080000,
+
+            WINSTA_ENUMDESKTOPS = 0x0001,
+            WINSTA_READATTRIBUTES = 0x0002,
+            WINSTA_ACCESSCLIPBOARD = 0x0004,
+            WINSTA_CREATEDESKTOP = 0x0008,
+            WINSTA_WRITEATTRIBUTES = 0x0010,
+            WINSTA_ACCESSGLOBALATOMS = 0x0020,
+            WINSTA_EXITWINDOWS = 0x0040,
+            WINSTA_ENUMERATE = 0x0100,
+            WINSTA_READSCREEN = 0x0200,
+
+            WINSTA_ALL_ACCESS = (WINSTA_ENUMDESKTOPS | WINSTA_READATTRIBUTES | WINSTA_ACCESSCLIPBOARD | 
+                WINSTA_CREATEDESKTOP | WINSTA_WRITEATTRIBUTES | WINSTA_ACCESSGLOBALATOMS | 
+                WINSTA_EXITWINDOWS | WINSTA_ENUMERATE | WINSTA_READSCREEN),
+
+            ACCESS_SYSTEM_SECURITY = 0x01000000
+        }
+
 
         [Flags]
         public enum WindowStyles : long

@@ -19,17 +19,17 @@ using SIZE_T = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    public sealed class Ntdef
+    sealed class Ntdef
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _OBJECT_ATTRIBUTES
         {
             public ULONG Length;
             public HANDLE RootDirectory;
-            public wudfwdm._UNICODE_STRING ObjectName;
+            public IntPtr ObjectName;
             public ULONG Attributes;
             public PVOID SecurityDescriptor;
-            public PVOID SecurityQualityOfService;
+            public Winnt._SECURITY_QUALITY_OF_SERVICE SecurityQualityOfService;
         }
        /*
         * typedef struct _OBJECT_ATTRIBUTES {

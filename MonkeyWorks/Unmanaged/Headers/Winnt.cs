@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
+using BOOLEAN = System.Boolean;
 using WORD = System.UInt16;
 using LONG = System.UInt32;
 using DWORD = System.UInt32;
@@ -9,6 +10,7 @@ using ULONGLONG = System.UInt64;
 using LARGE_INTEGER = System.UInt64;
 
 using PSID = System.IntPtr;
+using PACL = System.IntPtr;
 
 using PVOID = System.IntPtr;
 using LPVOID = System.IntPtr;
@@ -96,6 +98,46 @@ namespace MonkeyWorks.Unmanaged.Headers
 
         private const DWORD EXCEPTION_MAXIMUM_PARAMETERS = 15;
 
+        public static readonly _LUID SYSTEM_LUID = new _LUID() { LowPart = 0x3e7, HighPart = 0x0 };
+        //#define ANONYMOUS_LOGON_LUID            { 0x3e6, 0x0 }
+        //#define LOCALSERVICE_LUID               { 0x3e5, 0x0 }
+        //#define NETWORKSERVICE_LUID             { 0x3e4, 0x0 }
+        //#define IUSER_LUID                      { 0x3e3, 0x0 }
+        //#define PROTECTED_TO_SYSTEM_LUID        { 0x3e2, 0x0 }
+
+        public static readonly _SID_IDENTIFIER_AUTHORITY SECURITY_NULL_SID_AUTHORITY = new _SID_IDENTIFIER_AUTHORITY() { Value = new byte[] { 0, 0, 0, 0, 0, 0 } };
+        public static readonly _SID_IDENTIFIER_AUTHORITY SECURITY_WORLD_SID_AUTHORITY = new _SID_IDENTIFIER_AUTHORITY() { Value = new byte[] { 0, 0, 0, 0, 0, 1 } };
+        public static readonly _SID_IDENTIFIER_AUTHORITY SECURITY_LOCAL_SID_AUTHORITY = new _SID_IDENTIFIER_AUTHORITY() { Value = new byte[] { 0, 0, 0, 0, 0, 2 } };
+        public static readonly _SID_IDENTIFIER_AUTHORITY SECURITY_CREATOR_SID_AUTHORITY = new _SID_IDENTIFIER_AUTHORITY() { Value = new byte[] { 0, 0, 0, 0, 0, 3 } };
+        public static readonly _SID_IDENTIFIER_AUTHORITY SECURITY_NON_UNIQUE_AUTHORITY = new _SID_IDENTIFIER_AUTHORITY() { Value = new byte[] { 0, 0, 0, 0, 0, 4 } };
+        public static readonly _SID_IDENTIFIER_AUTHORITY SECURITY_RESOURCE_MANAGER_AUTHORITY = new _SID_IDENTIFIER_AUTHORITY() { Value = new byte[] { 0, 0, 0, 0, 0, 9 } };
+        public static readonly _SID_IDENTIFIER_AUTHORITY SECURITY_NT_AUTHORITY = new _SID_IDENTIFIER_AUTHORITY() { Value = new byte[] { 0, 0, 0, 0, 0, 5 } };
+
+        public const long SECURITY_DIALUP_RID = (0x00000001L);
+        public const long SECURITY_NETWORK_RID = (0x00000002L);
+        public const long SECURITY_BATCH_RID = (0x00000003L);
+        public const long SECURITY_INTERACTIVE_RID = (0x00000004L);
+        public const long SECURITY_LOGON_IDS_RID = (0x00000005L);
+        public const long SECURITY_LOGON_IDS_RID_COUNT = (3L);
+        public const long SECURITY_SERVICE_RID = (0x00000006L);
+        public const long SECURITY_ANONYMOUS_LOGON_RID = (0x00000007L);
+        public const long SECURITY_PROXY_RID = (0x00000008L);
+        public const long SECURITY_ENTERPRISE_CONTROLLERS_RID = (0x00000009L);
+        public const long SECURITY_SERVER_LOGON_RID = SECURITY_ENTERPRISE_CONTROLLERS_RID;
+        public const long SECURITY_PRINCIPAL_SELF_RID = (0x0000000AL);
+        public const long SECURITY_AUTHENTICATED_USER_RID = (0x0000000BL);
+        public const long SECURITY_RESTRICTED_CODE_RID = (0x0000000CL);
+        public const long SECURITY_TERMINAL_SERVER_RID = (0x0000000DL);
+        public const long SECURITY_REMOTE_LOGON_RID = (0x0000000EL);
+        public const long SECURITY_THIS_ORGANIZATION_RID = (0x0000000FL);
+        public const long SECURITY_IUSER_RID = (0x00000011L);
+        public const long SECURITY_LOCAL_SYSTEM_RID = (0x00000012L);
+        public const long SECURITY_LOCAL_SERVICE_RID = (0x00000013L);
+        public const long SECURITY_NETWORK_SERVICE_RID = (0x00000014L);
+
+        public const bool SECURITY_DYNAMIC_TRACKING = true;
+        public const bool SECURITY_STATIC_TRACKING = false;
+
         [Flags]
         // https://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx
         public enum MEMORY_PROTECTION_Winnt : uint
@@ -166,6 +208,35 @@ namespace MonkeyWorks.Unmanaged.Headers
             WINSTA_READSCREEN = 0x00000200,
             WINSTA_ALL_ACCESS = 0x0000037F
         };
+
+        [Flags]
+        public enum SECURITY_INFORMATION : long
+        {
+            OWNER_SECURITY_INFORMATION = 0x00000001L,
+            GROUP_SECURITY_INFORMATION = 0x00000002L,
+            DACL_SECURITY_INFORMATION = 0x00000004L,
+            SACL_SECURITY_INFORMATION = 0x00000008L,
+            LABEL_SECURITY_INFORMATION = 0x00000010L,
+            ATTRIBUTE_SECURITY_INFORMATION = 0x00000020L,
+            SCOPE_SECURITY_INFORMATION = 0x00000040L,
+            PROCESS_TRUST_LABEL_SECURITY_INFORMATION = 0x00000080L, 
+            ACCESS_FILTER_SECURITY_INFORMATION = 0x00000100L,
+            BACKUP_SECURITY_INFORMATION = 0x00010000L,
+            PROTECTED_DACL_SECURITY_INFORMATION = 0x80000000L,
+            PROTECTED_SACL_SECURITY_INFORMATION = 0x40000000L,
+            UNPROTECTED_DACL_SECURITY_INFORMATION = 0x20000000L,
+            UNPROTECTED_SACL_SECURITY_INFORMATION = 0x10000000L
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _ACL
+        {
+            public byte AclRevision;
+            public byte Sbz1;
+            public WORD AclSize;
+            public WORD AceCount;
+            public WORD Sbz2;
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct CONTEXT
@@ -654,6 +725,78 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
         //PRIVILEGE_SET, * PPRIVILEGE_SET
 
+        public enum SECURITY_CONTEXT_TRACKING_MODE : byte
+        {
+            SECURITY_DYNAMIC_TRACKING = (byte)1,
+            SECURITY_STATIC_TRACKING = (byte)0
+        }
+
+        public enum EFFECTIVE_ONLY : byte 
+        { 
+            False = (byte)0,
+            True = (byte)1
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _SECURITY_DESCRIPTOR
+        {
+            public byte Revision;
+            public byte Sbz1;
+            public SECURITY_DESCRIPTOR_CONTROL Control;
+            public PSID Owner;
+            public PSID Group;
+            public PACL Sacl;
+            public PACL Dacl;
+        }
+        /*
+         * stypedef struct _SECURITY_DESCRIPTOR {
+         *   BYTE                        Revision;
+         *   BYTE                        Sbz1;
+         *   SECURITY_DESCRIPTOR_CONTROL Control;
+         *   PSID                        Owner;
+         *   PSID                        Group;
+         *   PACL                        Sacl;
+         *   PACL                        Dacl;
+         * } SECURITY_DESCRIPTOR, *PISECURITY_DESCRIPTOR;
+         */
+
+        [Flags]
+        public enum SECURITY_DESCRIPTOR_CONTROL : WORD
+        {
+            SE_OWNER_DEFAULTED = 0x0001,
+            SE_GROUP_DEFAULTED = 0x0002,
+            SE_DACL_PRESENT = 0x0004,
+            SE_DACL_DEFAULTED = 0x0008,
+            SE_SACL_PRESENT = 0x0010,
+            SE_SACL_DEFAULTED = 0x0020,
+            SE_DACL_AUTO_INHERIT_REQ = 0x0100,
+            SE_SACL_AUTO_INHERIT_REQ = 0x0200,
+            SE_DACL_AUTO_INHERITED = 0x0400,
+            SE_SACL_AUTO_INHERITED = 0x0800,
+            SE_DACL_PROTECTED = 0x1000,
+            SE_SACL_PROTECTED = 0x2000,
+            SE_RM_CONTROL_VALID = 0x4000,
+            SE_SELF_RELATIVE = 0x8000   
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _SECURITY_QUALITY_OF_SERVICE
+        {
+            public DWORD Length;
+            [MarshalAs(UnmanagedType.I4)]
+            public _SECURITY_IMPERSONATION_LEVEL ImpersonationLevel;
+            public SECURITY_CONTEXT_TRACKING_MODE ContextTrackingMode;
+            public EFFECTIVE_ONLY EffectiveOnly;
+        }
+        /*
+         * typedef struct _SECURITY_QUALITY_OF_SERVICE {
+         *   DWORD Length;
+         *   SECURITY_IMPERSONATION_LEVEL ImpersonationLevel;
+         *   SECURITY_CONTEXT_TRACKING_MODE ContextTrackingMode;
+         *   BOOLEAN EffectiveOnly;
+         * } SECURITY_QUALITY_OF_SERVICE, *PSECURITY_QUALITY_OF_SERVICE;
+         */
+
         [StructLayout(LayoutKind.Sequential)]
         public struct _SID_AND_ATTRIBUTES
         {
@@ -712,7 +855,13 @@ namespace MonkeyWorks.Unmanaged.Headers
         [StructLayout(LayoutKind.Sequential)]
         public struct _TOKEN_DEFAULT_DACL
         {
-            IntPtr DefaultDacl;
+            public IntPtr DefaultDacl;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _TOKEN_DEFAULT_DACL_ACL
+        {
+            public _ACL DefaultDacl;
         }
         /*
          * typedef struct _TOKEN_DEFAULT_DACL {
@@ -806,7 +955,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             public _LUID_AND_ATTRIBUTES[] Privileges;
         }
 
-        [StructLayout(LayoutKind.Sequential)]
+        [StructLayout(LayoutKind.Sequential, CharSet=CharSet.Ansi)]
         public struct _TOKEN_SOURCE
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]

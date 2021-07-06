@@ -62,6 +62,15 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern uint GetClipboardSequenceNumber();
 
         [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetUserObjectSecurity(IntPtr hObj, ref Winnt.SECURITY_INFORMATION pSIRequested, Winnt.SECURITY_DESCRIPTOR_CONTROL pSID, uint nLength, ref uint lpnLengthNeeded);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool GetUserObjectSecurity(IntPtr hObj, ref Winnt.SECURITY_INFORMATION pSIRequested, IntPtr pSID, uint nLength, ref uint lpnLengthNeeded);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern IntPtr GetProcessWindowStation();
+
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern uint GetWindowText(IntPtr hWnd, System.Text.StringBuilder lpString, uint nMaxCount);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -87,6 +96,9 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr SetClipboardViewer(IntPtr hWndNewViewer);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetUserObjectSecurity(IntPtr hObj, Winnt.SECURITY_INFORMATION pSIRequested, Winnt._SECURITY_DESCRIPTOR pSID);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool TranslateMessage(ref Winuser.tagMSG lpMsg);

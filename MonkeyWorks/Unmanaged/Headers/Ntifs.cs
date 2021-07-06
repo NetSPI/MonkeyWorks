@@ -40,6 +40,15 @@ namespace MonkeyWorks.Unmanaged.Headers
             public ULONG GroupCount;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 230)]
             public Winnt._SID_AND_ATTRIBUTES[] Groups;
+            public void Initialize()
+            {
+                Groups = new Winnt._SID_AND_ATTRIBUTES[230];
+                
+                for (int i = 0; i < 230; i++)
+                {
+                    Groups[i].Sid = Marshal.AllocHGlobal(Marshal.SizeOf(typeof(System.IntPtr)));
+                }
+            }
         }
         /*
          * typedef struct _TOKEN_GROUPS {
@@ -52,6 +61,14 @@ namespace MonkeyWorks.Unmanaged.Headers
          * } TOKEN_GROUPS, *PTOKEN_GROUPS;
          */
 
+        //Also defined in Winnt
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _TOKEN_GROUPS_DYNAMIC
+        {
+            public ULONG GroupCount;
+            public Winnt._SID_AND_ATTRIBUTES[] Groups;
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct _TOKEN_OWNER
         {
@@ -59,6 +76,11 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
         //TOKEN_OWNER, *PTOKEN_OWNER
 
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct _TOKEN_USER_U
+        {
+            public Winnt._SID_AND_ATTRIBUTES User;
+        }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct _TOKEN_USER
