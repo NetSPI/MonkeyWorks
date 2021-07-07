@@ -35,6 +35,16 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool AdjustTokenGroups(
+            IntPtr TokenHandle,
+            bool ResetToDefault,
+            ref Ntifs._TOKEN_GROUPS NewState,
+            uint BufferLength,
+            IntPtr PreviousState,
+            out uint ReturnLengthInBytes
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool AdjustTokenPrivileges(
             IntPtr TokenHandle,
             bool DisableAllPrivileges,

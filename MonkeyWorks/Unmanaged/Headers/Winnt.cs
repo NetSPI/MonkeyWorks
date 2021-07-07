@@ -75,8 +75,10 @@ namespace MonkeyWorks.Unmanaged.Headers
         //https://msdn.microsoft.com/en-us/library/windows/desktop/aa446619(v=vs.85).aspx
         public const string SE_ASSIGNPRIMARYTOKEN_NAME = "SeAssignPrimaryTokenPrivilege";
         public const string SE_BACKUP_NAME = "SeBackupPrivilege";
+        public const string SE_CREATETOKEN_NAME = "SeCreateTokenPrivilege";
         public const string SE_DEBUG_NAME = "SeDebugPrivilege";
         public const string SE_INCREASE_QUOTA_NAME = "SeIncreaseQuotaPrivilege";
+        public const string SE_SECURITY_NAME = "SeSecurityPrivilege";
         public const string SE_TCB_NAME = "SeTcbPrivilege";
 
         public const QWORD SE_GROUP_ENABLED = 0x00000004L;
