@@ -5,7 +5,7 @@ using LONG = System.Int32;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Windef
+    public sealed class Windef
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct tagPOINT

@@ -11,52 +11,52 @@ namespace MonkeyWorks.Unmanaged.Libraries
     class fltlib
     {
         [DllImport("FltLib.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern UInt32 FilterDetach(String lpFilterName, String lpVolumeName, String lpInstanceName);
+        public static extern uint FilterDetach(string lpFilterName, string lpVolumeName, string lpInstanceName);
 
         [DllImport("FltLib.dll", SetLastError = true)]
-        public static extern UInt32 FilterInstanceFindClose(IntPtr hFilterInstanceFind);
+        public static extern uint FilterInstanceFindClose(IntPtr hFilterInstanceFind);
 
         [DllImport("FltLib.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern UInt32 FilterInstanceFindFirst(
-            String lpFilterName,
+        public static extern uint FilterInstanceFindFirst(
+            string lpFilterName,
             FltUserStructures._INSTANCE_INFORMATION_CLASS dwInformationClass,
             IntPtr lpBuffer,
-            UInt32 dwBufferSize,
-            ref UInt32 lpBytesReturned,
+            uint dwBufferSize,
+            ref uint lpBytesReturned,
             ref IntPtr lpFilterInstanceFind
         );
 
         [DllImport("FltLib.dll", SetLastError = true)]
-        public static extern UInt32 FilterInstanceFindNext(
+        public static extern uint FilterInstanceFindNext(
             IntPtr hFilterInstanceFind,
             FltUserStructures._INSTANCE_INFORMATION_CLASS dwInformationClass,
             IntPtr lpBuffer,
-            UInt32 dwBufferSize,
-            ref UInt32 lpBytesReturned
+            uint dwBufferSize,
+            ref uint lpBytesReturned
         );
 
         [DllImport("FltLib.dll", SetLastError = true)]
-        public static extern UInt32 FilterFindClose(IntPtr hFilterFind);
+        public static extern uint FilterFindClose(IntPtr hFilterFind);
 
         [DllImport("FltLib.dll", SetLastError = true)]
-        public static extern UInt32 FilterFindFirst(
+        public static extern uint FilterFindFirst(
             FltUserStructures._FILTER_INFORMATION_CLASS dwInformationClass,
             IntPtr lpBuffer,
-            UInt32 dwBufferSize,
-            ref UInt32 lpBytesReturned,
+            uint dwBufferSize,
+            ref uint lpBytesReturned,
             ref IntPtr lpFilterFind
         );
 
         [DllImport("FltLib.dll", SetLastError = true)]
-        public static extern UInt32 FilterFindNext(
+        public static extern uint FilterFindNext(
             IntPtr hFilterFind,
             FltUserStructures._FILTER_INFORMATION_CLASS dwInformationClass,
             IntPtr lpBuffer,
-            UInt32 dwBufferSize,
-            out UInt32 lpBytesReturned
+            uint dwBufferSize,
+            out uint lpBytesReturned
         );
 
         [DllImport("FltLib.dll", CharSet = CharSet.Unicode, SetLastError = true)]
-        public static extern UInt32 FilterUnload(String lpFilterName);
+        public static extern uint FilterUnload(string lpFilterName);
     }
 }

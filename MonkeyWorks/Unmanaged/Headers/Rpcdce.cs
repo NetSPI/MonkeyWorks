@@ -8,11 +8,11 @@ namespace MonkeyWorks.Unmanaged.Headers
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         internal struct _GUID
         {
-            internal Int32 Data1;
-            internal Int16 Data2;
-            internal Int16 Data3;
+            internal int Data1;
+            internal short Data2;
+            internal short Data3;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 8)]
-            internal Byte[] Data4;
+            internal byte[] Data4;
         }
     }
 }

@@ -22,11 +22,11 @@ namespace MonkeyWorks.Unmanaged.Headers
         public struct LARGE_INTEGER
         {
             [FieldOffset(0)]
-            public Int64 QuadPart;
+            public long QuadPart;
             [FieldOffset(0)]
             public UInt32 LowPart;
             [FieldOffset(4)]
-            public Int32 HighPart;
+            public int HighPart;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack=1)]
@@ -121,7 +121,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             public UInt32 NumberOfProcessors;
             public UInt32 NtGlobalFlag;
             //public  DWORD dummy02;
-            public Int64 /*LARGE_INTEGER*/ CriticalSectionTimeout;
+            public long /*LARGE_INTEGER*/ CriticalSectionTimeout;
             public QWORD HeapSegmentReserve;
             public QWORD HeapSegmentCommit;
             public QWORD HeapDeCommitTotalFreeThreshold;
