@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 using BOOLEAN = System.Boolean;
-//using WORD = System.UInt16;
+using WORD = System.UInt16;
 using LONG = System.UInt32;
 using DWORD = System.UInt32;
 using QWORD = System.UInt64;
@@ -763,7 +763,7 @@ namespace MonkeyWorks.Unmanaged.Headers
          */
 
         [Flags]
-        public enum SECURITY_DESCRIPTOR_CONTROL : UInt16
+        public enum SECURITY_DESCRIPTOR_CONTROL : ushort
         {
             SE_OWNER_DEFAULTED = 0x0001,
             SE_GROUP_DEFAULTED = 0x0002,
