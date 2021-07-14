@@ -47,9 +47,6 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern ushort GetAsyncKeyState(uint vKey);
 
         [DllImport("user32.dll", SetLastError = true)]
-        public static extern ushort GetAsyncKeyState(System.Windows.Forms.Keys vKey);
-
-        [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetClipboardData(uint uFormat);
 
         [DllImport("user32.dll", SetLastError = true)]
