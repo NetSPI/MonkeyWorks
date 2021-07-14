@@ -235,6 +235,24 @@ namespace MonkeyWorks.Unmanaged.Libraries
             out IntPtr phToken
         );
 
+        //http://pinvoke.net/default.aspx/advapi32.LogonUser
+        [DllImport("advapi32.dll", SetLastError = true, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool LogonUserExExW(
+            [MarshalAs(UnmanagedType.LPWStr)] string pszUserName,
+            [MarshalAs(UnmanagedType.LPWStr)] string pszDomain,
+            [MarshalAs(UnmanagedType.LPWStr)] string pszPassword,
+            Winbase.LOGON_TYPE dwLogonType,
+            Winbase.LOGON_PROVIDER dwLogonProvider,
+            ref Ntifs._TOKEN_GROUPS pTokenGroups,
+            out IntPtr phToken,
+            IntPtr ppLogonSid,
+            IntPtr ppProfileBuffer,
+            IntPtr pdwProfileLength,
+            IntPtr QuotaLimits
+
+        );
+
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool LookupAccountName(
             StringBuilder lpSystemName,
