@@ -20,9 +20,8 @@ using BOOL = System.Boolean;
 
 using MonkeyWorks.Unmanaged.Headers;
 using MonkeyWorks.Unmanaged.Libraries;
-using Microsoft.Win32.SafeHandles;
 
-namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
+namespace MonkeyWorks.Unmanaged.Libraries
 {
     sealed class dbghelp
     {
@@ -51,19 +50,15 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr CallbackOutput
         );
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool MiniDumpWriteDump(
-            IntPtr hProcess,
-            [MarshalAs(UnmanagedType.U4)]
-            uint processId,
-            SafeFileHandle hFile,
-            [MarshalAs(UnmanagedType.U4)]
-            Minidumpapiset._MINIDUMP_TYPE dumpType,
-            IntPtr expParam,
-            IntPtr userStreamParam,
-            IntPtr callbackParam
+        [DllImport("dbghelp.dll", SetLastError = true)]
+        public static extern Boolean MiniDumpWriteDump(
+            HANDLE hProcess,
+            DWORD ProcessId,
+            HANDLE hFile,
+            Minidumpapiset._MINIDUMP_TYPE DumpType,
+            IntPtr ExceptionParam,
+            IntPtr UserStreamParam,
+            IntPtr CallbackParam
         );
-
     }
 }

@@ -686,94 +686,26 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x3a0)] public IntPtr WaitOnAddressHashTable;
 
 
-            public bool ImageUsesLargePages()
-            {
-                return (BitField & 0x0001) >> 0 == 1;
-            }
-        
-            public bool IsProtectedProcess()
-            {
-                return (BitField & 0x0002) >> 1 == 1;
-            }
+            public bool ImageUsesLargePages => (BitField & 0x0001) >> 0 == 1;
+            public bool IsProtectedProcess => (BitField & 0x0002) >> 1 == 1;
+            public bool IsImageDynamicallyRelocated => (BitField & 0x0004) >> 2 == 1;
+            public bool SkipPatchingUser32Forwarders => (BitField & 0x0008) >> 3 == 1;
+            public bool IsPackagedProcess => (BitField & 0x0010) >> 4 == 1;
+            public bool IsAppContainer => (BitField & 0x0020) >> 5 == 1;
+            public bool IsProtectedProcessLight => (BitField & 0x0040) >> 6 == 1;
+            public bool SpareBits => (BitField & 0x0080) >> 7 == 1;
 
-            public bool IsImageDynamicallyRelocated()
-            {
-                return (BitField & 0x0004) >> 2 == 1;
-            }
+            public bool ProcessInJob => (CrossProcessFlags & 0x0001) >> 0 == 1;
+            public bool ProcessInitializing => (CrossProcessFlags & 0x0002) >> 1 == 1;
+            public bool ProcessUsingVEH => (CrossProcessFlags & 0x0004) >> 2 == 1;
+            public bool ProcessUsingVCH => (CrossProcessFlags & 0x0008) >> 3 == 1;
+            public bool ProcessUsingFTH => (CrossProcessFlags & 0x0010) >> 4 == 1;
+            public uint ReservedBits0 => ((CrossProcessFlags & 0xFFFFFFE0) >> 5);
 
-            public bool SkipPatchingUser32Forwarders()
-            {
-                return (BitField & 0x0008) >> 3 == 1;
-            }
-
-            public bool IsPackagedProcess()
-            {
-                return (BitField & 0x0010) >> 4 == 1;
-            }
-
-            public bool IsAppContainer()
-            {
-                return (BitField & 0x0020) >> 5 == 1;
-            }
-
-            public bool IsProtectedProcessLight()
-            {
-                return (BitField & 0x0040) >> 6 == 1;
-            }
-
-            public bool SpareBits()
-            {
-                return (BitField & 0x0080) >> 7 == 1;
-            }
-
-            public bool ProcessInJob()
-            {
-                return (CrossProcessFlags & 0x0001) >> 0 == 1;
-            }
-
-            public bool ProcessInitializing ()
-            {
-                return (CrossProcessFlags & 0x0002) >> 1 == 1;
-            }
-                
-            public bool ProcessUsingVEH()
-            {
-                return (CrossProcessFlags & 0x0004) >> 2 == 1;
-            }
-
-            public bool ProcessUsingVCH()
-            {
-                return (CrossProcessFlags & 0x0008) >> 3 == 1;
-            }
-
-            public bool ProcessUsingFTH()
-            {
-                return (CrossProcessFlags & 0x0010) >> 4 == 1;
-            }
-            public uint ReservedBits0()
-            {
-                return ((CrossProcessFlags & 0xFFFFFFE0) >> 5);
-            }
-
-            public bool HeapTracingEnabled()
-            {
-                return (TracingFlags & 0x0001) >> 0 == 1;
-            }
-
-            public bool CritSecTracingEnabled()
-            {
-                return (TracingFlags & 0x0002) >> 1 == 1;
-            }
-
-            public bool LibLoaderTracingEnabled()
-            {
-                return (TracingFlags & 0x0004) >> 2 == 1;
-            }
-
-            public uint SpareTracingBits()
-            {
-                return ((TracingFlags & 0xFFFFFFF8) >> 3);
-            } 
+            public bool HeapTracingEnabled => (TracingFlags & 0x0001) >> 0 == 1;
+            public bool CritSecTracingEnabled => (TracingFlags & 0x0002) >> 1 == 1;
+            public bool LibLoaderTracingEnabled => (TracingFlags & 0x0004) >> 2 == 1;
+            public uint SpareTracingBits => ((TracingFlags & 0xFFFFFFF8) >> 3);
 
         }
 
