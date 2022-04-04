@@ -13,6 +13,7 @@ using LPVOID = System.IntPtr;
 using DWORD_PTR = System.IntPtr;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {

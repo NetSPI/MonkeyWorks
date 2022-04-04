@@ -58,7 +58,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [StructLayout(LayoutKind.Sequential)]
         public struct _WTS_SESSION_INFO
         {
-            public int SessionId;
+            public uint SessionId;
             public string pWinStationName;
             public _WTS_CONNECTSTATE_CLASS State;
         }

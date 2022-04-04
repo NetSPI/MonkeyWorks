@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Win32;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
@@ -149,6 +150,14 @@ namespace MonkeyWorks.Unmanaged.Libraries
             string lpPassword
         );
 
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern bool CreateWellKnownSid(
+            Winnt.WELL_KNOWN_SID_TYPE WellKnownSidType,
+            IntPtr DomainSid,
+            IntPtr pSid,
+            ref uint cbSid
+        );
+
         [Flags]
         public enum CRED_TYPE : uint
         {
@@ -206,6 +215,19 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool GetSecurityDescriptorDacl(IntPtr pSecurityDescriptor, ref bool lpbDaclPresent, IntPtr pDacl, ref bool lpbDaclDefaulted);
+
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern uint GetSecurityInfo(
+            IntPtr handle,
+            Accctrl._SE_OBJECT_TYPE ObjectType,
+            Winnt.SECURITY_INFORMATION SecurityInfo,
+            ref IntPtr ppsidOwner,
+            ref IntPtr ppsidGroup,
+            ref IntPtr ppDacl,
+            ref IntPtr ppSacl,
+            ref IntPtr ppSecurityDescriptor
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, IntPtr TokenInformation, uint TokenInformationLength, out uint ReturnLength);
@@ -320,13 +342,34 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern bool PrivilegeCheck(IntPtr ClientToken, ref Winnt._PRIVILEGE_SET RequiredPrivileges, out int pfResult);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern uint SetEntriesInAclW(ulong cCountOfExplicitEntries, ref Accctrl._EXPLICIT_ACCESS_W pListOfExplicitEntries, Winnt._ACL OldAcl, ref Winnt._ACL NewAcl);
+        public static extern uint SetEntriesInAclW(
+            ulong cCountOfExplicitEntries, 
+            ref Accctrl._EXPLICIT_ACCESS_W pListOfExplicitEntries,
+            IntPtr OldAcl, 
+            ref IntPtr NewAcl
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern uint SetEntriesInAclW(ulong cCountOfExplicitEntries, ref Accctrl._EXPLICIT_ACCESS_W pListOfExplicitEntries, ref Winnt._ACL OldAcl, ref IntPtr NewAcl);
+        public static extern uint SetEntriesInAclA(
+            uint cCountOfExplicitEntries,  /*ulong*/
+            ref Accctrl._EXPLICIT_ACCESS_A pListOfExplicitEntries, 
+            IntPtr OldAcl, 
+            ref IntPtr NewAcl
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool SetSecurityDescriptorDacl(ref Winnt._SECURITY_DESCRIPTOR pSecurityDescriptor, bool bDaclPresent, ref Winnt._ACL pDacl, bool bDaclDefaulted);
+
+        [DllImport("advapi32.dll", SetLastError = true)]
+        public static extern uint SetSecurityInfo(
+            IntPtr handle,
+            Accctrl._SE_OBJECT_TYPE ObjectType,
+            Winnt.SECURITY_INFORMATION SecurityInfo,
+            IntPtr psidOwner,
+            IntPtr psidGroup,
+            IntPtr pDacl,
+            IntPtr pSacl
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool SetTokenInformation(

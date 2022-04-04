@@ -19,6 +19,7 @@ using ULONG64 = System.UInt64;
 using BOOL = System.Boolean;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {

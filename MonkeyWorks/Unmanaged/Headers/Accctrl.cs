@@ -1,22 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-using WORD = System.UInt16;
-using DWORD = System.UInt32;
-using QWORD = System.UInt64;
-
-using USHORT = System.UInt16;
-using ULONG = System.UInt32;
-
-using LPCTSTR = System.String;
-using LPWSTR = System.Text.StringBuilder;
-
-using PVOID = System.IntPtr;
-using LPVOID = System.IntPtr;
-using DWORD_PTR = System.IntPtr;
-
-using WCHAR = System.Char;
-
 namespace MonkeyWorks.Unmanaged.Headers
 {
     public class Accctrl
@@ -34,12 +18,22 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [StructLayout(LayoutKind.Sequential)]
+        public struct _EXPLICIT_ACCESS_A
+        {
+            public uint grfAccessPermissions;
+            public _ACCESS_MODE grfAccessMode;
+            public uint grfInheritance;
+            public _TRUSTEE_A Trustee;
+        }
+
+
+        [StructLayout(LayoutKind.Sequential)]
         public struct _EXPLICIT_ACCESS_W
         {
             public Winuser.WindowStationSecurity grfAccessPermissions;
             public _ACCESS_MODE grfAccessMode;
             public Inheritance grfInheritance;
-            public TRUSTEE_W Trustee;
+            public _TRUSTEE_W Trustee;
         }
         //FILTER_AGGREGATE_BASIC_INFORMATION, *PFILTER_AGGREGATE_BASIC_INFORMATION;
 
@@ -58,14 +52,34 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [Flags]
-        public enum MULTIPLE_TRUSTEE_OPERATION
+        public enum _MULTIPLE_TRUSTEE_OPERATION
         {
             NO_MULTIPLE_TRUSTEE,
             TRUSTEE_IS_IMPERSONATE
         }
 
         [Flags]
-        public enum TRUSTEE_FORM
+        public enum _SE_OBJECT_TYPE
+        {
+            SE_UNKNOWN_OBJECT_TYPE,
+            SE_FILE_OBJECT,
+            SE_SERVICE,
+            SE_PRINTER,
+            SE_REGISTRY_KEY,
+            SE_LMSHARE,
+            SE_KERNEL_OBJECT,
+            SE_WINDOW_OBJECT,
+            SE_DS_OBJECT,
+            SE_DS_OBJECT_ALL,
+            SE_PROVIDER_DEFINED_OBJECT,
+            SE_WMIGUID_OBJECT,
+            SE_REGISTRY_WOW64_32KEY,
+            SE_REGISTRY_WOW64_64KEY
+        }
+
+
+        [Flags]
+        public enum _TRUSTEE_FORM
         {
             TRUSTEE_IS_SID,
             TRUSTEE_IS_NAME,
@@ -75,7 +89,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [Flags]
-        public enum TRUSTEE_TYPE
+        public enum _TRUSTEE_TYPE
         {
             TRUSTEE_IS_UNKNOWN,
             TRUSTEE_IS_USER,
@@ -88,14 +102,24 @@ namespace MonkeyWorks.Unmanaged.Headers
             TRUSTEE_IS_COMPUTER
         }
 
-        //From PInvoke.net
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct TRUSTEE_W : IDisposable
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
+        public struct _TRUSTEE_A
         {
             public IntPtr pMultipleTrustee;
-            public MULTIPLE_TRUSTEE_OPERATION MultipleTrusteeOperation;
-            public TRUSTEE_FORM TrusteeForm;
-            public TRUSTEE_TYPE TrusteeType;
+            public _MULTIPLE_TRUSTEE_OPERATION MultipleTrusteeOperation;
+            public _TRUSTEE_FORM TrusteeForm;
+            public _TRUSTEE_TYPE TrusteeType;
+            public IntPtr ptstrName;
+        }
+
+        //From PInvoke.net
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct _TRUSTEE_W : IDisposable
+        {
+            public IntPtr pMultipleTrustee;
+            public _MULTIPLE_TRUSTEE_OPERATION MultipleTrusteeOperation;
+            public _TRUSTEE_FORM TrusteeForm;
+            public _TRUSTEE_TYPE TrusteeType;
             public IntPtr ptstrName;
 
             void IDisposable.Dispose()
@@ -105,5 +129,6 @@ namespace MonkeyWorks.Unmanaged.Headers
 
             public string Name { get { return Marshal.PtrToStringAuto(ptstrName); } }
         }
+
     }
 }

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.Win32.SafeHandles;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
@@ -148,14 +149,29 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool Process32Next(IntPtr hSnapshot, ref TiHelp32.tagPROCESSENTRY32 lppe);
 
+        /*
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
+        public static extern IntPtr OpenProcess(
+            [MarshalAs(UnmanagedType.U8)] uint dwDesiredAccess,
+            [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle,
+            [MarshalAs(UnmanagedType.U4)] uint dwProcessId
+        );
+        */
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern IntPtr OpenProcess(ProcessThreadsApi.ProcessSecurityRights dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
+        public static extern IntPtr OpenProcess(
+            [MarshalAs(UnmanagedType.U8)] ProcessThreadsApi.ProcessSecurityRights dwDesiredAccess,
+            [MarshalAs(UnmanagedType.Bool)] bool bInheritHandle,
+            [MarshalAs(UnmanagedType.U4)] uint dwProcessId
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool OpenProcessToken(IntPtr hProcess, uint dwDesiredAccess, out IntPtr hToken);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool OpenProcessToken(
+            IntPtr hProcess,
+            [MarshalAs(UnmanagedType.U8)] ulong dwDesiredAccess, 
+            out IntPtr hToken
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr OpenThread(ProcessThreadsApi.ThreadSecurityRights dwDesiredAccess, bool bInheritHandle, uint dwThreadId);

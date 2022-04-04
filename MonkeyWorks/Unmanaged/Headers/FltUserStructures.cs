@@ -133,7 +133,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         //INSTANCE_BASIC_INFORMATION, PINSTANCE_BASIC_INFORMATION;
 
         [Flags]
-        public enum _INSTANCE_INFORMATION_CLASS
+        public enum _INSTANCE_INFORMATION_CLASS : uint
         {
 
             InstanceBasicInformation,

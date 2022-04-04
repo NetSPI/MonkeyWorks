@@ -59,6 +59,28 @@ namespace MonkeyWorks.Unmanaged.Headers
             CF_GDIOBJLAST = 0x03FF
         }
 
+        [Flags]
+        public enum DesktopSecurity
+        {
+            DELETE = 0x00010000,
+            READ_CONTROL = 0x00020000,
+            SYNCHRONIZE = 0x00100000,
+            WRITE_DAC = 0x00040000,
+            WRITE_OWNER = 0x00080000,
+
+            DESKTOP_CREATEMENU = 0x0004,
+            DESKTOP_CREATEWINDOW = 0x0002,
+            DESKTOP_ENUMERATE = 0x0040,
+            DESKTOP_HOOKCONTROL = 0x0008,
+            DESKTOP_JOURNALPLAYBACK = 0x0020,
+            DESKTOP_JOURNALRECORD = 0x0010,
+            DESKTOP_READOBJECTS = 0x0001,
+            DESKTOP_SWITCHDESKTOP = 0x0100,
+            DESKTOP_WRITEOBJECTS = 0x0080,
+
+            GENERIC_ALL = 0x000F01FF,
+        }
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
         public struct tagMSG 
         {

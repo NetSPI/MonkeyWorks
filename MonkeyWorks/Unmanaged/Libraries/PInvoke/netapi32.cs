@@ -5,6 +5,7 @@ using System.Text;
 using System.Runtime.InteropServices;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
 using DWORD = System.UInt32;
 

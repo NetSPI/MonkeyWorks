@@ -29,7 +29,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [Flags]
-        public enum ProcessSecurityRights : long
+        public enum ProcessSecurityRights : ulong
         {
             PROCESS_TERMINATE = 0x0001,
             PROCESS_CREATE_THREAD = 0x0002,

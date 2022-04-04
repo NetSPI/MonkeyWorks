@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {

@@ -67,7 +67,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
 
         [Flags]
-        public enum LOGON_FLAGS
+        public enum LOGON_FLAGS : uint
         {
             LOGON_WITH_PROFILE = 0x00000001,
             LOGON_NETCREDENTIALS_ONLY = 0x00000002

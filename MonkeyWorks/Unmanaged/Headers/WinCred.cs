@@ -8,10 +8,10 @@ namespace MonkeyWorks.Unmanaged.Headers
         [StructLayout(LayoutKind.Sequential)]
         public struct _CREDENTIAL_ATTRIBUTE
         {
-            string Keyword;
-            int Flags;
-            int ValueSize;
-            IntPtr Value;
+            public string Keyword;
+            public int Flags;
+            public int ValueSize;
+            public IntPtr Value;
         }
 
         [Flags]
@@ -50,7 +50,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             public CRED_TYPE Type;
             public IntPtr TargetName;
             public IntPtr Comment;
-            public FILETIME LastWritten;
+            public System.Runtime.InteropServices.ComTypes.FILETIME LastWritten;
             public uint CredentialBlobSize;
             public IntPtr CredentialBlob;
             public CRED_PERSIST Persist;

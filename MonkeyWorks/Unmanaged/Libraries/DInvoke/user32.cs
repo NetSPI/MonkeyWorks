@@ -2,8 +2,9 @@
 using System.Runtime.InteropServices;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
-namespace MonkeyWorks.Unmanaged.Libraries
+namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
     sealed class user32
     {
@@ -78,6 +79,36 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool OpenClipboard(IntPtr hWndNewOwner);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr OpenDesktopA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpszDesktop,
+            [MarshalAs(UnmanagedType.U4)] uint dwFlags,
+            [MarshalAs(UnmanagedType.Bool)] bool fInherit,
+            Winuser.DesktopSecurity dwDesiredAccess
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr OpenDesktopW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpszDesktop,
+            [MarshalAs(UnmanagedType.U4)] uint dwFlags,
+            [MarshalAs(UnmanagedType.Bool)] bool fInherit,
+            Winuser.DesktopSecurity dwDesiredAccess
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr OpenWindowStationA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpszWinSta,
+            [MarshalAs(UnmanagedType.Bool)] bool fInherit,
+            Winuser.WindowStationSecurity dwDesiredAccess
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr OpenWindowStationW(
+            IntPtr lpszWinSta,
+            [MarshalAs(UnmanagedType.Bool)] bool fInherit,
+            Winuser.WindowStationSecurity dwDesiredAccess
+        );
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool PostMessage(IntPtr hWnd, uint Msg, uint wParam, uint lParam);

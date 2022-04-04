@@ -2,6 +2,7 @@
 using System.Runtime.InteropServices;
 
 using MonkeyWorks.Unmanaged.Headers;
+using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
@@ -10,20 +11,6 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("ntdll.dll", SetLastError = true)]
         public static extern uint NtAllocateLocallyUniqueId( 
             ref Winnt._LUID LocallyUniqueID
-        );
-
-
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern uint NtCreateProcessEx(
-            ref IntPtr ProcessHandle,
-            uint DesiredAccess,
-            IntPtr ObjectAttributes,
-            IntPtr hInheritFromProcess,
-            uint Flags,
-            IntPtr SectionHandle,
-            IntPtr DebugPort,
-            IntPtr ExceptionPort,
-            byte InJob
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -39,23 +26,6 @@ namespace MonkeyWorks.Unmanaged.Libraries
             uint SizeOfStackCommit,
             uint SizeOfStackReserve,
 			IntPtr lpBytesBuffer
-        );
-
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern uint NtCreateToken(
-            out IntPtr TokenHandle,
-            uint DesiredAccess,
-            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
-            Winnt._TOKEN_TYPE TokenType,
-            ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
-            ref long ExpirationTime,
-            ref Ntifs._TOKEN_USER TokenUser,
-            Ntifs._TOKEN_GROUPS TokenGroups,
-            Winnt._TOKEN_PRIVILEGES_ARRAY TokenPrivileges,
-            ref Ntifs._TOKEN_OWNER TokenOwner,
-            ref Winnt._TOKEN_PRIMARY_GROUP TokenPrimaryGroup,
-            ref Winnt._TOKEN_DEFAULT_DACL TokenDefaultDacl,
-            ref Winnt._TOKEN_SOURCE TokenSource
         );
 
         //This is the way
@@ -74,41 +44,6 @@ namespace MonkeyWorks.Unmanaged.Libraries
             ref Winnt._TOKEN_PRIMARY_GROUP TokenPrimaryGroup,
             ref Winnt._TOKEN_DEFAULT_DACL TokenDefaultDacl,
             ref Winnt._TOKEN_SOURCE TokenSource
-        );
-
-        //This may also be the way
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern uint NtCreateToken(
-            out IntPtr TokenHandle,
-            uint DesiredAccess,
-            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
-            Winnt._TOKEN_TYPE TokenType,
-            ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
-            ref long ExpirationTime,
-            ref Ntifs._TOKEN_USER TokenUser,
-            ref Ntifs._TOKEN_GROUPS_DYNAMIC TokenGroups,
-            ref Winnt._TOKEN_PRIVILEGES_ARRAY TokenPrivileges,
-            ref Ntifs._TOKEN_OWNER TokenOwner,
-            ref Winnt._TOKEN_PRIMARY_GROUP TokenPrimaryGroup,
-            ref Winnt._TOKEN_DEFAULT_DACL TokenDefaultDacl,
-            ref Winnt._TOKEN_SOURCE TokenSource
-        );
-
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern uint NtCreateToken(
-            out IntPtr TokenHandle,
-            uint DesiredAccess,
-            IntPtr ObjectAttributes,
-            Winnt._TOKEN_TYPE TokenType,
-            IntPtr AuthenticationId, //From NtAllocateLocallyUniqueId
-            ref long ExpirationTime,
-            IntPtr TokenUser,
-            IntPtr TokenGroups,
-            IntPtr TokenPrivileges,
-            IntPtr TokenOwner,
-            IntPtr TokenPrimaryGroup,
-            IntPtr TokenDefaultDacl,
-            IntPtr TokenSource
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
