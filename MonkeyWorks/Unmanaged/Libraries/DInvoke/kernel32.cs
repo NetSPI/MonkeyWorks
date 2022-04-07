@@ -136,6 +136,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate IntPtr GetCurrentProcess();
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate uint GetCurrentProcessId();
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool GetFileSizeEx(
             IntPtr hFile,
