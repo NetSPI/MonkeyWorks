@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7B0B6914-B58A-4492-9AC3-B55AEB6AB608}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SMB</RootNamespace>
+    <AssemblyName>SMB</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="DCERPC\DCERPCAlterContext.cs" />
+    <Compile Include="DCERPC\DCERPCAUTH3.cs" />
+    <Compile Include="DCERPC\DCERPCBind.cs" />
+    <Compile Include="DCERPC\DCERPCRequest.cs" />
+    <Compile Include="DCOM\DCOMRemoteCreateInstance.cs" />
+    <Compile Include="DCOM\DCOMRemQueryInterface.cs" />
+    <Compile Include="DCOM\DCOMRemRelease.cs" />
+    <Compile Include="DCOM\NTLMSSPVerifier.cs" />
+    <Compile Include="NetBIOS\NetBIOSSessionService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SMB1\SMBCloseRequest.cs" />
+    <Compile Include="SMB1\SMBHeader.cs" />
+    <Compile Include="SMB1\SMBLogoffAndXRequest.cs" />
+    <Compile Include="SMB1\SMBNegotiateProtocolRequest.cs" />
+    <Compile Include="SMB1\SMBNTCreateAndXRequest.cs" />
+    <Compile Include="SMB1\SMBReadAndXRequest.cs" />
+    <Compile Include="SMB1\SMBSessionSetupAndXRequest.cs" />
+    <Compile Include="SMB1\SMBTreeConnectAndXRequest.cs" />
+    <Compile Include="SMB1\SMBTreeDisconnectRequest.cs" />
+    <Compile Include="SMB1\SMBWriteAndXRequest.cs" />
+    <Compile Include="SMB2\SMB2CloseRequest.cs" />
+    <Compile Include="SMB2\SMB2CreateRequest.cs" />
+    <Compile Include="SMB2\SMB2FindFileRequestFile.cs" />
+    <Compile Include="SMB2\SMB2GetInfo.cs" />
+    <Compile Include="SMB2\SMB2Header.cs" />
+    <Compile Include="SMB2\SMB2IoctlRequest.cs" />
+    <Compile Include="SMB2\SMB2NegotiateProtocolRequest.cs" />
+    <Compile Include="SMB2\SMB2NTLMSSPAuth.cs" />
+    <Compile Include="SMB2\SMB2NTLMSSPNegotiate.cs" />
+    <Compile Include="SMB2\SMB2ReadRequest.cs" />
+    <Compile Include="SMB2\SMB2SessionLogoffRequest.cs" />
+    <Compile Include="SMB2\SMB2SessionSetupRequest.cs" />
+    <Compile Include="SMB2\SMB2SetInfo.cs" />
+    <Compile Include="SMB2\SMB2TreeConnectRequest.cs" />
+    <Compile Include="SMB2\SMB2TreeDisconnectRequest.cs" />
+    <Compile Include="SMB2\SMB2WriteRequest.cs" />
+    <Compile Include="SVCCTL\SVCCTLSCMCloseServiceHandle.cs" />
+    <Compile Include="SVCCTL\SVCCTLSCMCreateServiceW.cs" />
+    <Compile Include="SVCCTL\SVCCTLSCMDeleteServiceW.cs" />
+    <Compile Include="SVCCTL\SVCCTLSCMOpenSCManagerW.cs" />
+    <Compile Include="SVCCTL\SVCCTLSCMStartServiceW.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

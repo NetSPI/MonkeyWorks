@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MonkeyWorks
+namespace MonkeyWorks.Resources
 {
     sealed class Combine
     {
