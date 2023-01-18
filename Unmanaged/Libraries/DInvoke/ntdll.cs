@@ -359,9 +359,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtOpenProcess(
-            ref IntPtr hProcess, 
-            ProcessThreadsApi.ProcessSecurityRights processAccess, 
-            ref OBJECT_ATTRIBUTES objectAttributes, 
+            ref IntPtr hProcess,
+            ProcessThreadsApi.ProcessSecurityRights processAccess,
+            ref OBJECT_ATTRIBUTES objectAttributes,
             ref CLIENT_ID clientid
         );
 
@@ -449,12 +449,12 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return:MarshalAs(UnmanagedType.U4)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtSetInformationThread(
             IntPtr ThreadIntPtr,
             _THREAD_INFORMATION_CLASS ThreadInformationClass,
             ref IntPtr ThreadInformation,
-            [MarshalAs(UnmanagedType.U4)] uint ThreadInformationLength 
+            [MarshalAs(UnmanagedType.U4)] uint ThreadInformationLength
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -470,11 +470,25 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtQueryInformationProcess(
             IntPtr ProcessIntPtr,
-            [MarshalAs(UnmanagedType.U4)] _PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            [MarshalAs(UnmanagedType.U4)] 
+            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
             IntPtr ProcessInformation,
-            [MarshalAs(UnmanagedType.U4)] 
+            [MarshalAs(UnmanagedType.U4)]
             uint ProcessInformationLength,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint ReturnLength
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtQueryInformationThread(
+            IntPtr ThreadHandle,
             [MarshalAs(UnmanagedType.U4)] 
+            _THREAD_INFORMATION_CLASS ThreadInformationClass,
+            IntPtr ThreadInformation,
+            [MarshalAs(UnmanagedType.U4)]
+            uint ThreadInformationLength,
+            [MarshalAs(UnmanagedType.U4)]
             ref uint ReturnLength
         );
 
@@ -686,26 +700,94 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x3a0)] public IntPtr WaitOnAddressHashTable;
 
 
-            public bool ImageUsesLargePages => (BitField & 0x0001) >> 0 == 1;
-            public bool IsProtectedProcess => (BitField & 0x0002) >> 1 == 1;
-            public bool IsImageDynamicallyRelocated => (BitField & 0x0004) >> 2 == 1;
-            public bool SkipPatchingUser32Forwarders => (BitField & 0x0008) >> 3 == 1;
-            public bool IsPackagedProcess => (BitField & 0x0010) >> 4 == 1;
-            public bool IsAppContainer => (BitField & 0x0020) >> 5 == 1;
-            public bool IsProtectedProcessLight => (BitField & 0x0040) >> 6 == 1;
-            public bool SpareBits => (BitField & 0x0080) >> 7 == 1;
+            public bool ImageUsesLargePages()
+            {
+                return (BitField & 0x0001) >> 0 == 1;
+            }
 
-            public bool ProcessInJob => (CrossProcessFlags & 0x0001) >> 0 == 1;
-            public bool ProcessInitializing => (CrossProcessFlags & 0x0002) >> 1 == 1;
-            public bool ProcessUsingVEH => (CrossProcessFlags & 0x0004) >> 2 == 1;
-            public bool ProcessUsingVCH => (CrossProcessFlags & 0x0008) >> 3 == 1;
-            public bool ProcessUsingFTH => (CrossProcessFlags & 0x0010) >> 4 == 1;
-            public uint ReservedBits0 => ((CrossProcessFlags & 0xFFFFFFE0) >> 5);
+            public bool IsProtectedProcess()
+            {
+                return (BitField & 0x0002) >> 1 == 1;
+            }
 
-            public bool HeapTracingEnabled => (TracingFlags & 0x0001) >> 0 == 1;
-            public bool CritSecTracingEnabled => (TracingFlags & 0x0002) >> 1 == 1;
-            public bool LibLoaderTracingEnabled => (TracingFlags & 0x0004) >> 2 == 1;
-            public uint SpareTracingBits => ((TracingFlags & 0xFFFFFFF8) >> 3);
+            public bool IsImageDynamicallyRelocated()
+            {
+                return (BitField & 0x0004) >> 2 == 1;
+            }
+
+            public bool SkipPatchingUser32Forwarders()
+            {
+                return (BitField & 0x0008) >> 3 == 1;
+            }
+
+            public bool IsPackagedProcess()
+            {
+                return (BitField & 0x0010) >> 4 == 1;
+            }
+
+            public bool IsAppContainer()
+            {
+                return (BitField & 0x0020) >> 5 == 1;
+            }
+
+            public bool IsProtectedProcessLight()
+            {
+                return (BitField & 0x0040) >> 6 == 1;
+            }
+
+            public bool SpareBits()
+            {
+                return (BitField & 0x0080) >> 7 == 1;
+            }
+
+            public bool ProcessInJob()
+            {
+                return (CrossProcessFlags & 0x0001) >> 0 == 1;
+            }
+
+            public bool ProcessInitializing()
+            {
+                return (CrossProcessFlags & 0x0002) >> 1 == 1;
+            }
+
+            public bool ProcessUsingVEH()
+            {
+                return (CrossProcessFlags & 0x0004) >> 2 == 1;
+            }
+
+            public bool ProcessUsingVCH()
+            {
+                return (CrossProcessFlags & 0x0008) >> 3 == 1;
+            }
+
+            public bool ProcessUsingFTH()
+            {
+                return (CrossProcessFlags & 0x0010) >> 4 == 1;
+            }
+            public uint ReservedBits0()
+            {
+                return ((CrossProcessFlags & 0xFFFFFFE0) >> 5);
+            }
+
+            public bool HeapTracingEnabled()
+            {
+                return (TracingFlags & 0x0001) >> 0 == 1;
+            }
+
+            public bool CritSecTracingEnabled()
+            {
+                return (TracingFlags & 0x0002) >> 1 == 1;
+            }
+
+            public bool LibLoaderTracingEnabled()
+            {
+                return (TracingFlags & 0x0004) >> 2 == 1;
+            }
+
+            public uint SpareTracingBits()
+            {
+                return ((TracingFlags & 0xFFFFFFF8) >> 3);
+            }
 
         }
 
@@ -862,7 +944,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
 
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
-        [SecurityCritical]     
+        [SecurityCritical]
         public struct UNICODE_STRING : IDisposable
         {
             public ushort Length;
@@ -955,22 +1037,22 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint RtlCreateUserThread(
-            IntPtr processHandle, 
-            IntPtr threadSecurity, 
-            bool createSuspended, 
-            uint stackZeroBits, 
+            IntPtr processHandle,
+            IntPtr threadSecurity,
+            bool createSuspended,
+            uint stackZeroBits,
             ref ulong stackReserved,
             ref ulong stackCommit,
-            ref ulong startAddress, 
-            IntPtr parameter, 
-            ref IntPtr threadHandle, 
+            ref ulong startAddress,
+            IntPtr parameter,
+            ref IntPtr threadHandle,
             IntPtr clientId
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint RtlReportSilentProcessExit(
-            IntPtr processHandle, 
+            IntPtr processHandle,
             [MarshalAs(UnmanagedType.U4)]
             uint exitStatus
         );
@@ -1491,6 +1573,20 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             ThreadSetTlsArrayAddress,
             ThreadIsIoPending,
             ThreadHideFromDebugger
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _THREAD_BASIC_INFORMATION
+        {
+            [MarshalAs(UnmanagedType.U4)]
+            public uint ExitStatus;
+            public IntPtr TebBaseAddress;
+            public CLIENT_ID ClientId;
+            public IntPtr AffinityMask;
+            [MarshalAs(UnmanagedType.I4)]
+            public int Priority;
+            [MarshalAs(UnmanagedType.I4)]
+            public int BasePriority;
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]

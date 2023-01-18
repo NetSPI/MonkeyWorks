@@ -129,6 +129,20 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool CreateProcessWithTokenWEx(
+            IntPtr hToken,
+            [MarshalAs(UnmanagedType.U4)] Winbase.LOGON_FLAGS dwLogonFlags,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpCommandLine,
+            [MarshalAs(UnmanagedType.U4)] Winbase.CREATION_FLAGS dwCreationFlags,
+            IntPtr lpEnvironment,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory,
+            ref Winbase._STARTUPINFOEX lpStartupInfo,
+            out Winbase._PROCESS_INFORMATION lpProcessInfo
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr CreateServiceW(
             IntPtr hSCManager,
             [MarshalAs(UnmanagedType.LPWStr)] string lpServiceName,
