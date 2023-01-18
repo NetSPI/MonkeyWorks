@@ -34,6 +34,17 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr CreateEventW(
+            ref Winbase._SECURITY_ATTRIBUTES lpEventAttributes,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bManualReset,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bInitialState,
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpName
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public delegate IntPtr CreateFileW(
             [MarshalAs(UnmanagedType.LPWStr)]
             string lpFileName,
@@ -47,7 +58,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr hTemplateFile
         );
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public delegate IntPtr CreateFileMappingW(
             IntPtr hFile,
             Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes,
@@ -61,7 +72,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             string lpFileName
         );
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool CreateProcessW(
             [MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName,
@@ -73,21 +84,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr lpEnvironment,
             [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory,
             ref Winbase._STARTUPINFO lpStartupInfo,
-            out Winbase._PROCESS_INFORMATION lpProcessInformation
-        );
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool CreateProcessW_EX(
-            [MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpCommandLine,
-            ref Winbase._SECURITY_ATTRIBUTES lpProcessAttributes,
-            ref Winbase._SECURITY_ATTRIBUTES lpThreadAttributes,
-            [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles,
-            Winbase.CREATION_FLAGS dwCreationFlags,
-            IntPtr lpEnvironment,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory,
-            ref Winbase._STARTUPINFOEX lpStartupInfo,
             out Winbase._PROCESS_INFORMATION lpProcessInformation
         );
 
@@ -136,6 +132,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate IntPtr GetCurrentProcess();
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint GetCurrentProcessId();
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -232,6 +229,10 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate uint GlobalSize(IntPtr hMem);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool IsProcessCritical(IntPtr hProcess, ref bool Critical);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -394,6 +395,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool SetThreadContext(IntPtr hThread, IntPtr lpContext);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -401,12 +403,15 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint SuspendThread(IntPtr hThread);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool TerminateProcess(IntPtr hProcess, uint uExitCode);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool Thread32First(IntPtr hSnapshot, ref TiHelp32.tagTHREADENTRY32 lpte);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool Thread32Next(IntPtr hSnapshot, ref TiHelp32.tagTHREADENTRY32 lpte);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -420,18 +425,23 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate bool VirtualFreeEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, uint dwFreeType);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool VirtualProtect(IntPtr lpAddress, uint dwSize, Winnt.MEMORY_PROTECTION_CONSTANTS flNewProtect, ref Winnt.MEMORY_PROTECTION_CONSTANTS lpflOldProtect);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool VirtualProtectEx(IntPtr hHandle, IntPtr lpAddress, uint dwSize, Winnt.MEMORY_PROTECTION_CONSTANTS flNewProtect, ref Winnt.MEMORY_PROTECTION_CONSTANTS lpflOldProtect);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint VirtualQuery(IntPtr lpAddress, ref Winnt._MEMORY_BASIC_INFORMATION64 lpBuffer, uint dwLength);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate int VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out Winnt._MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out Winnt._MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool WaitForSingleObject(IntPtr hProcess, uint nSize);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]

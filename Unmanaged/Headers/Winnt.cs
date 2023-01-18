@@ -19,7 +19,7 @@ using SIZE_T = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Winnt
+    public sealed class Winnt
     {
         //Process Security and Access Rights
         //https://docs.microsoft.com/en-us/windows/desktop/procthread/process-security-and-access-rights
@@ -208,7 +208,8 @@ namespace MonkeyWorks.Unmanaged.Headers
             WINSTA_EXITWINDOWS = 0x00000040,
             WINSTA_ENUMERATE = 0x00000100,
             WINSTA_READSCREEN = 0x00000200,
-            WINSTA_ALL_ACCESS = 0x0000037F
+            WINSTA_ALL_ACCESS = 0x0000037F,
+            EVENT_QUERY_STATE = 0x0001
         };
 
         [Flags]
@@ -369,8 +370,8 @@ namespace MonkeyWorks.Unmanaged.Headers
         [StructLayout(LayoutKind.Sequential)]
         public struct _EXCEPTION_POINTERS
         {
-            public System.IntPtr ExceptionRecord;
-            public System.IntPtr ContextRecord;
+            public _EXCEPTION_RECORD ExceptionRecord;
+            public CONTEXT64 ContextRecord;
         }
 
         [StructLayout(LayoutKind.Sequential)]

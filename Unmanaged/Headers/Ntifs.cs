@@ -10,7 +10,7 @@ using DWORD = System.UInt32;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    class Ntifs
+    public sealed class Ntifs
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _SID

@@ -5,14 +5,16 @@ using System.Security;
 using MonkeyWorks.Unmanaged.Headers;
 using MonkeyWorks.Unmanaged.Libraries;
 
+#pragma warning disable 169
+
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class ntdll
+    public sealed class ntdll
     {
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         public struct _CURDIR
         {
-            public UNICODE_STRING DosPath;
+            public ntbasic._UNICODE_STRING DosPath;
             public IntPtr Handle;
 
         }
@@ -182,6 +184,37 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtAlpcConnectPort(
+            out IntPtr PortHandle,
+            ntbasic._UNICODE_STRING PortName,
+            OBJECT_ATTRIBUTES ObjectAttributes,
+            ntlpcapi._ALPC_PORT_ATTRIBUTES PortAttributes,
+            ntlpcapi.AlpcMessageFlags Flags,
+            IntPtr RequiredServerSid,
+            IntPtr ConnectionMessage,
+            IntPtr BufferLength,
+            IntPtr OutMessageAttributes,
+            IntPtr InMessageAttributes,
+            IntPtr Timeout
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtAlpcSendWaitReceivePort(
+            IntPtr PortHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            ntlpcapi.AlpcMessageFlags Flags,
+            ref ntlpcapi.ReportExceptionWerAlpcMessage SendMessage,
+            IntPtr SendMessageAttributes,
+            ref ntlpcapi.ReportExceptionWerAlpcMessage ReceiveMessage,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint BufferLength,
+            IntPtr ReceiveMessageAttributes,
+            IntPtr Timeout
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtClose(IntPtr IntPtr);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -197,16 +230,20 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr ExceptionPort
         );
 
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern uint NtCreateProcessEx(
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtCreateProcessEx(
             ref IntPtr ProcessIntPtr,
+            [MarshalAs(UnmanagedType.U4)]
             uint DesiredAccess,
             IntPtr ObjectAttributes,
             IntPtr hInheritFromProcess,
+            [MarshalAs(UnmanagedType.U4)]
             uint Flags,
             IntPtr SectionIntPtr,
             IntPtr DebugPort,
             IntPtr ExceptionPort,
+            [MarshalAs(UnmanagedType.Bool)]
             bool InJob
         );
 
@@ -233,7 +270,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [MarshalAs(UnmanagedType.U4)] ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
             ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
             IntPtr ProcessIntPtr,
-            ref CLIENT_ID ClientId,
+            ref ntbasic.CLIENT_ID ClientId,
             ref Winnt.CONTEXT64 ThreadContext,
             ref _INITIAL_TEB IntialTeb,
             bool CreateSuspended
@@ -316,12 +353,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             ref Winnt.CONTEXT64 lpContext
         );
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct CLIENT_ID
-        {
-            public IntPtr UniqueProcess;
-            public IntPtr UniqueThread;
-        }
+        
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
@@ -346,6 +378,15 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtOpenEvent(
+            out IntPtr EventHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            Winnt.ACCESS_MASK DesiredAccess,
+            ref OBJECT_ATTRIBUTES ObjectAttributes 
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtOpenFile(
            ref IntPtr FileHandle,
            Winnt.ACCESS_MASK DesiredAccess,
@@ -359,10 +400,10 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtOpenProcess(
-            ref IntPtr hProcess,
-            ProcessThreadsApi.ProcessSecurityRights processAccess,
-            ref OBJECT_ATTRIBUTES objectAttributes,
-            ref CLIENT_ID clientid
+            ref IntPtr hProcess, 
+            ProcessThreadsApi.ProcessSecurityRights processAccess, 
+            ref OBJECT_ATTRIBUTES objectAttributes, 
+            ref ntbasic.CLIENT_ID clientid
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -379,7 +420,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             ref IntPtr ThreadIntPtr,
             ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
             ref OBJECT_ATTRIBUTES ObjectAttributes,
-            ref CLIENT_ID ClientId
+            ref ntbasic.CLIENT_ID ClientId
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -449,12 +490,12 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.U4)]
+        [return:MarshalAs(UnmanagedType.U4)]
         public delegate uint NtSetInformationThread(
             IntPtr ThreadIntPtr,
             _THREAD_INFORMATION_CLASS ThreadInformationClass,
             ref IntPtr ThreadInformation,
-            [MarshalAs(UnmanagedType.U4)] uint ThreadInformationLength
+            [MarshalAs(UnmanagedType.U4)] uint ThreadInformationLength 
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -469,13 +510,13 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtQueryInformationProcess(
-            IntPtr ProcessIntPtr,
+            IntPtr ProcessHandle,
             [MarshalAs(UnmanagedType.U4)] 
             _PROCESS_INFORMATION_CLASS ProcessInformationClass,
             IntPtr ProcessInformation,
-            [MarshalAs(UnmanagedType.U4)]
+            [MarshalAs(UnmanagedType.U4)] 
             uint ProcessInformationLength,
-            [MarshalAs(UnmanagedType.U4)]
+            [MarshalAs(UnmanagedType.U4)] 
             ref uint ReturnLength
         );
 
@@ -557,7 +598,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [StructLayout(LayoutKind.Sequential)]
-        public class WnfTypeId
+        public struct _WNF_TYPE_ID
         {
             public Guid TypeId;
         }
@@ -566,16 +607,25 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtUpdateWnfStateData(
             [MarshalAs(UnmanagedType.U8)]
-            ref ulong StateName,
+            ref Wnf.WnfStateNames StateName,
             IntPtr Buffer,
             [MarshalAs(UnmanagedType.U4)]
             uint Length,
-            WnfTypeId TypeId,
+            _WNF_TYPE_ID TypeId,
             IntPtr ExplicitScope,
             [MarshalAs(UnmanagedType.U4)]
             int MatchingChangeStamp,
             [MarshalAs(UnmanagedType.Bool)]
             bool CheckChangeStamp
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint NtWaitForSingleObject(
+            IntPtr Handle,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool Alertable,
+            uint Timeout
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -677,7 +727,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x2d0)] public ulong AppCompatFlagsUser;
             [FieldOffset(0x2d8)] public IntPtr pShimData;
             [FieldOffset(0x2e0)] public IntPtr AppCompatInfo;
-            [FieldOffset(0x2e8)] public UNICODE_STRING CSDVersion;
+            [FieldOffset(0x2e8)] public ntbasic._UNICODE_STRING CSDVersion;
             [FieldOffset(0x2f8)] public IntPtr ActivationContextData;
             [FieldOffset(0x300)] public IntPtr ProcessAssemblyStorageMap;
             [FieldOffset(0x308)] public IntPtr SystemDefaultActivationContextData;
@@ -700,94 +750,26 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x3a0)] public IntPtr WaitOnAddressHashTable;
 
 
-            public bool ImageUsesLargePages()
-            {
-                return (BitField & 0x0001) >> 0 == 1;
-            }
+            public bool ImageUsesLargePages => (BitField & 0x0001) >> 0 == 1;
+            public bool IsProtectedProcess => (BitField & 0x0002) >> 1 == 1;
+            public bool IsImageDynamicallyRelocated => (BitField & 0x0004) >> 2 == 1;
+            public bool SkipPatchingUser32Forwarders => (BitField & 0x0008) >> 3 == 1;
+            public bool IsPackagedProcess => (BitField & 0x0010) >> 4 == 1;
+            public bool IsAppContainer => (BitField & 0x0020) >> 5 == 1;
+            public bool IsProtectedProcessLight => (BitField & 0x0040) >> 6 == 1;
+            public bool SpareBits => (BitField & 0x0080) >> 7 == 1;
 
-            public bool IsProtectedProcess()
-            {
-                return (BitField & 0x0002) >> 1 == 1;
-            }
+            public bool ProcessInJob => (CrossProcessFlags & 0x0001) >> 0 == 1;
+            public bool ProcessInitializing => (CrossProcessFlags & 0x0002) >> 1 == 1;
+            public bool ProcessUsingVEH => (CrossProcessFlags & 0x0004) >> 2 == 1;
+            public bool ProcessUsingVCH => (CrossProcessFlags & 0x0008) >> 3 == 1;
+            public bool ProcessUsingFTH => (CrossProcessFlags & 0x0010) >> 4 == 1;
+            public uint ReservedBits0 => ((CrossProcessFlags & 0xFFFFFFE0) >> 5);
 
-            public bool IsImageDynamicallyRelocated()
-            {
-                return (BitField & 0x0004) >> 2 == 1;
-            }
-
-            public bool SkipPatchingUser32Forwarders()
-            {
-                return (BitField & 0x0008) >> 3 == 1;
-            }
-
-            public bool IsPackagedProcess()
-            {
-                return (BitField & 0x0010) >> 4 == 1;
-            }
-
-            public bool IsAppContainer()
-            {
-                return (BitField & 0x0020) >> 5 == 1;
-            }
-
-            public bool IsProtectedProcessLight()
-            {
-                return (BitField & 0x0040) >> 6 == 1;
-            }
-
-            public bool SpareBits()
-            {
-                return (BitField & 0x0080) >> 7 == 1;
-            }
-
-            public bool ProcessInJob()
-            {
-                return (CrossProcessFlags & 0x0001) >> 0 == 1;
-            }
-
-            public bool ProcessInitializing()
-            {
-                return (CrossProcessFlags & 0x0002) >> 1 == 1;
-            }
-
-            public bool ProcessUsingVEH()
-            {
-                return (CrossProcessFlags & 0x0004) >> 2 == 1;
-            }
-
-            public bool ProcessUsingVCH()
-            {
-                return (CrossProcessFlags & 0x0008) >> 3 == 1;
-            }
-
-            public bool ProcessUsingFTH()
-            {
-                return (CrossProcessFlags & 0x0010) >> 4 == 1;
-            }
-            public uint ReservedBits0()
-            {
-                return ((CrossProcessFlags & 0xFFFFFFE0) >> 5);
-            }
-
-            public bool HeapTracingEnabled()
-            {
-                return (TracingFlags & 0x0001) >> 0 == 1;
-            }
-
-            public bool CritSecTracingEnabled()
-            {
-                return (TracingFlags & 0x0002) >> 1 == 1;
-            }
-
-            public bool LibLoaderTracingEnabled()
-            {
-                return (TracingFlags & 0x0004) >> 2 == 1;
-            }
-
-            public uint SpareTracingBits()
-            {
-                return ((TracingFlags & 0xFFFFFFF8) >> 3);
-            }
+            public bool HeapTracingEnabled => (TracingFlags & 0x0001) >> 0 == 1;
+            public bool CritSecTracingEnabled => (TracingFlags & 0x0002) >> 1 == 1;
+            public bool LibLoaderTracingEnabled => (TracingFlags & 0x0004) >> 2 == 1;
+            public uint SpareTracingBits => ((TracingFlags & 0xFFFFFFF8) >> 3);
 
         }
 
@@ -908,15 +890,15 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
                 SecurityQualityOfService = IntPtr.Zero;
 
                 Length = Marshal.SizeOf(this);
-                ObjectName = new UNICODE_STRING(name);
+                ObjectName = new ntbasic._UNICODE_STRING(name);
             }
 
-            public UNICODE_STRING ObjectName
+            public ntbasic._UNICODE_STRING ObjectName
             {
                 get
                 {
-                    return (UNICODE_STRING)Marshal.PtrToStructure(
-                        objectName, typeof(UNICODE_STRING)
+                    return (ntbasic._UNICODE_STRING)Marshal.PtrToStructure(
+                        objectName, typeof(ntbasic._UNICODE_STRING)
                     );
                 }
 
@@ -935,67 +917,17 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             {
                 if (objectName != IntPtr.Zero)
                 {
-                    Marshal.DestroyStructure(objectName, typeof(UNICODE_STRING));
+                    Marshal.DestroyStructure(objectName, typeof(ntbasic._UNICODE_STRING));
                     Marshal.FreeHGlobal(objectName);
                     objectName = IntPtr.Zero;
                 }
             }
         }
 
-
-        [StructLayout(LayoutKind.Sequential, Pack = 8)]
-        [SecurityCritical]
-        public struct UNICODE_STRING : IDisposable
-        {
-            public ushort Length;
-            public ushort MaximumLength;
-            public IntPtr buffer;
-
-            public UNICODE_STRING(string s)
-            {
-                Length = (ushort)(s.Length * 2);
-                MaximumLength = (ushort)(Length + 2);
-                buffer = Marshal.StringToHGlobalUni(s);
-            }
-
-            public void Dispose()
-            {
-                Marshal.FreeHGlobal(buffer);
-                buffer = IntPtr.Zero;
-            }
-
-            [HandleProcessCorruptedStateExceptions]
-            public override string ToString()
-            {
-                string strBuffer = string.Empty;
-
-                try
-                {
-                    strBuffer = Marshal.PtrToStringUni(buffer);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
-                return strBuffer;
-            }
-
-            public void FromString(string s)
-            {
-                buffer = Marshal.StringToHGlobalUni(s);
-            }
-
-            public IntPtr Address()
-            {
-                return buffer;
-            }
-        }
-
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct CURDIR
         {
-            public UNICODE_STRING DosPath;
+            public ntbasic._UNICODE_STRING DosPath;
             public IntPtr Handle;
 
         }
@@ -1022,40 +954,46 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint RtlCreateProcessParametersEx(
             out IntPtr pProcessParameters,
-            ref UNICODE_STRING ImagePathName,
-            ref UNICODE_STRING DllPath,
-            ref UNICODE_STRING CurrentDirectory,
-            ref UNICODE_STRING CommandLine,
+            ref ntbasic._UNICODE_STRING ImagePathName,
+            ref ntbasic._UNICODE_STRING DllPath,
+            ref ntbasic._UNICODE_STRING CurrentDirectory,
+            ref ntbasic._UNICODE_STRING CommandLine,
             IntPtr Environment,
-            ref UNICODE_STRING WindowTitle,
-            ref UNICODE_STRING DesktopInfo,
-            ref UNICODE_STRING ShellInfo,
-            ref UNICODE_STRING RuntimeData,
+            ref ntbasic._UNICODE_STRING WindowTitle,
+            ref ntbasic._UNICODE_STRING DesktopInfo,
+            ref ntbasic._UNICODE_STRING ShellInfo,
+            ref ntbasic._UNICODE_STRING RuntimeData,
             [MarshalAs(UnmanagedType.U4)] uint Flags
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint RtlCreateUserThread(
-            IntPtr processHandle,
-            IntPtr threadSecurity,
-            bool createSuspended,
-            uint stackZeroBits,
+            IntPtr processHandle, 
+            IntPtr threadSecurity, 
+            [MarshalAs(UnmanagedType.Bool)]
+            bool createSuspended, 
+            [MarshalAs(UnmanagedType.U8)]
+            uint stackZeroBits, 
+            [MarshalAs(UnmanagedType.U8)]
             ref ulong stackReserved,
+            [MarshalAs(UnmanagedType.U8)]
             ref ulong stackCommit,
-            ref ulong startAddress,
-            IntPtr parameter,
-            ref IntPtr threadHandle,
+            [MarshalAs(UnmanagedType.U8)]
+            ref ulong startAddress, 
+            IntPtr parameter, 
+            ref IntPtr threadHandle, 
             IntPtr clientId
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint RtlReportSilentProcessExit(
-            IntPtr processHandle,
+            IntPtr processHandle, 
             [MarshalAs(UnmanagedType.U4)]
             uint exitStatus
         );
+
 
         [Flags]
         public enum _OBJECT_INFORMATION_CLASS : int
@@ -1073,7 +1011,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [StructLayout(LayoutKind.Sequential)]
         public struct _PUBLIC_OBJECT_TYPE_INFORMATION
         {
-            public UNICODE_STRING TypeName;
+            public ntbasic._UNICODE_STRING TypeName;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
             ulong[] Reserved;
         }
@@ -1102,9 +1040,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x028)] public IntPtr StandardOutput;
             [FieldOffset(0x030)] public IntPtr StandardError;
             [FieldOffset(0x038)] public _CURDIR CurrentDirectory;
-            [FieldOffset(0x050)] public UNICODE_STRING DllPath;
-            [FieldOffset(0x060)] public UNICODE_STRING ImagePathName;
-            [FieldOffset(0x070)] public UNICODE_STRING CommandLine;
+            [FieldOffset(0x050)] public ntbasic._UNICODE_STRING DllPath;
+            [FieldOffset(0x060)] public ntbasic._UNICODE_STRING ImagePathName;
+            [FieldOffset(0x070)] public ntbasic._UNICODE_STRING CommandLine;
             [FieldOffset(0x080)] public IntPtr Environment;
             [FieldOffset(0x088)] public uint StartingX;
             [FieldOffset(0x08c)] public uint StartingY;
@@ -1115,10 +1053,10 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x0a0)] public uint FillAttribute;
             [FieldOffset(0x0a4)] public uint WindowFlags;
             [FieldOffset(0x0a8)] public uint ShowWindowFlags;
-            [FieldOffset(0x0b0)] public UNICODE_STRING WindowTitle;
-            [FieldOffset(0x0c0)] public UNICODE_STRING DesktopInfo;
-            [FieldOffset(0x0d0)] public UNICODE_STRING ShellInfo;
-            [FieldOffset(0x0e0)] public UNICODE_STRING RuntimeData;
+            [FieldOffset(0x0b0)] public ntbasic._UNICODE_STRING WindowTitle;
+            [FieldOffset(0x0c0)] public ntbasic._UNICODE_STRING DesktopInfo;
+            [FieldOffset(0x0d0)] public ntbasic._UNICODE_STRING ShellInfo;
+            [FieldOffset(0x0e0)] public ntbasic._UNICODE_STRING RuntimeData;
             [FieldOffset(0x0f0)] public RTL_DRIVE_LETTER_CURDIR CurrentDirectores0;
             [FieldOffset(0x108)] public RTL_DRIVE_LETTER_CURDIR CurrentDirectores1;
             [FieldOffset(0x120)] public RTL_DRIVE_LETTER_CURDIR CurrentDirectores2;
@@ -1173,9 +1111,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             public IntPtr StandardOutput;
             public IntPtr StandardError;
             public _CURDIR CurrentDirectory;
-            public UNICODE_STRING DllPath;
-            public UNICODE_STRING ImagePathName;
-            public UNICODE_STRING CommandLine;
+            public ntbasic._UNICODE_STRING DllPath;
+            public ntbasic._UNICODE_STRING ImagePathName;
+            public ntbasic._UNICODE_STRING CommandLine;
             public IntPtr Environment;
             public uint StartingPositionLeft;
             public uint StartingPositionTop;
@@ -1187,10 +1125,10 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             public uint WindowFlags;
             public uint ShowWindowFlags;
             public uint Reserved;
-            public UNICODE_STRING WindowTitle;
-            public UNICODE_STRING DesktopName;
-            public UNICODE_STRING ShellInfo;
-            public UNICODE_STRING RuntimeData;
+            public ntbasic._UNICODE_STRING WindowTitle;
+            public ntbasic._UNICODE_STRING DesktopName;
+            public ntbasic._UNICODE_STRING ShellInfo;
+            public ntbasic._UNICODE_STRING RuntimeData;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
             public _RTL_DRIVE_LETTER_CURDIR[] CurrentDirectories;//[0x20];
             public ulong EnvironmentSize;
@@ -1462,7 +1400,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         }
 
 
-        /*
+
         public struct _PEB
         {
             public bool InheritedAddressSpace;      // These four fields cannot change unless the
@@ -1549,7 +1487,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             public ulong[] GdiIntPtrBuffer;
 
         }
-        */
 
         //http://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FNT%20Objects%2FThread%2FNtSetInformationThread.html
         [Flags]

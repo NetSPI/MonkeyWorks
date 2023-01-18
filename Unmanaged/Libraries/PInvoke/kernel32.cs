@@ -263,7 +263,8 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern int VirtualQueryEx64(IntPtr hProcess, IntPtr lpAddress, out Winnt._MEMORY_BASIC_INFORMATION64 lpBuffer, uint dwLength);
 
         [DllImport("kernel32.dll", SetLastError = true)]
-        public static extern bool WaitForSingleObject(IntPtr hProcess, uint nSize);
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint WaitForSingleObject(IntPtr hHandle, uint nSize);
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern uint WaitForSingleObjectEx(IntPtr hProcess, IntPtr hHandle, uint dwMilliseconds);
