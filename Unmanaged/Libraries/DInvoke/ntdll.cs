@@ -353,8 +353,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             ref Winnt.CONTEXT64 lpContext
         );
 
-        
-
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtMapViewOfSection(
@@ -652,6 +650,36 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr Buffer,
             ulong NumberOfBytesToWrite,
             ref ulong NumberOfBytesWritten
+        );
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct T_CLIENT_ID
+        {
+            public IntPtr UniqueProcess;
+            public IntPtr UniqueThread;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct T_RTLP_PROCESS_REFLECTION_REFLECTION_INFORMATION
+        {
+            public IntPtr ReflectionProcessHandle;
+            public IntPtr ReflectionThreadHandle;
+            public T_CLIENT_ID ReflectionClientId;
+        }
+
+        public const uint RTL_CLONE_PROCESS_FLAGS_CREATE_SUSPENDED = 0x00000001;
+        public const uint RTL_CLONE_PROCESS_FLAGS_INHERIT_HANDLES = 0x00000002;
+        public const uint RTL_CLONE_PROCESS_FLAGS_NO_SYNCHRONIZE = 0x00000004;
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint RtlCreateProcessReflection(
+            IntPtr ProcessHandle,
+            uint Flags,
+            IntPtr StartRoutine,
+            IntPtr StartContext,
+            IntPtr EventHandle,
+            out T_RTLP_PROCESS_REFLECTION_REFLECTION_INFORMATION ReflectionInformation
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -1518,7 +1546,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [MarshalAs(UnmanagedType.U4)]
             public uint ExitStatus;
             public IntPtr TebBaseAddress;
-            public CLIENT_ID ClientId;
+            public ntbasic.CLIENT_ID ClientId;
             public IntPtr AffinityMask;
             [MarshalAs(UnmanagedType.I4)]
             public int Priority;

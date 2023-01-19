@@ -87,6 +87,21 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             out Winbase._PROCESS_INFORMATION lpProcessInformation
         );
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool CreateProcessW_EX(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpCommandLine,
+            ref Winbase._SECURITY_ATTRIBUTES lpProcessAttributes,
+            ref Winbase._SECURITY_ATTRIBUTES lpThreadAttributes,
+            [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles,
+            Winbase.CREATION_FLAGS dwCreationFlags,
+            IntPtr lpEnvironment,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory,
+            ref Winbase._STARTUPINFOEX lpStartupInfo,
+            out Winbase._PROCESS_INFORMATION lpProcessInformation
+        );
+
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr CreateNamedPipeA(
             string lpName,
@@ -232,10 +247,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool IsProcessCritical(IntPtr hProcess, ref bool Critical);
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool InitializeProcThreadAttributeList(
             IntPtr lpAttributeList,
             [MarshalAs(UnmanagedType.U4)]
@@ -243,19 +254,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [MarshalAs(UnmanagedType.U4)]
             uint dwFlags,
             ref IntPtr lpSize
-        );
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool UpdateProcThreadAttribute(
-            IntPtr lpAttributeList,
-            [MarshalAs(UnmanagedType.U4)]
-            uint dwFlags,
-            IntPtr Attribute,
-            IntPtr lpValue,
-            IntPtr cbSize,
-            IntPtr lpPreviousValue,
-            IntPtr lpReturnSize
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -413,6 +411,19 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool Thread32Next(IntPtr hSnapshot, ref TiHelp32.tagTHREADENTRY32 lpte);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool UpdateProcThreadAttribute(
+            IntPtr lpAttributeList,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwFlags,
+            IntPtr Attribute,
+            IntPtr lpValue,
+            IntPtr cbSize,
+            IntPtr lpPreviousValue,
+            IntPtr lpReturnSize
+        );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, Winnt.MEMORY_PROTECTION_CONSTANTS flProtect);

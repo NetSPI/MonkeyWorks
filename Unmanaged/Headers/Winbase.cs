@@ -171,7 +171,8 @@ namespace MonkeyWorks.Unmanaged.Headers
         [StructLayout(LayoutKind.Sequential)]
         public struct _STARTUPINFOEX
         {
-            _STARTUPINFO StartupInfo;
+            public _STARTUPINFO StartupInfo;
+            public IntPtr lpAttributeList;
             // PPROC_THREAD_ATTRIBUTE_LIST lpAttributeList;
         };
 

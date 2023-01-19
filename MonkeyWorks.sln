@@ -3,11 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.33214.272
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unmanaged", "Unmanaged\Unmanaged.csproj", "{C3D9B538-D799-4F50-A5E7-2C6F6933E258}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMB", "SMB\SMB.csproj", "{7B0B6914-B58A-4492-9AC3-B55AEB6AB608}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Resources", "Resources\Resources.csproj", "{5465716B-B1AC-4DBB-9713-A6BBE1BF792A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonkeyWorks", "MonkeyWorks.csproj", "{C3D9B538-D799-4F50-A5E7-2C6F6933E258}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
