@@ -21,11 +21,14 @@ namespace MonkeyWorks.Unmanaged.Headers
 {
     public sealed class Winnt
     {
+        //LEGACY DUPLICATES
+        public const uint SYNCHRONIZE = (uint)ACCESS_MASK.SYNCHRONIZE;
+        public const uint STANDARD_RIGHTS_READ = (uint)ACCESS_MASK.STANDARD_RIGHTS_READ;
+
         //Process Security and Access Rights
         //https://docs.microsoft.com/en-us/windows/desktop/procthread/process-security-and-access-rights
         public const uint DELETE = 0x00010000;
-        public const uint READ_CONTROL = 0x00020000;
-        public const uint SYNCHRONIZE = 0x00100000;
+        public const uint READ_CONTROL = 0x00020000;        
         public const uint WRITE_DAC = 0x00040000;
         public const uint WRITE_OWNER = 0x00080000;
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396
@@ -46,7 +49,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         //Token 
         //http://www.pinvoke.net/default.aspx/advapi32.openprocesstoken
         public const DWORD STANDARD_RIGHTS_REQUIRED = 0x000F0000;
-        public const DWORD STANDARD_RIGHTS_READ = 0x00020000;
+        //Try not to break too much       
         public const DWORD TOKEN_ASSIGN_PRIMARY = 0x0001;
         public const DWORD TOKEN_DUPLICATE = 0x0002;
         public const DWORD TOKEN_IMPERSONATE = 0x0004;
@@ -56,7 +59,8 @@ namespace MonkeyWorks.Unmanaged.Headers
         public const DWORD TOKEN_ADJUST_GROUPS = 0x0040;
         public const DWORD TOKEN_ADJUST_DEFAULT = 0x0080;
         public const DWORD TOKEN_ADJUST_SESSIONID = 0x0100;
-        public const DWORD TOKEN_READ = (STANDARD_RIGHTS_READ | TOKEN_QUERY);
+        public const DWORD TOKEN_READ = ((uint)ACCESS_MASK.STANDARD_RIGHTS_READ | TOKEN_QUERY);
+        public const DWORD TOKEN_WRITE = ((uint)ACCESS_MASK.STANDARD_RIGHTS_WRITE | TOKEN_ADJUST_PRIVILEGES | TOKEN_ADJUST_GROUPS | TOKEN_ADJUST_DEFAULT);
         public const DWORD TOKEN_ALL_ACCESS = (STANDARD_RIGHTS_REQUIRED | TOKEN_ASSIGN_PRIMARY |
             TOKEN_DUPLICATE | TOKEN_IMPERSONATE | TOKEN_QUERY | TOKEN_QUERY_SOURCE |
             TOKEN_ADJUST_PRIVILEGES | TOKEN_ADJUST_GROUPS | TOKEN_ADJUST_DEFAULT |
@@ -763,6 +767,25 @@ namespace MonkeyWorks.Unmanaged.Headers
             public _LUID_AND_ATTRIBUTES[] Privilege;
         }
         //PRIVILEGE_SET, * PPRIVILEGE_SET
+
+        [Flags]
+        public enum REGSAM : uint
+        {
+            KEY_QUERY_VALUE = 0x00000001,
+            KEY_SET_VALUE = 0x00000002,
+            KEY_CREATE_SUB_KEY = 0x00000004,
+            KEY_ENUMERATE_SUB_KEYS = 0x00000008,
+            KEY_NOTIFY = 0x00000010,
+            KEY_CREATE_LINK = 0x00000020,
+
+            KEY_READ = (((uint)ACCESS_MASK.STANDARD_RIGHTS_READ | KEY_QUERY_VALUE | KEY_ENUMERATE_SUB_KEYS |  KEY_NOTIFY) & (~(uint)ACCESS_MASK.SYNCHRONIZE)),
+
+            KEY_WRITE = (((uint)ACCESS_MASK.STANDARD_RIGHTS_WRITE | KEY_SET_VALUE|  KEY_CREATE_SUB_KEY)  & (~(uint)ACCESS_MASK.SYNCHRONIZE)),
+
+            KEY_EXECUTE = ((KEY_READ) & (~SYNCHRONIZE)),
+
+            KEY_ALL_ACCESS = (((uint)ACCESS_MASK.STANDARD_RIGHTS_ALL | KEY_QUERY_VALUE | KEY_SET_VALUE | KEY_CREATE_SUB_KEY | KEY_ENUMERATE_SUB_KEYS | KEY_NOTIFY | KEY_CREATE_LINK)  & (~(uint)ACCESS_MASK.SYNCHRONIZE))
+        }
 
         [Flags]
         public enum RelocationTypes : ushort
