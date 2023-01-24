@@ -8,7 +8,7 @@ namespace MonkeyWorks.Unmanaged.Headers
     public sealed class Wnf
     {
         [StructLayout(LayoutKind.Sequential)]
-        public class WnfTypeId
+        public struct _WNF_TYPE_ID
         {
             public Guid TypeId;
         }

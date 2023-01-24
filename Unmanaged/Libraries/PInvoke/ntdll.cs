@@ -9,12 +9,49 @@ namespace MonkeyWorks.Unmanaged.Libraries
     sealed class ntdll
     {
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtAlpcConnectPort(
+            out IntPtr PortHandle,
+            ntbasic._UNICODE_STRING PortName,
+            OBJECT_ATTRIBUTES ObjectAttributes,
+            ntlpcapi._ALPC_PORT_ATTRIBUTES PortAttributes,
+            ntlpcapi.AlpcMessageFlags Flags,
+            IntPtr RequiredServerSid,
+            IntPtr ConnectionMessage,
+            IntPtr BufferLength,
+            IntPtr OutMessageAttributes,
+            IntPtr InMessageAttributes,
+            IntPtr Timeout
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtAlpcSendWaitReceivePort(
+            IntPtr PortHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            ntlpcapi.AlpcMessageFlags Flags,
+            ref ntlpcapi.ReportExceptionWerAlpcMessage SendMessage,
+            IntPtr SendMessageAttributes,
+            ref ntlpcapi.ReportExceptionWerAlpcMessage ReceiveMessage,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint BufferLength,
+            IntPtr ReceiveMessageAttributes,
+            IntPtr Timeout
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtAllocateLocallyUniqueId( 
             ref Winnt._LUID LocallyUniqueID
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-		public static extern uint NtCreateThreadEx(
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtClose(IntPtr IntPtr);
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtCreateThreadEx(
 			ref IntPtr hThread,
             uint DesiredAccess,
 			IntPtr ObjectAttributes,
@@ -30,6 +67,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         //This is the way
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtCreateToken(
             out IntPtr TokenHandle,
             uint DesiredAccess,
@@ -47,6 +85,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtDuplicateToken(
             IntPtr ExistingTokenHandle,
             Winnt.ACCESS_MASK DesiredAccess,
@@ -100,12 +139,31 @@ namespace MonkeyWorks.Unmanaged.Libraries
             public IntPtr UniqueThread;
         }
 
-        [DllImport("ntdll.dll")]//, SetLastError = true, EntryPoint = "NtOpenProcess")]
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtOpenEvent(
+            out IntPtr EventHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            Winnt.ACCESS_MASK DesiredAccess,
+            ref OBJECT_ATTRIBUTES ObjectAttributes
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtOpenProcess(
             ref IntPtr ProcessHandle, 
             UInt32 AccessMask, 
             ref OBJECT_ATTRIBUTES ObjectAttributes, 
             ref CLIENT_ID ClientId
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtOpenThread(
+            ref IntPtr ThreadIntPtr,
+            ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
+            ref OBJECT_ATTRIBUTES ObjectAttributes,
+            ref ntbasic.CLIENT_ID ClientId
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -145,6 +203,31 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern uint NtUnmapViewOfSection(
             IntPtr hProcess,
             IntPtr baseAddress
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtUpdateWnfStateData(
+            [MarshalAs(UnmanagedType.U8)]
+            ref Wnf.WnfStateNames StateName,
+            IntPtr Buffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint Length,
+            Wnf._WNF_TYPE_ID TypeId,
+            IntPtr ExplicitScope,
+            [MarshalAs(UnmanagedType.U4)]
+            int MatchingChangeStamp,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool CheckChangeStamp
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtWaitForSingleObject(
+            IntPtr Handle,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool Alertable,
+            [MarshalAs(UnmanagedType.U4)]
+            uint Timeout
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
