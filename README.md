@@ -4,5 +4,7 @@ A C# library to facilitate the development of offensive tools against Windows sy
 
 The Library is split into Sections:
 
-* Platform Invocation Services (P/Invoke)<br>
-* SMB Packet Creation
+* Structs and Enums (Header Files) 
+* Unmanaged function definitions (Library Files)
+  * Platform Invocation Services (P/Invoke)
+  * Dynamic Invocation Services (D/Invoke)
