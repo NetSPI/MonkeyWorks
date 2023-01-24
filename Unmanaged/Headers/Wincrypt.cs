@@ -16,7 +16,7 @@ using SIZE_T = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Wincrypt
+    public sealed class Wincrypt
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _CRYPTOAPI_BLOB 

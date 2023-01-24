@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class WinCred
+    public sealed class WinCred
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _CREDENTIAL_ATTRIBUTE

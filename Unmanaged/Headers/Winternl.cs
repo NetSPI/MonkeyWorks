@@ -16,7 +16,7 @@ using DWORD_PTR = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Winternl
+    public sealed class Winternl
     {
         [StructLayout(LayoutKind.Explicit, Size = 8)]
         public struct LARGE_INTEGER
