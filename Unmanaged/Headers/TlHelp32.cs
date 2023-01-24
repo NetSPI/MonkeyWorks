@@ -8,7 +8,7 @@ using TCHAR = System.Text.StringBuilder;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class TiHelp32
+    public sealed class TiHelp32
     {
         public const DWORD TH32CS_INHERIT = 0x80000000;
         public const DWORD TH32CS_SNAPHEAPLIST = 0x00000001;

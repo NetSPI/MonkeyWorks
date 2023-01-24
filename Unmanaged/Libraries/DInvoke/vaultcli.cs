@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class vaultcli
+    public sealed class vaultcli
     {
         [DllImport("vaultcli.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern bool VaultEnumerateItems(

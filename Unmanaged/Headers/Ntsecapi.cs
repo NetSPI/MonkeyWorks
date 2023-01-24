@@ -19,7 +19,7 @@ using PWSTR = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    class ntsecapi
+    public sealed class ntsecapi
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _LSA_UNICODE_STRING

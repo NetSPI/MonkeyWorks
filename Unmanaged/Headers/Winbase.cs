@@ -12,7 +12,7 @@ using DWORD_PTR = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Winbase
+    public sealed class Winbase
     {
         public const uint SECTION_ALL_ACCESS =
             STANDARD_RIGHTS_REQUIRED |

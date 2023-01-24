@@ -19,7 +19,7 @@ using WCHAR = System.Char;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    public class FltUserStructures
+    public sealed class FltUserStructures
     {
         public enum _FILTER_INFORMATION_CLASS
         {

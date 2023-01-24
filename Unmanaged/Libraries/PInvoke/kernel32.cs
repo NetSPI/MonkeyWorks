@@ -8,7 +8,7 @@ using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
-    sealed class kernel32
+    public sealed class kernel32
     {
         public const uint PROCESS_CREATE_THREAD = 0x0002;
         public const uint PROCESS_QUERY_INFORMATION = 0x0400;

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    class wtsapi32
+    public sealed class wtsapi32
     {
         [Flags]
         public enum _WTS_INFO_CLASS : int

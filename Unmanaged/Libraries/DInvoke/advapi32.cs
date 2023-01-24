@@ -6,7 +6,7 @@ using MonkeyWorks.Unmanaged.Headers;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class advapi32
+    public sealed class advapi32
     {
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool AdjustTokenGroups(

@@ -19,7 +19,7 @@ using SIZE_T = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Ntdef
+    public sealed class Ntdef
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _OBJECT_ATTRIBUTES

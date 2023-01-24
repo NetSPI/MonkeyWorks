@@ -19,7 +19,7 @@ using SIZE_T = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class lsalookup
+    public sealed class lsalookup
     {
         [System.Flags]
         public enum LSA_ACCESS_MASK : long

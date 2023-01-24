@@ -6,7 +6,7 @@ using PWSTR = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Subauth
+    public sealed class Subauth
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _LSA_UNICODE_STRING

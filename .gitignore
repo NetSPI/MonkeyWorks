@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 nuget.config
 Resources/.DS_Store
+.DS_Store

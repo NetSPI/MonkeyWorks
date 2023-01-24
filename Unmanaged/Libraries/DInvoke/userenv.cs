@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class userenv
+    public sealed class userenv
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]

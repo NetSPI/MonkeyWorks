@@ -19,7 +19,7 @@ using PWSTR = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    class ntpsapi
+    public sealed class ntpsapi
     {
         //Process Security and Access Rights
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms684880%28v=vs.85%29.aspx?f=255&MSPPError=-2147217396

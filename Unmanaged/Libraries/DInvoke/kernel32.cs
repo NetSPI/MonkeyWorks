@@ -8,7 +8,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
     using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
-    sealed class kernel32
+    public sealed class kernel32
     {
         public const uint PROCESS_CREATE_THREAD = 0x0002;
         public const uint PROCESS_QUERY_INFORMATION = 0x0400;

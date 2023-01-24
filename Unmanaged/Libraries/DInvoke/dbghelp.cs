@@ -24,7 +24,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class dbghelp
+    public sealed class dbghelp
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct _LOADED_IMAGE {

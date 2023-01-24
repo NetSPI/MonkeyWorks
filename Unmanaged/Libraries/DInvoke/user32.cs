@@ -6,7 +6,7 @@ using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class user32
+    public sealed class user32
     {
         //PInvoke.net
         [Flags]
