@@ -40,6 +40,31 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr CreateEventW(
+            ref Winbase._SECURITY_ATTRIBUTES lpEventAttributes,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bManualReset,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bInitialState,
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpName
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        public static extern IntPtr CreateFileMappingW(
+            IntPtr hFile,
+            Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes,
+            [MarshalAs(UnmanagedType.U4)]
+            Winnt.MEMORY_PROTECTION_CONSTANTS flProtect,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwMaximumSizeHigh,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwMaximumSizeLow,
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpFileName
+        );
+
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool CreateProcess(
             string lpApplicationName,
             string lpCommandLine, 
@@ -142,6 +167,19 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr LocalFree(IntPtr hMem);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern IntPtr MapViewOfFile(
+            IntPtr hFileMappingObject,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwDesiredAccess,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwFileOffsetHigh,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwFileOffsetLow,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwNumberOfBytesToMap
+        );
 
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool Process32First(IntPtr hSnapshot, ref TiHelp32.tagPROCESSENTRY32 lppe);

@@ -595,12 +595,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr baseAddress
         );
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct _WNF_TYPE_ID
-        {
-            public Guid TypeId;
-        }
-
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtUpdateWnfStateData(
@@ -609,7 +603,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr Buffer,
             [MarshalAs(UnmanagedType.U4)]
             uint Length,
-            _WNF_TYPE_ID TypeId,
+            Wnf._WNF_TYPE_ID TypeId,
             IntPtr ExplicitScope,
             [MarshalAs(UnmanagedType.U4)]
             int MatchingChangeStamp,
@@ -623,6 +617,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr Handle,
             [MarshalAs(UnmanagedType.Bool)]
             bool Alertable,
+            [MarshalAs(UnmanagedType.U4)]
             uint Timeout
         );
 
