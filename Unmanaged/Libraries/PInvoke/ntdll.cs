@@ -6,14 +6,14 @@ using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
-    sealed class ntdll
+    public sealed class ntdll
     {
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtAlpcConnectPort(
             out IntPtr PortHandle,
-            ntbasic._UNICODE_STRING PortName,
-            OBJECT_ATTRIBUTES ObjectAttributes,
+            Ntddk._UNICODE_STRING PortName,
+            Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             ntlpcapi._ALPC_PORT_ATTRIBUTES PortAttributes,
             ntlpcapi.AlpcMessageFlags Flags,
             IntPtr RequiredServerSid,
@@ -71,7 +71,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern uint NtCreateToken(
             out IntPtr TokenHandle,
             uint DesiredAccess,
-            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             Winnt._TOKEN_TYPE TokenType,
             ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
             ref long ExpirationTime,
@@ -89,7 +89,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern uint NtDuplicateToken(
             IntPtr ExistingTokenHandle,
             Winnt.ACCESS_MASK DesiredAccess,
-            wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             bool EffectiveOnly,
             Winnt._TOKEN_TYPE TokenType,
             ref IntPtr NewTokenHandle
@@ -121,31 +121,13 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr lpContext
         );
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct OBJECT_ATTRIBUTES
-        {
-            public ulong Length;
-            public IntPtr RootDirectory;
-            public IntPtr ObjectName;
-            public ulong Attributes;
-            public IntPtr SecurityDescriptor;
-            public IntPtr SecurityQualityOfService;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct CLIENT_ID
-        {
-            public IntPtr UniqueProcess;
-            public IntPtr UniqueThread;
-        }
-
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtOpenEvent(
             out IntPtr EventHandle,
             [MarshalAs(UnmanagedType.U4)]
             Winnt.ACCESS_MASK DesiredAccess,
-            ref OBJECT_ATTRIBUTES ObjectAttributes
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -153,8 +135,8 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern uint NtOpenProcess(
             ref IntPtr ProcessHandle, 
             UInt32 AccessMask, 
-            ref OBJECT_ATTRIBUTES ObjectAttributes, 
-            ref CLIENT_ID ClientId
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes, 
+            ref Ntddk.CLIENT_ID ClientId
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -162,8 +144,8 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern uint NtOpenThread(
             ref IntPtr ThreadIntPtr,
             ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
-            ref OBJECT_ATTRIBUTES ObjectAttributes,
-            ref ntbasic.CLIENT_ID ClientId
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Winnt._LIST_ENTRY ClientId
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]

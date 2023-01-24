@@ -7,7 +7,7 @@ using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
-    sealed class advapi32
+    public sealed class advapi32
     {
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool AllocateAndInitializeSid(
@@ -232,7 +232,13 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, IntPtr TokenInformation, uint TokenInformationLength, out uint ReturnLength);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, ref Winnt._TOKEN_STATISTICS TokenInformation, uint TokenInformationLength, out uint ReturnLength);
+        public static extern bool GetTokenInformation(
+            IntPtr TokenHandle, 
+            Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, 
+            ref Winnt._TOKEN_STATISTICS TokenInformation, 
+            uint TokenInformationLength, 
+            out uint ReturnLength
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, ref Winnt._TOKEN_DEFAULT_DACL_ACL TokenInformation, uint TokenInformationLength, out uint ReturnLength);

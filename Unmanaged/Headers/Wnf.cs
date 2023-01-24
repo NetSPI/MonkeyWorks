@@ -25,8 +25,8 @@ namespace MonkeyWorks.Unmanaged.Headers
         {
             public WNF_CONTEXT_HEADER Header;
             public IntPtr NamesTableLock;
-            public MonkeyWorks.ntdll.LIST_ENTRY NamesTableEntry;
-            public MonkeyWorks.ntdll.LIST_ENTRY SerializationGroupListHead;
+            public Winnt._LIST_ENTRY NamesTableEntry;
+            public Winnt._LIST_ENTRY SerializationGroupListHead;
             public IntPtr SerializationGroupLock;
             public ulong Unknown1;
             public uint SubscribedEventSet;
@@ -42,17 +42,17 @@ namespace MonkeyWorks.Unmanaged.Headers
             public ulong SubscriptionId;
             public ulong StateName;
             public IntPtr CurrentChangeStamp;
-            public MonkeyWorks.ntdll.LIST_ENTRY NamesTableEntry;
+            public Winnt._LIST_ENTRY NamesTableEntry;
             public IntPtr TypeId;
             public IntPtr SubscriptionLock;
-            public MonkeyWorks.ntdll.LIST_ENTRY SubscriptionsListHead;
+            public Winnt._LIST_ENTRY SubscriptionsListHead;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         public struct WNF_USER_SUBSCRIPTION
         {
             public WNF_CONTEXT_HEADER Header;
-            public MonkeyWorks.ntdll.LIST_ENTRY SubscriptionsListEntry;
+            public Winnt._LIST_ENTRY SubscriptionsListEntry;
             public IntPtr NameSubscription;
             public IntPtr Callback;
             public IntPtr CallbackContext;

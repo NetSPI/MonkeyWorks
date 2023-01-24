@@ -52,7 +52,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             }
             public Union2 u2;
 
-            public ntbasic.CLIENT_ID ClientId;
+            public Winnt._LIST_ENTRY ClientId;
             public uint MessageId;
 
             [StructLayout(LayoutKind.Explicit)]

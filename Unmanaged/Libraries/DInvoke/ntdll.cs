@@ -14,7 +14,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [StructLayout(LayoutKind.Sequential, Pack = 8)]
         public struct _CURDIR
         {
-            public ntbasic._UNICODE_STRING DosPath;
+            public Ntddk._UNICODE_STRING DosPath;
             public IntPtr Handle;
 
         }
@@ -186,8 +186,8 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtAlpcConnectPort(
             out IntPtr PortHandle,
-            ntbasic._UNICODE_STRING PortName,
-            OBJECT_ATTRIBUTES ObjectAttributes,
+            Ntddk._UNICODE_STRING PortName,
+            Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             ntlpcapi._ALPC_PORT_ATTRIBUTES PortAttributes,
             ntlpcapi.AlpcMessageFlags Flags,
             IntPtr RequiredServerSid,
@@ -222,7 +222,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtCreateProcess(
             ref IntPtr ProcessIntPtr,
             uint DesiredAccess,
-            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             IntPtr ParentProcess,
             bool InheritObjectTable,
             IntPtr SectionIntPtr,
@@ -268,9 +268,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtCreateThread(
             ref IntPtr hThread,
             [MarshalAs(UnmanagedType.U4)] ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
-            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             IntPtr ProcessIntPtr,
-            ref ntbasic.CLIENT_ID ClientId,
+            ref Winnt._LIST_ENTRY ClientId,
             ref Winnt.CONTEXT64 ThreadContext,
             ref _INITIAL_TEB IntialTeb,
             bool CreateSuspended
@@ -297,7 +297,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtCreateToken(
             out IntPtr TokenIntPtr,
             uint DesiredAccess,
-            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             Winnt._TOKEN_TYPE TokenType,
             ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
             ref long ExpirationTime,
@@ -380,7 +380,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             out IntPtr EventHandle,
             [MarshalAs(UnmanagedType.U4)]
             Winnt.ACCESS_MASK DesiredAccess,
-            ref OBJECT_ATTRIBUTES ObjectAttributes 
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes 
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -388,7 +388,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtOpenFile(
            ref IntPtr FileHandle,
            Winnt.ACCESS_MASK DesiredAccess,
-           ref OBJECT_ATTRIBUTES ObjectAttributes,
+           ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
            out _IO_STATUS_BLOCK IoStatusBlock,
            System.IO.FileShare ShareAccess,
            [MarshalAs(UnmanagedType.U8)]
@@ -400,8 +400,8 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtOpenProcess(
             ref IntPtr hProcess, 
             ProcessThreadsApi.ProcessSecurityRights processAccess, 
-            ref OBJECT_ATTRIBUTES objectAttributes, 
-            ref ntbasic.CLIENT_ID clientid
+            ref Ntddk.OBJECT_ATTRIBUTES objectAttributes, 
+            ref Winnt._LIST_ENTRY clientid
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -417,8 +417,8 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtOpenThread(
             ref IntPtr ThreadIntPtr,
             ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
-            ref OBJECT_ATTRIBUTES ObjectAttributes,
-            ref ntbasic.CLIENT_ID ClientId
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Winnt._LIST_ENTRY ClientId
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -750,14 +750,14 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x2d0)] public ulong AppCompatFlagsUser;
             [FieldOffset(0x2d8)] public IntPtr pShimData;
             [FieldOffset(0x2e0)] public IntPtr AppCompatInfo;
-            [FieldOffset(0x2e8)] public ntbasic._UNICODE_STRING CSDVersion;
+            [FieldOffset(0x2e8)] public Ntddk._UNICODE_STRING CSDVersion;
             [FieldOffset(0x2f8)] public IntPtr ActivationContextData;
             [FieldOffset(0x300)] public IntPtr ProcessAssemblyStorageMap;
             [FieldOffset(0x308)] public IntPtr SystemDefaultActivationContextData;
             [FieldOffset(0x310)] public IntPtr SystemAssemblyStorageMap;
             [FieldOffset(0x318)] public ulong MinimumStackCommit;
             [FieldOffset(0x320)] public IntPtr FlsCallback;
-            [FieldOffset(0x328)] public LIST_ENTRY FlsListHead;
+            [FieldOffset(0x328)] public Winnt._LIST_ENTRY FlsListHead;
             [FieldOffset(0x338)] public IntPtr FlsBitmap;
             [FieldOffset(0x340)] public /*fixed*/ uint FlsBitmapBits;//[4];
             [FieldOffset(0x350)] public uint FlsHighIndex;
@@ -769,7 +769,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x37c)] public /*fixed*/ byte Padding6;//[4];
             [FieldOffset(0x380)] public ulong CsrServerReadOnlySharedMemoryBase;
             [FieldOffset(0x388)] public ulong TppWorkerpListLock;
-            [FieldOffset(0x390)] public LIST_ENTRY TppWorkerpList;
+            [FieldOffset(0x390)] public Winnt._LIST_ENTRY TppWorkerpList;
             [FieldOffset(0x3a0)] public IntPtr WaitOnAddressHashTable;
 
 
@@ -872,85 +872,22 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             public readonly IntPtr Reserved3;
         }
 
-        [StructLayout(LayoutKind.Explicit, Size = 0x10)]
-        public struct LIST_ENTRY
-        {
-            [FieldOffset(0x000)] public IntPtr Flink;
-            [FieldOffset(0x008)] public IntPtr Blink;
-
-        }
-
         struct _PEB_LDR_DATA
         {
             ulong Length;
             bool Initialized;
             IntPtr SsHandle;
-            LIST_ENTRY InLoadOrderModuleList;               // Points to the loaded modules (main EXE usually)
-            LIST_ENTRY InMemoryOrderModuleList;             // Points to all modules (EXE and all DLLs)
-            LIST_ENTRY InInitializationOrderModuleList;
+            Winnt._LIST_ENTRY InLoadOrderModuleList;               // Points to the loaded modules (main EXE usually)
+            Winnt._LIST_ENTRY InMemoryOrderModuleList;             // Points to all modules (EXE and all DLLs)
+            Winnt._LIST_ENTRY InInitializationOrderModuleList;
             IntPtr EntryInProgress;
 
-        }
-
-        //Dont add pack
-        [StructLayout(LayoutKind.Sequential)]
-        public struct OBJECT_ATTRIBUTES : IDisposable
-        {
-            public int Length;
-            public IntPtr RootDirectory;
-            private IntPtr objectName;
-            public uint Attributes;
-            public IntPtr SecurityDescriptor;
-            public IntPtr SecurityQualityOfService;
-
-            public OBJECT_ATTRIBUTES(string name, uint attrs)
-            {
-                Length = 0;
-                RootDirectory = IntPtr.Zero;
-                objectName = IntPtr.Zero;
-                Attributes = attrs;
-                SecurityDescriptor = IntPtr.Zero;
-                SecurityQualityOfService = IntPtr.Zero;
-
-                Length = Marshal.SizeOf(this);
-                ObjectName = new ntbasic._UNICODE_STRING(name);
-            }
-
-            public ntbasic._UNICODE_STRING ObjectName
-            {
-                get
-                {
-                    return (ntbasic._UNICODE_STRING)Marshal.PtrToStructure(
-                        objectName, typeof(ntbasic._UNICODE_STRING)
-                    );
-                }
-
-                set
-                {
-                    bool fDeleteOld = objectName != IntPtr.Zero;
-                    if (!fDeleteOld)
-                    {
-                        objectName = Marshal.AllocHGlobal(Marshal.SizeOf(value));
-                    }
-                    Marshal.StructureToPtr(value, objectName, fDeleteOld);
-                }
-            }
-
-            public void Dispose()
-            {
-                if (objectName != IntPtr.Zero)
-                {
-                    Marshal.DestroyStructure(objectName, typeof(ntbasic._UNICODE_STRING));
-                    Marshal.FreeHGlobal(objectName);
-                    objectName = IntPtr.Zero;
-                }
-            }
         }
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct CURDIR
         {
-            public ntbasic._UNICODE_STRING DosPath;
+            public Ntddk._UNICODE_STRING DosPath;
             public IntPtr Handle;
 
         }
@@ -977,15 +914,15 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint RtlCreateProcessParametersEx(
             out IntPtr pProcessParameters,
-            ref ntbasic._UNICODE_STRING ImagePathName,
-            ref ntbasic._UNICODE_STRING DllPath,
-            ref ntbasic._UNICODE_STRING CurrentDirectory,
-            ref ntbasic._UNICODE_STRING CommandLine,
+            ref Ntddk._UNICODE_STRING ImagePathName,
+            ref Ntddk._UNICODE_STRING DllPath,
+            ref Ntddk._UNICODE_STRING CurrentDirectory,
+            ref Ntddk._UNICODE_STRING CommandLine,
             IntPtr Environment,
-            ref ntbasic._UNICODE_STRING WindowTitle,
-            ref ntbasic._UNICODE_STRING DesktopInfo,
-            ref ntbasic._UNICODE_STRING ShellInfo,
-            ref ntbasic._UNICODE_STRING RuntimeData,
+            ref Ntddk._UNICODE_STRING WindowTitle,
+            ref Ntddk._UNICODE_STRING DesktopInfo,
+            ref Ntddk._UNICODE_STRING ShellInfo,
+            ref Ntddk._UNICODE_STRING RuntimeData,
             [MarshalAs(UnmanagedType.U4)] uint Flags
         );
 
@@ -1034,7 +971,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [StructLayout(LayoutKind.Sequential)]
         public struct _PUBLIC_OBJECT_TYPE_INFORMATION
         {
-            public ntbasic._UNICODE_STRING TypeName;
+            public Ntddk._UNICODE_STRING TypeName;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 22)]
             ulong[] Reserved;
         }
@@ -1063,9 +1000,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x028)] public IntPtr StandardOutput;
             [FieldOffset(0x030)] public IntPtr StandardError;
             [FieldOffset(0x038)] public _CURDIR CurrentDirectory;
-            [FieldOffset(0x050)] public ntbasic._UNICODE_STRING DllPath;
-            [FieldOffset(0x060)] public ntbasic._UNICODE_STRING ImagePathName;
-            [FieldOffset(0x070)] public ntbasic._UNICODE_STRING CommandLine;
+            [FieldOffset(0x050)] public Ntddk._UNICODE_STRING DllPath;
+            [FieldOffset(0x060)] public Ntddk._UNICODE_STRING ImagePathName;
+            [FieldOffset(0x070)] public Ntddk._UNICODE_STRING CommandLine;
             [FieldOffset(0x080)] public IntPtr Environment;
             [FieldOffset(0x088)] public uint StartingX;
             [FieldOffset(0x08c)] public uint StartingY;
@@ -1076,10 +1013,10 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [FieldOffset(0x0a0)] public uint FillAttribute;
             [FieldOffset(0x0a4)] public uint WindowFlags;
             [FieldOffset(0x0a8)] public uint ShowWindowFlags;
-            [FieldOffset(0x0b0)] public ntbasic._UNICODE_STRING WindowTitle;
-            [FieldOffset(0x0c0)] public ntbasic._UNICODE_STRING DesktopInfo;
-            [FieldOffset(0x0d0)] public ntbasic._UNICODE_STRING ShellInfo;
-            [FieldOffset(0x0e0)] public ntbasic._UNICODE_STRING RuntimeData;
+            [FieldOffset(0x0b0)] public Ntddk._UNICODE_STRING WindowTitle;
+            [FieldOffset(0x0c0)] public Ntddk._UNICODE_STRING DesktopInfo;
+            [FieldOffset(0x0d0)] public Ntddk._UNICODE_STRING ShellInfo;
+            [FieldOffset(0x0e0)] public Ntddk._UNICODE_STRING RuntimeData;
             [FieldOffset(0x0f0)] public RTL_DRIVE_LETTER_CURDIR CurrentDirectores0;
             [FieldOffset(0x108)] public RTL_DRIVE_LETTER_CURDIR CurrentDirectores1;
             [FieldOffset(0x120)] public RTL_DRIVE_LETTER_CURDIR CurrentDirectores2;
@@ -1134,9 +1071,9 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             public IntPtr StandardOutput;
             public IntPtr StandardError;
             public _CURDIR CurrentDirectory;
-            public ntbasic._UNICODE_STRING DllPath;
-            public ntbasic._UNICODE_STRING ImagePathName;
-            public ntbasic._UNICODE_STRING CommandLine;
+            public Ntddk._UNICODE_STRING DllPath;
+            public Ntddk._UNICODE_STRING ImagePathName;
+            public Ntddk._UNICODE_STRING CommandLine;
             public IntPtr Environment;
             public uint StartingPositionLeft;
             public uint StartingPositionTop;
@@ -1148,10 +1085,10 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             public uint WindowFlags;
             public uint ShowWindowFlags;
             public uint Reserved;
-            public ntbasic._UNICODE_STRING WindowTitle;
-            public ntbasic._UNICODE_STRING DesktopName;
-            public ntbasic._UNICODE_STRING ShellInfo;
-            public ntbasic._UNICODE_STRING RuntimeData;
+            public Ntddk._UNICODE_STRING WindowTitle;
+            public Ntddk._UNICODE_STRING DesktopName;
+            public Ntddk._UNICODE_STRING ShellInfo;
+            public Ntddk._UNICODE_STRING RuntimeData;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
             public _RTL_DRIVE_LETTER_CURDIR[] CurrentDirectories;//[0x20];
             public ulong EnvironmentSize;
@@ -1541,7 +1478,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [MarshalAs(UnmanagedType.U4)]
             public uint ExitStatus;
             public IntPtr TebBaseAddress;
-            public ntbasic.CLIENT_ID ClientId;
+            public Winnt._LIST_ENTRY ClientId;
             public IntPtr AffinityMask;
             [MarshalAs(UnmanagedType.I4)]
             public int Priority;

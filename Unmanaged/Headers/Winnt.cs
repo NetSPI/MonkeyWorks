@@ -698,6 +698,14 @@ namespace MonkeyWorks.Unmanaged.Headers
             public DWORD Characteristics;
         };
 
+        [StructLayout(LayoutKind.Explicit, Size = 0x10)]
+        public struct _LIST_ENTRY
+        {
+            [FieldOffset(0x000)] public IntPtr Flink;
+            [FieldOffset(0x008)] public IntPtr Blink;
+
+        }
+
         [StructLayout(LayoutKind.Sequential)]
         public struct _LUID
         {
@@ -1098,7 +1106,7 @@ namespace MonkeyWorks.Unmanaged.Headers
          */
 
         [StructLayout(LayoutKind.Sequential)]
-        internal struct _TOKEN_STATISTICS
+        public struct _TOKEN_STATISTICS
         {
             public Winnt._LUID TokenId;
             public Winnt._LUID AuthenticationId;
