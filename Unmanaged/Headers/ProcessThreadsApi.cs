@@ -73,6 +73,66 @@ namespace MonkeyWorks.Unmanaged.Headers
             SYNCHRONIZE = 0x00100000L
         }
 
+        /*
+        [Flags]
+        public enum _PROCESS_INFORMATION_CLASS
+        {
+            ProcessBasicInformation = 0,
+            ProcessQuotaLimits,
+            ProcessIoCounters,
+            ProcessVmCounters,
+            ProcessTimes,
+            ProcessBasePriority,
+            ProcessRaisePriority,
+            ProcessDebugPort,
+            ProcessExceptionPort,
+            ProcessAccessToken,
+            ProcessLdtInformation,
+            ProcessLdtSize,
+            ProcessDefaultHardErrorMode,
+            ProcessIoPortIntPtrrs,
+            ProcessPooledUsageAndLimits,
+            ProcessWorkingSetWatch,
+            ProcessUserModeIOPL,
+            ProcessEnableAlignmentFaultFixup,
+            ProcessPriorityClass,
+            ProcessWx86Information,
+            ProcessIntPtrCount,
+            ProcessAffinityMask,
+            ProcessPriorityBoost,
+            ProcessDeviceMap,
+            ProcessSessionInformation,
+            ProcessForegroundInformation,
+            ProcessWow64Information,
+            ProcessImageFileName,
+            ProcessLUIDDeviceMapsEnabled,
+            ProcessBreakOnTermination,
+            ProcessDebugObjectIntPtr,
+            ProcessDebugFlags,
+            ProcessIntPtrTracing,
+            ProcessIoPriority,
+            ProcessExecuteFlags,
+            ProcessTlsInformation,
+            ProcessCookie,
+            ProcessImageInformation,
+            ProcessCycleTime,
+            ProcessPagePriority,
+            ProcessInstrumentationCallback,
+            ProcessThreadStackAllocation,
+            ProcessWorkingSetWatchEx,
+            ProcessImageFileNameWin32,
+            ProcessImageFileMapping,
+            ProcessAffinityUpdateMode,
+            ProcessMemoryAllocationMode,
+            ProcessGroupInformation,
+            ProcessTokenVirtualizationEnabled,
+            ProcessConsoleHostProcess,
+            ProcessWindowInformation,
+            MaxProcessInfoClass,
+            ProcessProtectionInformation = 61
+        }
+        */
+
         public enum _PROCESS_INFORMATION_CLASS : int
         {
             ProcessMemoryPriority,
@@ -104,6 +164,31 @@ namespace MonkeyWorks.Unmanaged.Headers
             STARTF_USESHOWWINDOW = 0x00000001,
             STARTF_USESIZE = 0x00000002,
             STARTF_USESTDHANDLES = 0x00000100,
+        }
+
+        // Does not match processthreadsapi.h 
+        //http://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FNT%20Objects%2FThread%2FNtSetInformationThread.html
+        [Flags]
+        public enum _THREAD_INFORMATION_CLASS
+        {
+            ThreadBasicInformation,
+            ThreadTimes,
+            ThreadPriority,
+            ThreadBasePriority,
+            ThreadAffinityMask,
+            ThreadImpersonationToken,
+            ThreadDescriptorTableEntry,
+            ThreadEnableAlignmentFaultFixup,
+            ThreadEventPair,
+            ThreadQuerySetWin32StartAddress,
+            ThreadZeroTlsCell,
+            ThreadPerformanceCount,
+            ThreadAmILastThread,
+            ThreadIdealProcessor,
+            ThreadPriorityBoost,
+            ThreadSetTlsArrayAddress,
+            ThreadIsIoPending,
+            ThreadHideFromDebugger
         }
     }
 }
