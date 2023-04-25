@@ -2,10 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>2.0.6</Version>
+    
+    <Title>MonkeyWorks</Title>
+    <Version>2.0.30</Version>
     <Authors>0xBadJuju</Authors>
     <Company>NetSPI</Company>
     <Copyright>BSD-3-Clause</Copyright>
@@ -32,10 +34,6 @@
 
   <ItemGroup>
     <Compile Remove="Misc.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="Unmanaged\Headers\Ntpsapi.cs~RFc34d20a.TMP" />
   </ItemGroup>
 
 </Project>

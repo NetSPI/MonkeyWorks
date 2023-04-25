@@ -122,6 +122,25 @@ namespace MonkeyWorks.Unmanaged.Headers
             FileMaximumInformation
         }
 
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct _GDI_TEB_BATCH
+        {
+            public uint Offset;
+            [MarshalAs(UnmanagedType.ByValArray, SizeConst = 310)]
+            public _GDI_TEB_BATCH_RECORD[] Buffer;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 4)]
+        public struct _GDI_TEB_BATCH_RECORD
+        {
+            public uint Offset;
+            public uint Type;
+            public IntPtr HDC;
+            [MarshalAs(UnmanagedType.ByValArray, ArraySubType = UnmanagedType.U4, SizeConst = 310)]
+            public uint[] Buffer;//[310];
+        }
+
+
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct _IO_STATUS_BLOCK
         {
@@ -167,6 +186,19 @@ namespace MonkeyWorks.Unmanaged.Headers
             IntPtr Flink;
             IntPtr Blink;
         }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct NT_TIB
+        {
+            public IntPtr ExceptionList;
+            public IntPtr StackBase;
+            public IntPtr StackLimit;
+            public IntPtr SubSystemTib;
+            public IntPtr FiberData;
+            public IntPtr ArbitraryUserPointer;
+            public IntPtr Self;
+        }
+
 
         [Flags]
         public enum _OBJECT_INFORMATION_CLASS : int
@@ -505,6 +537,22 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
         */
 
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct _PEB_ACTIVE_FRAME
+        {
+            public IntPtr Flags;
+            public IntPtr Previous;
+            public _PEB_ACTIVE_FRAME_CONTEXT Context;
+        }
+
+        [StructLayout(LayoutKind.Sequential, Pack = 8)]
+        public struct _PEB_ACTIVE_FRAME_CONTEXT
+        {
+            public uint Flags;
+            public IntPtr FrameName;
+        }
+
+
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct _PEB_LDR_DATA
         {
@@ -525,6 +573,65 @@ namespace MonkeyWorks.Unmanaged.Headers
             public UIntPtr UniqueProcessId;
             public readonly IntPtr Reserved3;
         }
+
+        [Flags]
+        public enum PROCESSINFOCLASS
+        {
+            ProcessBasicInformation = 0,
+            ProcessQuotaLimits,
+            ProcessIoCounters,
+            ProcessVmCounters,
+            ProcessTimes,
+            ProcessBasePriority,
+            ProcessRaisePriority,
+            ProcessDebugPort,
+            ProcessExceptionPort,
+            ProcessAccessToken,
+            ProcessLdtInformation,
+            ProcessLdtSize,
+            ProcessDefaultHardErrorMode,
+            ProcessIoPortIntPtrrs,
+            ProcessPooledUsageAndLimits,
+            ProcessWorkingSetWatch,
+            ProcessUserModeIOPL,
+            ProcessEnableAlignmentFaultFixup,
+            ProcessPriorityClass,
+            ProcessWx86Information,
+            ProcessIntPtrCount,
+            ProcessAffinityMask,
+            ProcessPriorityBoost,
+            ProcessDeviceMap,
+            ProcessSessionInformation,
+            ProcessForegroundInformation,
+            ProcessWow64Information,
+            ProcessImageFileName,
+            ProcessLUIDDeviceMapsEnabled,
+            ProcessBreakOnTermination,
+            ProcessDebugObjectIntPtr,
+            ProcessDebugFlags,
+            ProcessIntPtrTracing,
+            ProcessIoPriority,
+            ProcessExecuteFlags,
+            ProcessTlsInformation,
+            ProcessCookie,
+            ProcessImageInformation,
+            ProcessCycleTime,
+            ProcessPagePriority,
+            ProcessInstrumentationCallback,
+            ProcessThreadStackAllocation,
+            ProcessWorkingSetWatchEx,
+            ProcessImageFileNameWin32,
+            ProcessImageFileMapping,
+            ProcessAffinityUpdateMode,
+            ProcessMemoryAllocationMode,
+            ProcessGroupInformation,
+            ProcessTokenVirtualizationEnabled,
+            ProcessConsoleHostProcess,
+            ProcessWindowInformation,
+            MaxProcessInfoClass,
+            ProcessProtectionInformation = 61
+        }
+
 
         [StructLayout(LayoutKind.Sequential)]
         public struct _PUBLIC_OBJECT_TYPE_INFORMATION
@@ -606,7 +713,6 @@ namespace MonkeyWorks.Unmanaged.Headers
         }
         */
 
-        /*
         [StructLayout(LayoutKind.Sequential, Pack = 4)]
         public struct _RTL_USER_PROCESS_PARAMETERS
         {
@@ -619,7 +725,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             public IntPtr StandardInput;
             public IntPtr StandardOutput;
             public IntPtr StandardError;
-            public _CURDIR CurrentDirectory;
+            public Ntrtl._CURDIR CurrentDirectory;
             public Ntddk._UNICODE_STRING DllPath;
             public Ntddk._UNICODE_STRING ImagePathName;
             public Ntddk._UNICODE_STRING CommandLine;
@@ -639,13 +745,12 @@ namespace MonkeyWorks.Unmanaged.Headers
             public Ntddk._UNICODE_STRING ShellInfo;
             public Ntddk._UNICODE_STRING RuntimeData;
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 0x20)]
-            public _RTL_DRIVE_LETTER_CURDIR[] CurrentDirectories;//[0x20];
+            public Ntrtl._RTL_DRIVE_LETTER_CURDIR[] CurrentDirectories;//[0x20];
             public ulong EnvironmentSize;
         }
-        */
 
         [StructLayout(LayoutKind.Sequential, Pack=1)]
-        public struct _RTL_USER_PROCESS_PARAMETERS
+        public struct _RTL_USER_PROCESS_PARAMETERS_SHORT
         {
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 16)]
             BYTE Reserved1;
@@ -886,6 +991,142 @@ namespace MonkeyWorks.Unmanaged.Headers
             SystemSpeculationControlInformation = 0xC9,
             SystemDmaGuardPolicyInformation = 0xCA,
             SystemEnclaveLaunchControlInformation = 0xCB
+        }
+
+        [StructLayout(LayoutKind.Explicit, Size = 0x2000)]
+        public struct _TEB
+        {
+            [FieldOffset(0x0000)]
+            public NT_TIB Tib;
+
+            [FieldOffset(0x1000)]
+            public IntPtr EnvironmentPointer;
+
+            [FieldOffset(0x1008)]
+            public _CLIENT_ID ClientId;
+
+            [FieldOffset(0x1010)]
+            public IntPtr ActiveRpcHandle;
+
+            [FieldOffset(0x1018)]
+            public IntPtr ThreadLocalStoragePointer;
+
+            [FieldOffset(0x1020)]
+            public PEB ProcessEnvironmentBlock;
+
+            [FieldOffset(0x1028)]
+            public int LastErrorValue;
+
+            [FieldOffset(0x1030)]
+            public uint CountOfOwnedCriticalSections;
+
+            [FieldOffset(0x1038)]
+            public IntPtr CsrClientThread;
+
+            [FieldOffset(0x1040)]
+            public IntPtr Win32ThreadInfo;
+
+            [FieldOffset(0x1048)]
+            public uint User32Reserved;//[26];
+
+            [FieldOffset(0x10b0)]
+            public uint UserReserved;//[5];
+
+            [FieldOffset(0x10c8)]
+            public IntPtr WOW32Reserved;
+
+            [FieldOffset(0x10d0)]
+            public uint CurrentLocale;
+
+            [FieldOffset(0x10d4)]
+            public uint FpSoftwareStatusRegister;
+
+            [FieldOffset(0x10d8)]
+            public IntPtr SystemReserved1;
+
+            [FieldOffset(0x10e0)]
+            public IntPtr ExceptionCode;
+
+            [FieldOffset(0x10e8)]
+            public IntPtr ActivationContextStackPointer;
+
+            [FieldOffset(0x10f0)]
+            public byte[] SpareBytes1;///24];
+
+            [FieldOffset(0x1108)]
+            public uint TxFsContext;
+
+            [FieldOffset(0x1110)]
+            public _GDI_TEB_BATCH GdiTebBatch;
+
+            [FieldOffset(0x1710)]
+            public _CLIENT_ID RealClientId;
+
+            [FieldOffset(0x1720)]
+            public IntPtr GdiCachedProcessHandle;
+
+            [FieldOffset(0x1728)]
+            public uint GdiClientPID;
+
+            [FieldOffset(0x1730)]
+            public uint GdiClientTID;
+
+            [FieldOffset(0x1738)]
+            public IntPtr GdiThreadLocalInfo;
+
+            [FieldOffset(0x1740)]
+            public IntPtr Win32ClientInfo;
+
+            [FieldOffset(0x1748)]
+            public byte[] glDispatchTable;//[233 * 8];
+
+            [FieldOffset(0x2668)]
+            public uint[] glReserved1;//[29];
+
+            [FieldOffset(0x26e0)]
+            public IntPtr glReserved2;
+
+            [FieldOffset(0x26e8)]
+            public IntPtr glSectionInfo;
+
+            [FieldOffset(0x26f0)]
+            public IntPtr glSection;
+
+            [FieldOffset(0x26f8)]
+            public IntPtr glTable;
+
+            [FieldOffset(0x2700)]
+            public IntPtr glCurrentRC;
+
+            [FieldOffset(0x2708)]
+            public IntPtr glContext;
+
+            [FieldOffset(0x2710)]
+            public uint LastStatusValue;
+
+            [FieldOffset(0x2718)]
+            public Ntddk._UNICODE_STRING StaticUnicodeString;
+
+            [FieldOffset(0x2728)]
+            public ushort[] StaticUnicodeBuffer;//[261];
+
+            [FieldOffset(0x293c)]
+            public IntPtr DeallocationStack;
+
+            [FieldOffset(0x2940)]
+            public IntPtr TlsSlots;
+
+            [FieldOffset(0x2948)]
+            public _PEB_ACTIVE_FRAME ActiveFrame;
+
+            [FieldOffset(0x2958)]
+            public byte[] SpareBytes2;//[36];
+
+            [FieldOffset(0x2980)]
+            public IntPtr SafeThunkCall;
+
+            [FieldOffset(0x2988)]
+            public uint[] BooleanSpare;//[4];
         }
 
     }

@@ -181,9 +181,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public static extern bool GetMessage(ref Winuser.tagMSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate IntPtr GetParent(
-            IntPtr hWnd
-        );
+        public delegate IntPtr GetParent(IntPtr hWnd);
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern IntPtr GetProcessWindowStation();

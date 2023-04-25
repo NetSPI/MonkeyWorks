@@ -265,7 +265,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             ref IntPtr hProcess, 
             ProcessThreadsApi.ProcessSecurityRights processAccess, 
             ref Ntddk.OBJECT_ATTRIBUTES objectAttributes, 
-            ref Winnt._LIST_ENTRY clientid
+            ref Ntddk.CLIENT_ID clientid
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -282,7 +282,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             ref IntPtr ThreadIntPtr,
             ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
             ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
-            ref Winnt._LIST_ENTRY ClientId
+            ref Ntddk.CLIENT_ID ClientId
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -373,8 +373,8 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint NtQueryInformationProcess(
             IntPtr ProcessHandle,
-            [MarshalAs(UnmanagedType.U4)] 
-            ProcessThreadsApi._PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            [MarshalAs(UnmanagedType.U4)]
+            Winternl.PROCESSINFOCLASS ProcessInformationClass,
             IntPtr ProcessInformation,
             [MarshalAs(UnmanagedType.U4)] 
             uint ProcessInformationLength,
@@ -422,7 +422,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint NtSetInformationFile(
             IntPtr FileHandle,
             ref Winternl._IO_STATUS_BLOCK IoStatusBlock,
-            ref Winbase._FILE_DISPOSITION_INFO FileInformation,
+            ref Ntddk._FILE_DISPOSITION_INFORMATION FileInformation,
             [MarshalAs(UnmanagedType.U8)]
             ulong Length,
             Winternl._FILE_INFORMATION_CLASS FileInformationClass

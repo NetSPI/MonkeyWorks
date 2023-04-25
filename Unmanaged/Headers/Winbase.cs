@@ -126,12 +126,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             LOGON32_LOGON_NEW_CREDENTIALS = 9
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct _FILE_DISPOSITION_INFO
-        {
-            public bool DeleteFile;
-        }
-
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms684873(v=vs.85).aspx
         [StructLayout(LayoutKind.Sequential)]
         public struct _PROCESS_INFORMATION

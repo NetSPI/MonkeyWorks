@@ -72,67 +72,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             WRITE_OWNER = 0x00080000L,
             SYNCHRONIZE = 0x00100000L
         }
-
-        /*
-        [Flags]
-        public enum _PROCESS_INFORMATION_CLASS
-        {
-            ProcessBasicInformation = 0,
-            ProcessQuotaLimits,
-            ProcessIoCounters,
-            ProcessVmCounters,
-            ProcessTimes,
-            ProcessBasePriority,
-            ProcessRaisePriority,
-            ProcessDebugPort,
-            ProcessExceptionPort,
-            ProcessAccessToken,
-            ProcessLdtInformation,
-            ProcessLdtSize,
-            ProcessDefaultHardErrorMode,
-            ProcessIoPortIntPtrrs,
-            ProcessPooledUsageAndLimits,
-            ProcessWorkingSetWatch,
-            ProcessUserModeIOPL,
-            ProcessEnableAlignmentFaultFixup,
-            ProcessPriorityClass,
-            ProcessWx86Information,
-            ProcessIntPtrCount,
-            ProcessAffinityMask,
-            ProcessPriorityBoost,
-            ProcessDeviceMap,
-            ProcessSessionInformation,
-            ProcessForegroundInformation,
-            ProcessWow64Information,
-            ProcessImageFileName,
-            ProcessLUIDDeviceMapsEnabled,
-            ProcessBreakOnTermination,
-            ProcessDebugObjectIntPtr,
-            ProcessDebugFlags,
-            ProcessIntPtrTracing,
-            ProcessIoPriority,
-            ProcessExecuteFlags,
-            ProcessTlsInformation,
-            ProcessCookie,
-            ProcessImageInformation,
-            ProcessCycleTime,
-            ProcessPagePriority,
-            ProcessInstrumentationCallback,
-            ProcessThreadStackAllocation,
-            ProcessWorkingSetWatchEx,
-            ProcessImageFileNameWin32,
-            ProcessImageFileMapping,
-            ProcessAffinityUpdateMode,
-            ProcessMemoryAllocationMode,
-            ProcessGroupInformation,
-            ProcessTokenVirtualizationEnabled,
-            ProcessConsoleHostProcess,
-            ProcessWindowInformation,
-            MaxProcessInfoClass,
-            ProcessProtectionInformation = 61
-        }
-        */
-
+        
         public enum _PROCESS_INFORMATION_CLASS : int
         {
             ProcessMemoryPriority,

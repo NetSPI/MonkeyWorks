@@ -29,7 +29,13 @@ namespace MonkeyWorks.Unmanaged.Headers
             public IntPtr UniqueProcess;
             public IntPtr UniqueThread;
         }
-        
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct _FILE_DISPOSITION_INFORMATION
+        {
+            public bool DeleteFile;
+        }
+
         //Dont add pack
         [StructLayout(LayoutKind.Sequential)]
         public struct OBJECT_ATTRIBUTES : IDisposable
