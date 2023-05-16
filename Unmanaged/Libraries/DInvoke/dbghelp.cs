@@ -24,7 +24,7 @@ using Microsoft.Win32.SafeHandles;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class dbghelp
+    public sealed class dbghelp
     {
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public struct _LOADED_IMAGE {
@@ -51,18 +51,18 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr CallbackOutput
         );
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool MiniDumpWriteDump(
             IntPtr hProcess,
             [MarshalAs(UnmanagedType.U4)]
-            uint processId,
+            uint ProcessId,
             SafeFileHandle hFile,
             [MarshalAs(UnmanagedType.U4)]
-            Minidumpapiset._MINIDUMP_TYPE dumpType,
-            IntPtr expParam,
-            IntPtr userStreamParam,
-            IntPtr callbackParam
+            Minidumpapiset._MINIDUMP_TYPE DumpType,
+            IntPtr ExceptionParam,
+            IntPtr UserStreamParam,
+            IntPtr CallbackParam
         );
 
     }

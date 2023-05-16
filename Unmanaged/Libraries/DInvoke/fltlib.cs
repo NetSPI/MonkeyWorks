@@ -5,7 +5,7 @@ using MonkeyWorks.Unmanaged.Headers;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class fltlib
+    public sealed class fltlib
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U4)]

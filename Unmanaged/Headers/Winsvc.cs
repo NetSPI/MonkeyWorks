@@ -10,7 +10,7 @@ using DWORD_PTR = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Winsvc
+    public sealed class Winsvc
     {
         [Flags]
         public enum dwControl : uint

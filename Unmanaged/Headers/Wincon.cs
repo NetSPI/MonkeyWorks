@@ -2,7 +2,7 @@
 
 namespace MonkeyWorks.Unmanaged.Headers
 { 
-    class Wincon
+    public class Wincon
     {
         [Flags]
         public enum CtrlType : uint

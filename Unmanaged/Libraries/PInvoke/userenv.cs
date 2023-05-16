@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
+namespace MonkeyWorks.Unmanaged.Libraries
 {
     public sealed class userenv
     {
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [DllImport("userenv.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool CreateEnvironmentBlock(
+        public static extern bool CreateEnvironmentBlock(
             ref IntPtr lpEnvironment,
             IntPtr hToken,
             [MarshalAs(UnmanagedType.Bool)]

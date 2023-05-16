@@ -12,7 +12,7 @@ using DWORD_PTR = System.IntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Winbase
+    public sealed class Winbase
     {
         public const uint SECTION_ALL_ACCESS =
             STANDARD_RIGHTS_REQUIRED |
@@ -126,27 +126,6 @@ namespace MonkeyWorks.Unmanaged.Headers
             LOGON32_LOGON_NEW_CREDENTIALS = 9
         }
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct _PROC_THREAD_ATTRIBUTE_ENTRY
-        {
-            public IntPtr Attribute;
-            public uint cbSize;
-            public IntPtr lpValue;
-        }
-        //PROC_THREAD_ATTRIBUTE_ENTRY, *LPPROC_THREAD_ATTRIBUTE_ENTRY;
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct _PROC_THREAD_ATTRIBUTE_LIST
-        {
-            public uint dwFlags;
-            public ulong Size;
-            public ulong Count;
-            public ulong Reserved;
-            public IntPtr Unknown;
-            public _PROC_THREAD_ATTRIBUTE_ENTRY[] Entries;
-        }
-        //PROC_THREAD_ATTRIBUTE_LIST, *LPPROC_THREAD_ATTRIBUTE_LIST;
-
         //https://msdn.microsoft.com/en-us/library/windows/desktop/ms684873(v=vs.85).aspx
         [StructLayout(LayoutKind.Sequential)]
         public struct _PROCESS_INFORMATION
@@ -179,7 +158,7 @@ namespace MonkeyWorks.Unmanaged.Headers
             public UInt32 dwXCountChars;
             public UInt32 dwYCountChars;
             public UInt32 dwFillAttribute;
-            public UInt32 dwFlags;
+            public ProcessThreadsApi._STARTUPINFO_FLAGS dwFlags;
             public UInt16 wShowWindow;
             public UInt16 cbReserved2;
             public IntPtr lpReserved2;
@@ -194,6 +173,7 @@ namespace MonkeyWorks.Unmanaged.Headers
         {
             public _STARTUPINFO StartupInfo;
             public IntPtr lpAttributeList;
+            // PPROC_THREAD_ATTRIBUTE_LIST lpAttributeList;
         };
 
         [StructLayout(LayoutKind.Sequential)]

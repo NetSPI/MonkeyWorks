@@ -17,7 +17,7 @@ using BOOL = System.Boolean;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class Minidumpapiset
+    public sealed class Minidumpapiset
     {
         [Flags]
         public enum _MINIDUMP_TYPE : uint

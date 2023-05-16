@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    
+    <Title>MonkeyWorks</Title>
+    <Version>2.0.30</Version>
+    <Authors>0xBadJuju</Authors>
+    <Company>NetSPI</Company>
+    <Copyright>BSD-3-Clause</Copyright>
+    <PackageProjectUrl>https://github.com/0xbadjuju/MonkeyWorks/</PackageProjectUrl>
+    <PackageTags>DInvoke D/Invoke PInvoke P/Invoke Unmanaged NetSPI OffSec</PackageTags>
+    <Description>A respository of P/Invoke and D/Invoke definitions.</Description>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <FileVersion>2.0.0.0</FileVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Resources\**" />
+    <Compile Remove="SMB\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <EmbeddedResource Remove="SMB\**" />
+    <None Remove="Resources\**" />
+    <None Remove="SMB\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="LICENSE" Pack="true" PackagePath="." />
+    <None Include="README.md" Pack="true" PackagePath="." />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Misc.cs" />
+  </ItemGroup>
+
+</Project>

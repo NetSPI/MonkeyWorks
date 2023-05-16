@@ -2,7 +2,7 @@
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    sealed class lmaccess
+    public sealed class lmaccess
     {
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct _LOCALGROUP_USERS_INFO_0

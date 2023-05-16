@@ -8,7 +8,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
     using FILETIME = System.Runtime.InteropServices.ComTypes.FILETIME;
 
-    sealed class kernel32
+    public sealed class kernel32
     {
         public const uint PROCESS_CREATE_THREAD = 0x0002;
         public const uint PROCESS_QUERY_INFORMATION = 0x0400;
@@ -34,6 +34,17 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate IntPtr CreateEventW(
+            ref Winbase._SECURITY_ATTRIBUTES lpEventAttributes,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bManualReset,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool bInitialState,
+            [MarshalAs(UnmanagedType.LPWStr)]
+            string lpName
+        );
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public delegate IntPtr CreateFileW(
             [MarshalAs(UnmanagedType.LPWStr)]
             string lpFileName,
@@ -47,7 +58,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr hTemplateFile
         );
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         public delegate IntPtr CreateFileMappingW(
             IntPtr hFile,
             Winbase._SECURITY_ATTRIBUTES lpSecurityAttributes,
@@ -61,7 +72,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             string lpFileName
         );
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool CreateProcessW(
             [MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName,
@@ -76,7 +87,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             out Winbase._PROCESS_INFORMATION lpProcessInformation
         );
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool CreateProcessW_EX(
             [MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName,
@@ -136,6 +147,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate IntPtr GetCurrentProcess();
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint GetCurrentProcessId();
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -150,7 +162,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool GetFileInformationByHandle(
             IntPtr hFile,
-            ref _BY_HANDLE_FILE_INFORMATION lpFileInformation
+            ref Fileapi._BY_HANDLE_FILE_INFORMATION lpFileInformation
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -242,19 +254,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [MarshalAs(UnmanagedType.U4)]
             uint dwFlags,
             ref IntPtr lpSize
-        );
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool UpdateProcThreadAttribute(
-            IntPtr lpAttributeList,
-            [MarshalAs(UnmanagedType.U4)]
-            uint dwFlags,
-            IntPtr Attribute,
-            IntPtr lpValue,
-            IntPtr cbSize,
-            IntPtr lpPreviousValue,
-            IntPtr lpReturnSize
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -394,6 +393,7 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool SetThreadContext(IntPtr hThread, IntPtr lpContext);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -401,13 +401,33 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate uint SuspendThread(IntPtr hThread);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool TerminateProcess(IntPtr hProcess, uint uExitCode);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool Thread32First(IntPtr hSnapshot, ref TiHelp32.tagTHREADENTRY32 lpte);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool Thread32Next(IntPtr hSnapshot, ref TiHelp32.tagTHREADENTRY32 lpte);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool UnmapViewOfFile(IntPtr lpBaseAddress);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool UpdateProcThreadAttribute(
+            IntPtr lpAttributeList,
+            [MarshalAs(UnmanagedType.U4)]
+            uint dwFlags,
+            IntPtr Attribute,
+            IntPtr lpValue,
+            IntPtr cbSize,
+            IntPtr lpPreviousValue,
+            IntPtr lpReturnSize
+        );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate IntPtr VirtualAlloc(IntPtr lpAddress, uint dwSize, uint flAllocationType, Winnt.MEMORY_PROTECTION_CONSTANTS flProtect);
@@ -420,18 +440,23 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
         public delegate bool VirtualFreeEx(IntPtr hProcess, IntPtr lpAddress, uint dwSize, uint dwFreeType);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool VirtualProtect(IntPtr lpAddress, uint dwSize, Winnt.MEMORY_PROTECTION_CONSTANTS flNewProtect, ref Winnt.MEMORY_PROTECTION_CONSTANTS lpflOldProtect);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool VirtualProtectEx(IntPtr hHandle, IntPtr lpAddress, uint dwSize, Winnt.MEMORY_PROTECTION_CONSTANTS flNewProtect, ref Winnt.MEMORY_PROTECTION_CONSTANTS lpflOldProtect);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public delegate uint VirtualQuery(IntPtr lpAddress, ref Winnt._MEMORY_BASIC_INFORMATION64 lpBuffer, uint dwLength);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate int VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out Winnt._MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint VirtualQueryEx(IntPtr hProcess, IntPtr lpAddress, out Winnt._MEMORY_BASIC_INFORMATION lpBuffer, uint dwLength);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public delegate bool WaitForSingleObject(IntPtr hProcess, uint nSize);
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -471,28 +496,5 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             [MarshalAs(UnmanagedType.U4)]
             ref uint lpNumberOfBytesWritten
         );
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct _BY_HANDLE_FILE_INFORMATION
-        {
-            [MarshalAs(UnmanagedType.U4)]
-            public uint dwFileAttributes;
-            public FILETIME ftCreationTime;
-            public FILETIME ftLastAccessTime;
-            public FILETIME ftLastWriteTime;
-            [MarshalAs(UnmanagedType.U4)]
-            public uint dwVolumeSerialNumber;
-            [MarshalAs(UnmanagedType.U4)]
-            public uint nFileSizeHigh;
-            [MarshalAs(UnmanagedType.U4)]
-            public uint nFileSizeLow;
-            [MarshalAs(UnmanagedType.U4)]
-            public uint nNumberOfLinks;
-            [MarshalAs(UnmanagedType.U4)]
-            public uint nFileIndexHigh;
-            [MarshalAs(UnmanagedType.U4)]
-            public uint nFileIndexLow;
-        }
-
     }
 }

@@ -17,7 +17,7 @@ using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class crypt32
+    public sealed class crypt32
     {
         public const UInt32 CRYPTPROTECT_UI_FORBIDDEN = 0x1;
         public const UInt32 CRYPTPROTECT_LOCAL_MACHINE = 0x4;

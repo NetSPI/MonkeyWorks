@@ -6,34 +6,116 @@ using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
-    sealed class ntdll
+    public sealed class ntdll
     {
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtAlpcConnectPort(
+            out IntPtr PortHandle,
+            Ntddk._UNICODE_STRING PortName,
+            Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
+            ntlpcapi._ALPC_PORT_ATTRIBUTES PortAttributes,
+            ntlpcapi.AlpcMessageFlags Flags,
+            IntPtr RequiredServerSid,
+            IntPtr ConnectionMessage,
+            IntPtr BufferLength,
+            IntPtr OutMessageAttributes,
+            IntPtr InMessageAttributes,
+            IntPtr Timeout
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtAlpcSendWaitReceivePort(
+            IntPtr PortHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            ntlpcapi.AlpcMessageFlags Flags,
+            ref ntlpcapi.ReportExceptionWerAlpcMessage SendMessage,
+            IntPtr SendMessageAttributes,
+            ref ntlpcapi.ReportExceptionWerAlpcMessage ReceiveMessage,
+            [MarshalAs(UnmanagedType.U4)]
+            ref uint BufferLength,
+            IntPtr ReceiveMessageAttributes,
+            IntPtr Timeout
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtAllocateVirtualMemory(
+            IntPtr ProcessIntPtr,
+            ref IntPtr BaseAddress,
+            ulong ZeroBits,
+            ref ulong RegionSize,
+            ulong AllocationType,
+            Winnt.MEMORY_PROTECTION_CONSTANTS Protect
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtAllocateLocallyUniqueId( 
             ref Winnt._LUID LocallyUniqueID
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
-		public static extern uint NtCreateThreadEx(
-			ref IntPtr hThread,
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtClose(IntPtr IntPtr);
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtCreateSection(
+            ref IntPtr SectionHandle,
+            [MarshalAs(UnmanagedType.U4)]
             uint DesiredAccess,
-			IntPtr ObjectAttributes,
-			IntPtr ProcessHandle,
-			IntPtr lpStartAddress,
-			IntPtr lpParameter,
-            bool CreateSuspended,
-            uint StackZeroBits,
-            uint SizeOfStackCommit,
-            uint SizeOfStackReserve,
-			IntPtr lpBytesBuffer
+            IntPtr ObjectAttributes,
+            [MarshalAs(UnmanagedType.U8)]
+            ref ulong MaximumSize,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong SectionPageProtection,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong AllocationAttributes,
+            IntPtr FileHandle
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtCreateThreadEx(
+            ref IntPtr hThread,
+            [MarshalAs(UnmanagedType.U4)] ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
+            IntPtr ObjectAttributes,
+            IntPtr ProcessIntPtr,
+            IntPtr lpStartAddress,
+            IntPtr lpParameter,
+            [MarshalAs(UnmanagedType.Bool)] bool CreateSuspended,
+            [MarshalAs(UnmanagedType.U4)] uint StackZeroBits,
+            [MarshalAs(UnmanagedType.U4)] uint SizeOfStackCommit,
+            [MarshalAs(UnmanagedType.U4)] uint SizeOfStackReserve,
+            IntPtr lpBytesBuffer
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern  uint NtCreateProcessEx(
+            ref IntPtr ProcessIntPtr,
+            [MarshalAs(UnmanagedType.U4)]
+            uint DesiredAccess,
+            IntPtr ObjectAttributes,
+            IntPtr hInheritFromProcess,
+            [MarshalAs(UnmanagedType.U4)]
+            uint Flags,
+            IntPtr SectionIntPtr,
+            IntPtr DebugPort,
+            IntPtr ExceptionPort,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool InJob
         );
 
         //This is the way
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtCreateToken(
             out IntPtr TokenHandle,
             uint DesiredAccess,
-            ref wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             Winnt._TOKEN_TYPE TokenType,
             ref Winnt._LUID AuthenticationId, //From NtAllocateLocallyUniqueId
             ref long ExpirationTime,
@@ -47,10 +129,11 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtDuplicateToken(
             IntPtr ExistingTokenHandle,
             Winnt.ACCESS_MASK DesiredAccess,
-            wudfwdm._OBJECT_ATTRIBUTES ObjectAttributes,
+            Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
             bool EffectiveOnly,
             Winnt._TOKEN_TYPE TokenType,
             ref IntPtr NewTokenHandle
@@ -76,48 +159,111 @@ namespace MonkeyWorks.Unmanaged.Libraries
             ref IntPtr hToken
         );
 
-        [DllImport("ntdll.dll", SetLastError = true)]
-        public static extern uint NtGetContextThread(
+        [DllImport("ntdll.dll", SetLastError = true, EntryPoint = "NtGetContextThread")]
+        public static extern uint NtGetContextThread32(
             IntPtr ProcessHandle,
-            IntPtr lpContext
+            ref Winnt.CONTEXT lpContext
         );
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct OBJECT_ATTRIBUTES
-        {
-            public ulong Length;
-            public IntPtr RootDirectory;
-            public IntPtr ObjectName;
-            public ulong Attributes;
-            public IntPtr SecurityDescriptor;
-            public IntPtr SecurityQualityOfService;
-        }
-
-        [StructLayout(LayoutKind.Sequential)]
-        public struct CLIENT_ID
-        {
-            public IntPtr UniqueProcess;
-            public IntPtr UniqueThread;
-        }
-
-        [DllImport("ntdll.dll")]//, SetLastError = true, EntryPoint = "NtOpenProcess")]
-        public static extern uint NtOpenProcess(
-            ref IntPtr ProcessHandle, 
-            UInt32 AccessMask, 
-            ref OBJECT_ATTRIBUTES ObjectAttributes, 
-            ref CLIENT_ID ClientId
+        [DllImport("ntdll.dll", SetLastError = true, EntryPoint = "NtGetContextThread")]
+        public static extern uint NtGetContextThread64(
+            IntPtr ProcessHandle,
+            ref Winnt.CONTEXT64 lpContext
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtOpenEvent(
+            out IntPtr EventHandle,
+            [MarshalAs(UnmanagedType.U4)]
+            Winnt.ACCESS_MASK DesiredAccess,
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtOpenFile(
+           ref IntPtr FileHandle,
+           Winnt.ACCESS_MASK DesiredAccess,
+           ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
+           out Winternl._IO_STATUS_BLOCK IoStatusBlock,
+           System.IO.FileShare ShareAccess,
+           [MarshalAs(UnmanagedType.U8)]
+           ulong OpenOptions
+       );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtOpenProcess(
+            ref IntPtr hProcess,
+            ProcessThreadsApi.ProcessSecurityRights processAccess,
+            ref Ntddk.OBJECT_ATTRIBUTES objectAttributes,
+            ref Ntddk.CLIENT_ID clientid
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtOpenThread(
+            ref IntPtr ThreadIntPtr,
+            ProcessThreadsApi.ThreadSecurityRights DesiredAccess,
+            ref Ntddk.OBJECT_ATTRIBUTES ObjectAttributes,
+            ref Ntddk.CLIENT_ID ClientId
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtProtectVirtualMemory(
+            IntPtr ProcessIntPtr,
+            ref IntPtr BaseAddress,
+            ref ulong NumberOfBytesToProtect,
+            Winnt.MEMORY_PROTECTION_CONSTANTS NewAccessProtection,
+            ref Winnt.MEMORY_PROTECTION_CONSTANTS OldAccessProtection
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtQueryInformationProcess(
             IntPtr ProcessHandle,
-            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            Winternl.PROCESSINFOCLASS ProcessInformationClass,
             IntPtr ProcessInformation,
             uint ProcessInformationLength,
             ref uint ReturnLength
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtQuerySystemInformation(
+            Winternl._SYSTEM_INFORMATION_CLASS SystemInformationClass,
+            IntPtr SystemInformation,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong SystemInformationLength,
+            [MarshalAs(UnmanagedType.U8)]
+            ref ulong ReturnLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtReadVirtualMemory(
+            IntPtr ProcessIntPtr,
+            IntPtr BaseAddress,
+            IntPtr Buffer,
+            ulong NumberOfBytesToRead,
+            ref ulong NumberOfBytesReaded
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtSetInformationFile(
+            IntPtr FileHandle,
+            ref Winternl._IO_STATUS_BLOCK IoStatusBlock,
+            ref Ntddk._FILE_DISPOSITION_INFORMATION FileInformation,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong Length,
+            Winternl._FILE_INFORMATION_CLASS FileInformationClass
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtSetInformationToken(
             IntPtr TokenHandle,
             int TokenInformationClass,
@@ -128,7 +274,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("ntdll.dll", SetLastError = true)]
         public static extern uint NtSetInformationProcess(
             IntPtr ProcessHandle,
-            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            ProcessThreadsApi._PROCESS_INFORMATION_CLASS ProcessInformationClass,
             ref uint ProcessInformation,
             uint ProcessInformationLength
         );
@@ -136,9 +282,31 @@ namespace MonkeyWorks.Unmanaged.Libraries
         [DllImport("ntdll.dll", SetLastError = true)]
         public static extern uint NtSetInformationProcess(
             IntPtr ProcessHandle,
-            _PROCESS_INFORMATION_CLASS ProcessInformationClass,
-            ref _PROCESS_ACCESS_TOKEN ProcessInformation,
+            ProcessThreadsApi._PROCESS_INFORMATION_CLASS ProcessInformationClass,
+            ref Ntpsapi._PROCESS_ACCESS_TOKEN ProcessInformation,
             uint ProcessInformationLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true, EntryPoint = "NtSetContextThread")]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtSetContextThread32(
+            IntPtr ThreadIntPtr,
+            ref Winnt.CONTEXT lpContext
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true, EntryPoint = "NtSetContextThread")]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtSetContextThread64(
+            IntPtr ThreadIntPtr,
+            ref Winnt.CONTEXT64 lpContext
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtSuspendThread(
+            IntPtr ThreadIntPtr,
+            [MarshalAs(UnmanagedType.U8)]
+            ref ulong PreviousSuspendCount
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
@@ -148,84 +316,92 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
+        public static extern uint NtUpdateWnfStateData(
+            [MarshalAs(UnmanagedType.U8)]
+            ref Wnf.WnfStateNames StateName,
+            IntPtr Buffer,
+            [MarshalAs(UnmanagedType.U4)]
+            uint Length,
+            Wnf._WNF_TYPE_ID TypeId,
+            IntPtr ExplicitScope,
+            [MarshalAs(UnmanagedType.U4)]
+            int MatchingChangeStamp,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool CheckChangeStamp
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtWaitForSingleObject(
+            IntPtr Handle,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool Alertable,
+            [MarshalAs(UnmanagedType.U4)]
+            uint Timeout
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtWriteFile(
+            IntPtr FileHandle,
+            IntPtr Event,
+            IntPtr ApcRoutine,
+            IntPtr ApcContext,
+            ref Winternl._IO_STATUS_BLOCK IoStatusBlock,
+            IntPtr Buffer,
+            [MarshalAs(UnmanagedType.U8)]
+            ulong Length,
+            ref Winnt.LARGE_INTEGER ByteOffset,
+            [MarshalAs(UnmanagedType.U8)]
+            ref ulong Key
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtWriteVirtualMemory(
+            IntPtr ProcessIntPtr,
+            IntPtr BaseAddress,
+            IntPtr Buffer,
+            ulong NumberOfBytesToWrite,
+            ref ulong NumberOfBytesWritten
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint RtlCreateProcessParametersEx(
+            out IntPtr pProcessParameters,
+            ref Ntddk._UNICODE_STRING ImagePathName,
+            ref Ntddk._UNICODE_STRING DllPath,
+            ref Ntddk._UNICODE_STRING CurrentDirectory,
+            ref Ntddk._UNICODE_STRING CommandLine,
+            IntPtr Environment,
+            ref Ntddk._UNICODE_STRING WindowTitle,
+            ref Ntddk._UNICODE_STRING DesktopInfo,
+            ref Ntddk._UNICODE_STRING ShellInfo,
+            ref Ntddk._UNICODE_STRING RuntimeData,
+            [MarshalAs(UnmanagedType.U4)] uint Flags
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint RtlCreateUserThread(
+            IntPtr processHandle,
+            IntPtr threadSecurity,
+            [MarshalAs(UnmanagedType.Bool)]
+            bool createSuspended,
+            [MarshalAs(UnmanagedType.U4)]
+            uint stackZeroBits,
+            IntPtr stackReserved,
+            IntPtr stackCommit,
+            IntPtr startAddress,
+            IntPtr parameter,
+            ref IntPtr threadHandle,
+            Ntddk.CLIENT_ID clientId
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
         public static extern uint RtlNtStatusToDosError(
             uint Status
         );
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct _PROCESS_ACCESS_TOKEN
-        {
-            public IntPtr hToken;
-            public IntPtr hThread;
-        }
-
-        [Flags]
-        public enum _PROCESS_INFORMATION_CLASS
-        {
-            ProcessBasicInformation = 0,
-            ProcessQuotaLimits,
-            ProcessIoCounters,
-            ProcessVmCounters,
-            ProcessTimes,
-            ProcessBasePriority,
-            ProcessRaisePriority,
-            ProcessDebugPort,
-            ProcessExceptionPort,
-            ProcessAccessToken,
-            ProcessLdtInformation,
-            ProcessLdtSize,
-            ProcessDefaultHardErrorMode,
-            ProcessIoPortHandlers,
-            ProcessPooledUsageAndLimits,
-            ProcessWorkingSetWatch,
-            ProcessUserModeIOPL,
-            ProcessEnableAlignmentFaultFixup,
-            ProcessPriorityClass,
-            ProcessWx86Information,
-            ProcessHandleCount,
-            ProcessAffinityMask,
-            ProcessPriorityBoost,
-            ProcessDeviceMap,
-            ProcessSessionInformation,
-            ProcessForegroundInformation,
-            ProcessWow64Information,
-            ProcessImageFileName,
-            ProcessLUIDDeviceMapsEnabled,
-            ProcessBreakOnTermination,
-            ProcessDebugObjectHandle,
-            ProcessDebugFlags,
-            ProcessHandleTracing,
-            ProcessIoPriority,
-            ProcessExecuteFlags,
-            ProcessTlsInformation,
-            ProcessCookie,
-            ProcessImageInformation,
-            ProcessCycleTime,
-            ProcessPagePriority,
-            ProcessInstrumentationCallback,
-            ProcessThreadStackAllocation,
-            ProcessWorkingSetWatchEx,
-            ProcessImageFileNameWin32,
-            ProcessImageFileMapping,
-            ProcessAffinityUpdateMode,
-            ProcessMemoryAllocationMode,
-            ProcessGroupInformation,
-            ProcessTokenVirtualizationEnabled,
-            ProcessConsoleHostProcess,
-            ProcessWindowInformation,
-            MaxProcessInfoClass,
-            ProcessProtectionInformation = 61
-        }
-
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        public struct _PROCESS_BASIC_INFORMATION
-        {
-            public IntPtr Reserved1;
-            public IntPtr PebBaseAddress;
-            public IntPtr AffinityMask;
-            public IntPtr BasePriority;
-            public UIntPtr UniqueProcessId;
-            public IntPtr Reserved3;
-        }
     }
 }

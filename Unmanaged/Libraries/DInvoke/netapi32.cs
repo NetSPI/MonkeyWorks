@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class netapi32
+    public sealed class netapi32
     {
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate uint NetUserGetLocalGroups(

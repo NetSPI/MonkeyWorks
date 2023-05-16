@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    public class Accctrl
+    public sealed class Accctrl
     {
         [Flags]
         public enum _ACCESS_MODE

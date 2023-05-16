@@ -8,7 +8,7 @@ using ULONG_PTR = System.UIntPtr;
 
 namespace MonkeyWorks.Unmanaged.Headers
 {
-    class MinWinBase
+    public sealed class MinWinBase
     {
         [StructLayout(LayoutKind.Sequential)]
         public struct _OVERLAPPED

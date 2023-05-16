@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using Microsoft.Win32;
 
 using MonkeyWorks.Unmanaged.Headers;
 
 namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
 {
-    sealed class advapi32
+    public sealed class advapi32
     {
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool AdjustTokenGroups(
@@ -125,20 +124,6 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr lpEnvironment,
             [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory,
             ref Winbase._STARTUPINFO lpStartupInfo,
-            out Winbase._PROCESS_INFORMATION lpProcessInfo
-        );
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public delegate bool CreateProcessWithTokenWEx(
-            IntPtr hToken,
-            [MarshalAs(UnmanagedType.U4)] Winbase.LOGON_FLAGS dwLogonFlags,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpApplicationName,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpCommandLine,
-            [MarshalAs(UnmanagedType.U4)] Winbase.CREATION_FLAGS dwCreationFlags,
-            IntPtr lpEnvironment,
-            [MarshalAs(UnmanagedType.LPWStr)] string lpCurrentDirectory,
-            ref Winbase._STARTUPINFOEX lpStartupInfo,
             out Winbase._PROCESS_INFORMATION lpProcessInfo
         );
 
@@ -390,8 +375,14 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             IntPtr pSacl
         );
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool SetSecurityDescriptorDacl(ref Winnt._SECURITY_DESCRIPTOR pSecurityDescriptor, bool bDaclPresent, ref Winnt._ACL pDacl, bool bDaclDefaulted);
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public delegate bool SetSecurityDescriptorDacl(
+            ref Winnt._SECURITY_DESCRIPTOR pSecurityDescriptor,
+            bool bDaclPresent,
+            ref Winnt._ACL pDacl,
+            bool bDaclDefaulted
+        );
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.Bool)]
@@ -410,25 +401,45 @@ namespace MonkeyWorks.Unmanaged.Libraries.DInvoke
             string[] lpServiceArgVectors
         );
 
-        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
-        public static extern int RegOpenKeyEx(UIntPtr hKey, string subKey, int ulOptions, int samDesired, out UIntPtr hkResult);
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint RegOpenKeyEx(
+            IntPtr hKey,
+            string subKey,
+            int ulOptions,
+            Winnt.REGSAM samDesired,
+            out IntPtr hkResult
+        );
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern uint RegQueryValueEx(UIntPtr hKey, string lpValueName, int lpReserved, ref RegistryValueKind lpType, IntPtr lpData, ref int lpcbData);
+        //Pulled from Win32.Registry to remove NuGet dependency
+        [Flags]
+        public enum RegistryValueKind : int
+        {
+            String = 1,
+            ExpandString = 2,
+            Binary = 3,
+            DWord = 4,
+            MultiString = 7,
+            QWord = 11,
+            Unknown = 0,
+            None = -1
+        }
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern uint RegQueryValueEx(
-            UIntPtr hKey,
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint RegQueryValueEx(
+            IntPtr hKey,
             string lpValueName,
             int lpReserved,
-            ref int lpType,
+            ref RegistryValueKind lpType,
             IntPtr lpData,
             ref int lpcbData
         );
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern int RegQueryInfoKey(
-            UIntPtr hKey,
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public delegate uint RegQueryInfoKey(
+            IntPtr hKey,
             StringBuilder lpClass,
             ref uint lpcchClass,
             IntPtr lpReserved,

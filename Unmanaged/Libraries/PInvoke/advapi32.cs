@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using System.Text;
-using Microsoft.Win32;
 
 using MonkeyWorks.Unmanaged.Headers;
 using MonkeyWorks.Unmanaged.Libraries;
 
 namespace MonkeyWorks.Unmanaged.Libraries
 {
-    sealed class advapi32
+    public sealed class advapi32
     {
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool AllocateAndInitializeSid(
@@ -233,7 +232,13 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, IntPtr TokenInformation, uint TokenInformationLength, out uint ReturnLength);
 
         [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, ref Winnt._TOKEN_STATISTICS TokenInformation, uint TokenInformationLength, out uint ReturnLength);
+        public static extern bool GetTokenInformation(
+            IntPtr TokenHandle, 
+            Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, 
+            ref Winnt._TOKEN_STATISTICS TokenInformation, 
+            uint TokenInformationLength, 
+            out uint ReturnLength
+        );
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern bool GetTokenInformation(IntPtr TokenHandle, Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass, ref Winnt._TOKEN_DEFAULT_DACL_ACL TokenInformation, uint TokenInformationLength, out uint ReturnLength);
@@ -384,6 +389,20 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern int RegOpenKeyEx(UIntPtr hKey, string subKey, int ulOptions, int samDesired, out UIntPtr hkResult);
+
+        //Pulled from Win32.Registry to remove NuGet dependency
+        [Flags]
+        public enum RegistryValueKind : int
+        {
+            String = 1,
+            ExpandString = 2,
+            Binary = 3,
+            DWord = 4,
+            MultiString = 7,
+            QWord = 11,
+            Unknown = 0,
+            None = -1
+        }
 
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern uint RegQueryValueEx(UIntPtr hKey, string lpValueName, int lpReserved, ref RegistryValueKind lpType, IntPtr lpData, ref int lpcbData);
