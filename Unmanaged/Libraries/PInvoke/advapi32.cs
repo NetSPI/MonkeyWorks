@@ -281,6 +281,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool LookupAccountName(
             StringBuilder lpSystemName,
             StringBuilder lpAccountName,
@@ -292,6 +293,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool LookupAccountName(
             StringBuilder lpSystemName,
             StringBuilder lpAccountName,
@@ -303,6 +305,7 @@ namespace MonkeyWorks.Unmanaged.Libraries
         );
 
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool LookupAccountSid(
             string lpSystemName, 
             IntPtr Sid,
@@ -313,11 +316,40 @@ namespace MonkeyWorks.Unmanaged.Libraries
             out Winnt._SID_NAME_USE peUse
         );
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool LookupPrivilegeName(string lpSystemName, IntPtr lpLuid, StringBuilder lpName, ref int cchName);
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LookupPrivilegeNameA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpSystemName,
+            IntPtr lpLuid,
+            [MarshalAs(UnmanagedType.LPStr)] StringBuilder lpName,
+            [MarshalAs(UnmanagedType.U4)] ref int cchName
+        );
 
-        [DllImport("advapi32.dll", SetLastError = true)]
-        public static extern bool LookupPrivilegeValue(string lpSystemName, string lpName, ref Winnt._LUID luid);
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LookupPrivilegeNameW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpSystemName,
+            IntPtr lpLuid,
+            [MarshalAs(UnmanagedType.LPWStr)] StringBuilder lpName,
+            [MarshalAs(UnmanagedType.U4)] ref uint cchName
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LookupPrivilegeValueA(
+            [MarshalAs(UnmanagedType.LPStr)] string lpSystemName,
+            [MarshalAs(UnmanagedType.LPStr)] string lpName,
+            ref Winnt._LUID luid
+        );
+
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool LookupPrivilegeValueW(
+            [MarshalAs(UnmanagedType.LPWStr)] string lpSystemName,
+            [MarshalAs(UnmanagedType.LPWStr)] string lpName,
+            ref Winnt._LUID luid
+        );
+
         /*
         [DllImport("advapi32.dll", SetLastError = true)]
         public static extern uint LsaEnumerateAccountRights(IntPtr PolicyHandle, ref Ntifs._SID AccountSid, ref ntsecapi._LSA_UNICODE_STRING UserRights, ref long CountOfRights);

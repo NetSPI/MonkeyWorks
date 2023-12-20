@@ -370,6 +370,10 @@ namespace MonkeyWorks.Unmanaged.Libraries
         public static extern bool OpenThreadToken(IntPtr ThreadHandle, uint DesiredAccess, bool OpenAsSelf, ref IntPtr TokenHandle);
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint QueueUserAPC(IntPtr pfnAPC, IntPtr hThread, IntPtr dwData);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern bool ReadFile(
             IntPtr hFile,
             byte[] lpBuffer,

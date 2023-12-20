@@ -10,6 +10,17 @@ namespace MonkeyWorks.Unmanaged.Libraries
     {
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtAdjustPrivilegesToken(
+            IntPtr TokenIntPtr,
+            bool DisableAllPrivileges,
+            ref Winnt._TOKEN_PRIVILEGES TokenPrivileges,
+            ulong PreviousPrivilegesLength,
+            ref Winnt._TOKEN_PRIVILEGES PreviousPrivileges,
+            ref ulong RequiredLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtAlpcConnectPort(
             out IntPtr PortHandle,
             Ntddk._UNICODE_STRING PortName,
@@ -212,6 +223,15 @@ namespace MonkeyWorks.Unmanaged.Libraries
 
         [DllImport("ntdll.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtPrivilegeCheck(
+            IntPtr TokenIntPtr,
+            ref Winnt._PRIVILEGE_SET RequiredPrivileges,
+            [MarshalAs(UnmanagedType.Bool)]
+            ref bool Result
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
         public static extern uint NtProtectVirtualMemory(
             IntPtr ProcessIntPtr,
             ref IntPtr BaseAddress,
@@ -228,6 +248,16 @@ namespace MonkeyWorks.Unmanaged.Libraries
             IntPtr ProcessInformation,
             uint ProcessInformationLength,
             ref uint ReturnLength
+        );
+
+        [DllImport("ntdll.dll", SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.U4)]
+        public static extern uint NtQueryInformationToken(
+            IntPtr TokenIntPtr,
+            Winnt._TOKEN_INFORMATION_CLASS TokenInformationClass,
+            IntPtr TokenInformation,
+            ulong TokenInformationLength,
+            ref ulong ReturnLength
         );
 
         [DllImport("ntdll.dll", SetLastError = true)]
